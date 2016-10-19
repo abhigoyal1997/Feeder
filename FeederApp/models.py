@@ -11,9 +11,9 @@ class Student(models.Model):
         ('CL','Chemical Engineering'),
     )
 	PROGRAM = (
-    		('BT','B.Tech.'),
-    		('MT','M.Tech.'),
-    		('DD','Dual Degree'),
+		('BT','B.Tech.'),
+		('MT','M.Tech.'),
+		('DD','Dual Degree'),
 	)
 	student_ldap = models.CharField(max_length=50,primary_key=True)
 	student_branch = models.CharField(max_length = 2,choices = BRANCHES)

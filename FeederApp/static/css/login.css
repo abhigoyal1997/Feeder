@@ -1,12 +1,22 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans");
 
-.container {
-  margin: 40px auto;
-  border-radius: 0px;
+* {
+  margin: 0;
+  padding: 0;
 }
+
 body {
   font-family: "Open Sans";
   font-size: 14px;
+}
+
+.container {
+  width: 500px;
+  margin: 50px auto;
+}
+.jumbotron {
+  border-radius: 0 !important;
+  margin-bottom: 0 !important;
 }
 input {
  margin: 40px 25px;
