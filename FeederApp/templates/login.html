@@ -9,6 +9,22 @@
 </head>
 <body>
 <div class="container">
+{% if messages %}
+      {% for message in messages %}
+        {% if 'success' in message.tags %}
+        <div class= "alert alert-success">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <span{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</span>
+        </div>
+        {% endif %}
+        {% if 'error' in message.tags %}
+        <div class= "alert alert-danger">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <span{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</span>
+        </div>
+        {% endif %}
+      {% endfor %}
+ {% endif %}    
 <br><br><br><br><br>
 <div class ="jumbotron col-sm-offset-4 col-sm-4" style = "text-align:center;width:500px">
 <ul class="nav nav-pills">
@@ -19,11 +35,12 @@
 <div id="student" class="tab-pane fade in active">
 <br><br>
 <form method="post" action="authstudent">
+	{% csrf_token %}
 	<div class="form-group">
-		<input type="email" required id="email" placeholder="LDAP ID">
+		<input type="email" name = "email" required id="email" placeholder="LDAP ID">
 	</div>
 	<div class="form-group">
-		<input type="password" required id="pwd" placeholder="Password">
+		<input type="password" name = "password"required id="pwd" placeholder="Password">
 	</div>
 	<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4">Submit</button>
 	<br><br><br>

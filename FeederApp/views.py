@@ -1,13 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect	
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
-from FeederApp.models import Student,Instructor,Course
+from FeederApp.models import Student,Instructor
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as auth_login
 
 def login(request):
-	return render(request, 'login.html',{})    
+	return render(request,'login.html',{})    
 def signup(request):
-	return render(request, 'signup.html',{})
+	return render(request,'signup.html',{})
 def register(request):
 	firstname = request.POST['firstname']
 	lastname = request.POST['lastname']
@@ -18,7 +20,7 @@ def register(request):
 	role = request.POST['role']
 	if {'username' : ldap} in User.objects.all().values('username'):
 		messages.add_message(request, messages.ERROR, 'Username Already Exists.')
-		#todo handle error
+		return redirect('signup')
 	else:
 		newusr = User.objects.create_user(ldap,ldap,password)
 		newusr.first_name = firstname
@@ -32,4 +34,15 @@ def register(request):
 		else:
 			newins = Instructor.objects.create(user = newusr,instructor_ldap=ldap,instructor_branch=branch,instructor_dob=dob)
 			newins.save()
-	return render(request,'login.html',{})
+	messages.success(request, 'Congratulations!! Successful Signup!! Login to Continue')
+	return redirect('login')
+def auth_stud(request):
+	ldap = request.POST['email']
+	password = request.POST['password']
+	user = authenticate(username=ldap, password=password)
+	if user is not None:
+		auth_login(request,user)
+		return HttpResponse("Hello")
+	else:
+		messages.error(request, 'Bad Login Credentials')
+		return redirect('login')
