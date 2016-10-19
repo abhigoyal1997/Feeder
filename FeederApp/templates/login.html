@@ -9,68 +9,67 @@
 </head>
 <body>
 <div class="container">
-{% if messages %}
-      {% for message in messages %}
-        {% if 'success' in message.tags %}
-        <div class= "alert alert-success">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <span{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</span>
-        </div>
-        {% endif %}
-        {% if 'error' in message.tags %}
-        <div class= "alert alert-danger">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <span{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</span>
-        </div>
-        {% endif %}
-      {% endfor %}
- {% endif %}    
-<div class ="jumbotron col-sm-4" style = "text-align:center;width:500px">
-<ul class="nav nav-pills">
-	<li class="active col-sm-5"><a data-toggle="pill" href="#student">Student</a></li>
-	<li class ="col-sm-5"><a data-toggle="pill" href="#instructor">Instructor</a></li>
-</ul>
-<div class ="tab-content">
-<div id="student" class="tab-pane fade in active">
-<br><br>
-<form method="post" action="authstudent">
+	{% if messages %}
+	{% for message in messages %}
+	{% if 'success' in message.tags %}
+	<div class= "alert alert-success">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<span{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</span>
+	</div>
+	{% endif %}
+	{% if 'error' in message.tags %}
+	<div class= "alert alert-danger">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<span{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</span>
+	</div>
+	{% endif %}
+	{% endfor %}
+	{% endif %}    
+	<div class ="row">
+	<ul class="nav nav-tabs nav-justified">
+		<li class="active"><a data-toggle="pill" href="#student">Student</a></li>
+		<li><a data-toggle="pill" href="#instructor">Instructor</a></li>
+	</ul>
+	</div>
+	<div class ="tab-content">
+	<div id="student" class="tab-pane fade in active">
+
+	<form method="post" action="authstudent">
+		{% csrf_token %}
+		<div class="form-group">
+			<input type="email" name = "email" required id="email" placeholder="LDAP ID">
+		</div>
+		<div class="form-group">
+			<input type="password" name = "password"required id="pwd" placeholder="Password">
+		</div>
+		<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4">Submit</button>
+
+		<button type="button" class="btn btn-info col-sm-5" style="background-color: #3b5998;">Sign In With Facebook</button>
+		<button type="button" class="btn btn-info col-sm-offset-2 col-sm-5" style="background-color: #d34836">Sign In With Google</button>
+
+		<a href = "signup">
+		<button type="button" class="btn btn-info col-sm-offset-3 col-sm-6" style="background-color: #68D957">New Here?? Sign Up!!</button></a>
+	</form>
+		</div>
+	<div id="instructor" class="tab-pane fade">
+
+	<form method = "post" action = "authinstruct">
 	{% csrf_token %}
-	<div class="form-group">
-		<input type="email" name = "email" required id="email" placeholder="LDAP ID">
+		<div class="form-group">
+			<input type="email" required id="email"  name="email" placeholder="LDAP ID">
+		</div>
+		<div class="form-group">
+			<input type="password" required id="pwd" name = "password" placeholder="Password">
+		</div>
+		<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4">Submit</button>
+		<button type="button" class="btn btn-info col-sm-5" style="background-color: #3b5998;">Sign In With Facebook</button>
+		<button type="button" class="btn btn-info col-sm-offset-2 col-sm-5" style="background-color: #d34836">Sign In With Google</button>
+		<a href = "signup">
+		<button type="button" class="btn btn-info col-sm-offset-3 col-sm-6" style="background-color: #68D957">New Here?? Sign Up!!</button></a>
+	</form>
 	</div>
-	<div class="form-group">
-		<input type="password" name = "password"required id="pwd" placeholder="Password">
 	</div>
-	<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4">Submit</button>
-	<br><br><br>
-	<button type="button" class="btn btn-info col-sm-5" style="background-color: #3b5998;text-align: center;">Sign In With Facebook</button>
-	<button type="button" class="btn btn-info col-sm-offset-2 col-sm-5" style="background-color: #d34836">Sign In With Google</button>
-	<br><br><br><br>
-	<a href = "signup">
-	<button type="button" class="btn btn-info col-sm-offset-3 col-sm-6" style="background-color: #68D957">New Here?? Sign Up!!</button></a>
-</form>
 	</div>
-<div id="instructor" class="tab-pane fade">
-<br><br>
-<form method = "post" action = "authinstruct">
-{% csrf_token %}
-	<div class="form-group">
-		<input type="email" required id="email"  name="email" placeholder="LDAP ID">
-	</div>
-	<div class="form-group">
-		<input type="password" required id="pwd" name = "password" placeholder="Password">
-	</div>
-	<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4">Submit</button>
-	<br><br><br>
-	<button type="button" class="btn btn-info col-sm-5" style="background-color: #3b5998;text-align: center;">Sign In With Facebook</button>
-	<button type="button" class="btn btn-info col-sm-offset-2 col-sm-5" style="background-color: #d34836">Sign In With Google</button>
-	<br><br><br><br>
-	<a href = "signup">
-	<button type="button" class="btn btn-info col-sm-offset-3 col-sm-6" style="background-color: #68D957">New Here?? Sign Up!!</button></a>
-</form>
-</div>
-</div>
-</div>
-</div>
+<!-- </div> -->
 </body>
 </html>
