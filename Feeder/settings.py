@@ -26,10 +26,6 @@ SECRET_KEY = '=t4$z9)02vl7ch9ighcn(s9cjtgyzce_vlkpsxu5&d7kb6-r(s'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-FACEBOOK_APP_ID='1278450065539018'
-FACEBOOK_API_SECRET='2dfcecf09248db753c827cafa349458a'
-FACEBOOK_EXTENDED_PERMISSIONS = ['email']
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,8 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-     'django_social_project',
-    'social.apps.django_app.default',
+    
 ]
 
 MIDDLEWARE = [
@@ -107,23 +102,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    'django.core.context_processors.tz',
-    'django.contrib.messages.context_processors.messages',
-    'social.apps.django_app.context_processors.backends',
-    'social.apps.django_app.context_processors.login_redirect',
-)
 
-AUTHENTICATION_BACKENDS = (
-    'social.backends.facebook.FacebookOAuth2',
-    'social.backends.google.GoogleOAuth2',
-    'django.contrib.auth.backends.ModelBackend',
-)
 
 
 # Internationalization

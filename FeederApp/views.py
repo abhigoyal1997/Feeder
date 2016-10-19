@@ -46,3 +46,28 @@ def auth_stud(request):
 	else:
 		messages.error(request, 'Bad Login Credentials')
 		return redirect('login')
+def auth_inst(request):
+	ldap = request.POST['email']
+	password = request.POST['password']
+	user = authenticate(username=ldap,password=password)
+	if user is not None:
+		auth_login(request,user)
+		return HttpResponse("hello")
+	else:
+		messages.error(request, 'Bad Login Credentials')
+		return redirect('login')
+
+class Course(models.Model):
+	instructors = models.ManyToManyField(Instructor)
+	students = models.ManyToManyField(Student)
+	BRANCHES = (
+        ('CS','Computer Science and Engineering'),
+        ('EE', 'Electrical Engineering'),
+        ('ME', 'Mechanical Engineering'),
+        ('CL','Chemical Engineering'),
+    )
+	course_code = models.CharField(max_length=8,primary_key=True)
+	course_name = models.CharField(max_length=100)
+	course_branch = models.CharField(max_length = 2,choices = BRANCHES)
+	course_credits = models.IntegerField()
+	course_duration = models.DecimalField(max_digits = 2,decimal_places = 1)
