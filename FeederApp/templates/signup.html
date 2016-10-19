@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Register</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/signup.css' %}" />
+	{% load static %}
+	<script type="text/javascript" src="{% static 'js/form-validation.js' %}"></script>
+	{% load static %}
+	<script type="text/javascript" src="{% static 'js/signup.js' %}"></script>
+</head>
+<body>
+<div class="container">
+	<form class="form-horizontal" name="signup_form" id="signup_form" role="form" action = "/feeder/register/" method = "post">
+		{% csrf_token %}
+		<h2>Registration Form</h2>
+		<div class="form-group">
+			<label class="control-label col-sm-3">Role</label>
+			<div class="col-sm-9">
+				<div class="row" id="role">
+					<div class="col-sm-4">
+						<label class="radio-inline">
+							<input type="radio" name="role" id="student" value="Student" checked="checked" onchange="changerole();">Student
+						</label>
+					</div>
+					<div class="col-sm-4">
+						<label class="radio-inline">
+							<input type="radio" name="role" id="instructor" value="Instructor" onchange="changerole();">Instructor
+						</label>
+					</div>
+				</div>
+			</div>
+		</div> 
+		<div class="form-group">
+			<label for="name" class="col-sm-3 control-label">Full Name</label>
+			<div class="col-sm-5">
+				<input type="text" id="firstname" name="firstname" placeholder="First Name" class="form-control" autofocus>
+			</div>
+			<div class="col-sm-4">
+				<input type="text" id="firstname" name="lastname" placeholder="Last Name" class="form-control" autofocus>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="ldap" class="col-sm-3 control-label">LDAP</label>
+			<div class="col-sm-9">
+				<input type="email" id="ldap" name="ldap" placeholder="Enter Your LDAP" class="form-control">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="password" class="col-sm-3 control-label">Password</label>
+			<div class="col-sm-9">
+				<input type="password" id="password" name="password" placeholder="Create a Password" class="form-control">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="cnfm_password" class="col-sm-3 control-label">Confirm Password</label>
+			<div class="col-sm-9">
+				<input type="password" id="cnfm_password" name="cnfm_password" placeholder="Confirm Your Password" class="form-control">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="birthDate" class="col-sm-3 control-label">Date of Birth</label>
+			<div class="col-sm-9">
+				<input type="date" id="birthdate" name="birthdate"class="form-control">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="branch" class="col-sm-3 control-label">Department</label>
+			<div class="col-sm-9">
+				<select name ="branch" class="form-control">
+					<option>Select Your Department</option>
+					<option value="CS">Computer Science and Engineering</option>
+					<option value="EE">Electrial Engineering</option>
+					<option value="ME">Mechanical Engineering</option>
+					<option value="CL">Chemical Engineering</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group" id="program">
+			<label for="program" class="col-sm-3 control-label">Program</label>
+			<div class="col-sm-9">
+				<select name="program" class="form-control">
+					<option>Select Your Program</option>
+					<option value="BT">Bachelor of Technology</option>
+					<option value="MT">Master of Technology</option>
+					<option value="DD">Dual Degree</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group program" id="programyear">
+			<label for="programyear" class="col-sm-3 control-label">Year</label>
+			<div class="col-sm-9">
+				<select name="programyear" class="form-control">
+					<option>Select Your Year of Study</option>
+					<option value="1">First</option>
+					<option value="2">Second</option>
+					<option value="3">Third</option>
+					<option value="4">Fourth</option>
+					<option value="5">Fifth</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-sm-offset-3">
+				<button type="submit" class="btn btn-primary btn-block">Register</button>
+			</div>
+		</div>
+	</form>
+</div>
+</body>
+</html>

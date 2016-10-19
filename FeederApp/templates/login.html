@@ -1,0 +1,59 @@
+<!doctype html>
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<title>Feeder</title>
+</head>
+<body>
+<div class="container">
+<br><br><br><br><br>
+<div class ="jumbotron col-sm-offset-4 col-sm-4" style = "text-align:center;width:500px">
+<ul class="nav nav-pills">
+	<li class="active col-sm-5"><a data-toggle="pill" href="#student">Student</a></li>
+	<li class ="col-sm-5"><a data-toggle="pill" href="#instructor">Instructor</a></li>
+</ul>
+<div class ="tab-content">
+<div id="student" class="tab-pane fade in active">
+<br><br>
+<form method="post" action="authstudent">
+	<div class="form-group">
+		<input type="email" required id="email" placeholder="LDAP ID">
+	</div>
+	<div class="form-group">
+		<input type="password" required id="pwd" placeholder="Password">
+	</div>
+	<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4">Submit</button>
+	<br><br><br>
+	<button type="button" class="btn btn-info col-sm-5" style="background-color: #3b5998;text-align: center;">Sign In With Facebook</button>
+	<button type="button" class="btn btn-info col-sm-offset-2 col-sm-5" style="background-color: #d34836">Sign In With Google</button>
+	<br><br><br><br>
+	<a href = "signup">
+	<button type="button" class="btn btn-info col-sm-offset-3 col-sm-6" style="background-color: #68D957">New Here?? Sign Up!!</button></a>
+</form>
+	</div>
+<div id="instructor" class="tab-pane fade">
+<br><br>
+<form>
+	<div class="form-group">
+		<input type="email" required id="email"  name="email" placeholder="LDAP ID">
+	</div>
+	<div class="form-group">
+		<input type="password" required id="pwd" name = "password" placeholder="Password">
+	</div>
+	<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4">Submit</button>
+	<br><br><br>
+	<button type="button" class="btn btn-info col-sm-5" style="background-color: #3b5998;text-align: center;">Sign In With Facebook</button>
+	<button type="button" class="btn btn-info col-sm-offset-2 col-sm-5" style="background-color: #d34836">Sign In With Google</button>
+	<br><br><br><br>
+	<a href = "signup">
+	<button type="button" class="btn btn-info col-sm-offset-3 col-sm-6" style="background-color: #68D957">New Here?? Sign Up!!</button></a>
+</form>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
