@@ -9,6 +9,7 @@ urlpatterns = [
 	url(r'^authadmin',views.auth_admin,name='auth_admin'),
 	url(r'^authinstruct',views.auth_inst,name='auth_inst'),
 	url(r'^admin_home',views.admin_home,name='admin_home'),	
+	url(r'^admin',views.admin_login,name='admin_login'),	
 	url(r'^ins_home',views.ins_home,name='ins_home'),
 	url(r'^logout',views.logout_view,name='logout'),
 ]

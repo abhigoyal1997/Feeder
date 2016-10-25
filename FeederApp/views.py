@@ -18,10 +18,13 @@ def login(request):
 			return redirect(ins_home)
 		if request.user.username[0] == 's':
 			return HttpResponse("Student is logged in")
+			# We can also logout the person
 		return HttpResponse("How??")
 	return render(request,'login.html',{})    
 def signup(request):
 	return render(request,'signup.html',{})
+def admin_login(request):
+	return render(request,'adminlogin.html',{})
 def register(request):
 	firstname = request.POST['firstname']
 	lastname = request.POST['lastname']
