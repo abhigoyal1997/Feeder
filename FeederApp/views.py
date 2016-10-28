@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
-from FeederApp.models import Student,Instructor
+# from FeederApp.models import Student,Instructor
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 #added for admin login page added from django raw way page
@@ -28,30 +28,30 @@ def admin_login(request):
 def register(request):
 	firstname = request.POST['firstname']
 	lastname = request.POST['lastname']
-	ldap = request.POST['ldap']
+	email = request.POST['email']
 	dob = request.POST['birthdate']
 	password = request.POST['password']
 	branch = request.POST.get('branch')
 	role = request.POST['role']
-	if {'username' : ldap} in User.objects.all().values('username'):
+	if {'username' : email} in User.objects.all().values('username'):
 		messages.add_message(request, messages.ERROR, 'Username Already Exists.')
 		return redirect('signup')
 	else:
 		if role == 'Student':
-			newusr = User.objects.create_user("s:"+ldap,ldap,password) # Adding "s:" at the beginning of any student username
+			newusr = User.objects.create_user("s:"+email,email,password) # Adding "s:" at the beginning of any student username
 			newusr.first_name = firstname
 			newusr.last_name = lastname
 			newusr.save()
 			program = request.POST.get('program')
 			progy = request.POST.get('programyear')
-			newstud = Student.objects.create(user = newusr,student_ldap=ldap,student_branch=branch,student_year=progy,student_program=program,student_dob=dob)
+			newstud = Student.objects.create(user = newusr,student_branch=branch,student_year=progy,student_program=program,student_dob=dob)
 			newstud.save()
 		else:
-			newusr = User.objects.create_user("i:"+ldap,ldap,password) # Adding "i:" at the beginning of any instructer username
+			newusr = User.objects.create_user("i:"+email,email,password) # Adding "i:" at the beginning of any instructer username
 			newusr.first_name = firstname
 			newusr.last_name = lastname
 			newusr.save()
-			newins = Instructor.objects.create(user = newusr,instructor_ldap=ldap,instructor_branch=branch,instructor_dob=dob)
+			newins = Instructor.objects.create(user = newusr,instructor_branch=branch,instructor_dob=dob)
 			newins.save()
 	messages.success(request, 'Congratulations!! Successful Signup!! Login to Continue')
 	return redirect('login')
@@ -68,9 +68,9 @@ def auth_admin(request):
 		return redirect('login')
 
 def auth_inst(request):
-	ldap = request.POST['email']
+	email = request.POST['email']
 	password = request.POST['password']
-	user = authenticate(username="i:"+ldap,password=password)
+	user = authenticate(username="i:"+email,password=password)
 	if user is not None:
 		auth_login(request,user)
 		return redirect('ins_home')

@@ -15,7 +15,6 @@ class Student(models.Model):
 		('MT','M.Tech.'),
 		('DD','Dual Degree'),
 	)
-	student_ldap = models.CharField(max_length=50,primary_key=True)
 	student_branch = models.CharField(max_length = 2,choices = BRANCHES)
 	student_dob = models.DateField()
 	student_program = models.CharField(max_length = 2,choices=PROGRAM)
@@ -29,7 +28,6 @@ class Instructor(models.Model):
         ('ME', 'Mechanical Engineering'),
         ('CL','Chemical Engineering'),
     )
-	instructor_ldap = models.CharField(max_length=50,primary_key=True)
 	instructor_branch = models.CharField(max_length = 2,choices = BRANCHES)
 	instructor_dob = models.DateField()
 
