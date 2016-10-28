@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect	
+from django.shortcuts import render,redirect    
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -24,7 +24,7 @@ def login(request):
 def signup(request):
 	return render(request,'signup.html',{})
 def admin_login(request):
-	return render(request,'adminlogin.html',{})
+	return render(request,'admin_login.html',{})
 def register(request):
 	firstname = request.POST['firstname']
 	lastname = request.POST['lastname']
@@ -93,5 +93,12 @@ def ins_home(request):
 	return render(request,'instructor_home.html',{})
 
 def logout_view(request):
-    logout(request)
-    return redirect('login')
+	if request.user.username[0] == "a":
+		user = "a"
+	else:
+		user = "i"
+	logout(request)
+	if user == "a":
+		return redirect('admin_login')
+	else:
+		return redirect('login')

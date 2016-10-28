@@ -37,7 +37,7 @@
 		<form method="post" action="authstudent">
 			{% csrf_token %}
 			<div class="form-group">
-				<input type="email" name = "email" required id="email" placeholder="LDAP ID">
+				<input type="email" name = "email" required id="email" placeholder="Email ID">
 			</div>
 			<div class="form-group">
 				<input type="password" name = "password"required id="pwd" placeholder="Password">
@@ -56,7 +56,7 @@
 		<form method = "post" action = "authinstruct">
 		{% csrf_token %}
 			<div class="form-group">
-				<input type="email" required id="email"  name="email" placeholder="LDAP ID">
+				<input type="email" required id="email"  name="email" placeholder="Email ID">
 			</div>
 			<div class="form-group">
 				<input type="password" required id="pwd" name = "password" placeholder="Password">
