@@ -8,7 +8,7 @@ body {
 }
 
 .test {
-  background: #000;
+  /*background: #000;*/
 }
 
 /*
@@ -91,12 +91,13 @@ body {
 .nav-sidebar > li > a:focus,
 .nav-sidebar > li > a:active {
   color: #fff;
-  background: inherit;
+  background: inherit !important;
 }
 .nav-sidebar > .active > a,
 .nav-sidebar > .active > a:hover,
 .nav-sidebar > .active > a:focus {
   color: #fff;
+  background: inherit !important;
 }
 
 
@@ -112,10 +113,16 @@ body {
     position: fixed;
     top: 50px;
     bottom: 0;
+    overflow-y: auto;
   }
 }
 #mainframe .page-header {
   margin-top: 0;
+}
+
+#add-course-form {
+  width: 500px;
+  margin: -45px auto;
 }
 
 /*

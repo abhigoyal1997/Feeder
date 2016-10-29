@@ -30,10 +30,10 @@
 		<form method="post" action="authadmin">
 			{% csrf_token %}
 			<div class="form-group">
-				<input required id="username"  name="username" placeholder="User Name">
+				<input required id="username" class="textinput" name="username" placeholder="User Name">
 			</div>
 			<div class="form-group">
-				<input type="password" name = "password" required id="pwd" placeholder="Password">
+				<input type="password" name = "password" class = "textinput" required id="pwd" placeholder="Password">
 			</div>
 			<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4">Submit</button>
 			<!-- Add captcha feature if possible -->

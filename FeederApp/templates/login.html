@@ -37,10 +37,10 @@
 		<form method="post" action="authstudent">
 			{% csrf_token %}
 			<div class="form-group">
-				<input type="email" name = "email" required id="email" placeholder="Email ID">
+				<input type="email" name = "email" class="textinput" required id="email" placeholder="Email ID">
 			</div>
 			<div class="form-group">
-				<input type="password" name = "password"required id="pwd" placeholder="Password">
+				<input type="password" name = "password" class = "textinput" required id="pwd" placeholder="Password">
 			</div>
 			<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4">Submit</button>
 
@@ -56,10 +56,10 @@
 		<form method = "post" action = "authinstruct">
 		{% csrf_token %}
 			<div class="form-group">
-				<input type="email" required id="email"  name="email" placeholder="Email ID">
+				<input type="email" required id="email" class = "textinput"  name="email" placeholder="Email ID">
 			</div>
 			<div class="form-group">
-				<input type="password" required id="pwd" name = "password" placeholder="Password">
+				<input type="password" required id="pwd" name = "password" class = "textinput" placeholder="Password">
 			</div>
 			<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4">Submit</button>
 			<button type="button" class="btn btn-info col-sm-5" style="background-color: #3b5998;">Sign In With Facebook</button>

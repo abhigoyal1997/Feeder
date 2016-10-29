@@ -8,6 +8,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	{% load static %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
 	<script src="{% static 'js/dashboard.js' %}"></script>
 	<title>
 		Home
@@ -29,12 +30,12 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
-				<ul class="nav nav-sidebar	">
-					<li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-					<li><a href="#">Running Courses</span></a></li>
-					<li><a href="#">Add Course</a></li>
-					<li><a href="#">Students</a></li>
-		            <li><a href="#">Instructors</a></li>
+				<ul class="nav nav-sidebar">
+					<li class="active"><a href="#" id="home"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+					<li><a href="#" id="courses">Running Courses</a></li>
+					<li><a href="#" id="addcourse">Add Course</a></li>
+					<li><a href="#" id="students">Students</a></li>
+		            <li><a href="#" id="instructors">Instructors</a></li>
 				</ul>
 				<ul class="nav nav-sidebar sidebar-bottom">
 					<li><a href="#"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
