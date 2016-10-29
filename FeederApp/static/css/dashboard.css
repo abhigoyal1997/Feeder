@@ -7,10 +7,6 @@ body {
   padding-top: 50px;
 }
 
-.test {
-  /*background: #000;*/
-}
-
 /*
  * Global add-ons
  */
@@ -120,9 +116,9 @@ body {
   margin-top: 0;
 }
 
-#add-course-form {
+#mainframe .form {
   width: 500px;
-  margin: -45px auto;
+  margin: auto;
 }
 
 /*

@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect    
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 from FeederApp.models import Student,Instructor,Course
@@ -131,5 +132,28 @@ def add_course(request):
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 	
+def admin_profile(request):
+	if request.user.username[0] == "a":
+		return render(request,'admin_profile.html',{})
+	else:
+		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 
-
+def update_admin(request):
+	if request.user.username[0] == "a":
+		firstname = request.POST['firstname']
+		lastname = request.POST['lastname']
+		email = request.POST['email']
+		password = request.POST['password']
+		user = authenticate(username=request.user.username, password=password)
+		if user is not None:
+			user.first_name = firstname
+			user.last_name = lastname
+			user.email = email
+			user.save()
+			messages.success(request, 'Profile Successfully Updated')
+			return redirect('admin_home')
+		else:
+			messages.error(request, 'Wrong Password')
+			return redirect('admin_home')
+	else:
+		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")

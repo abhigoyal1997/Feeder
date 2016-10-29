@@ -8,13 +8,13 @@ $(document).ready(function () {
 			$parent.addClass('active');
 		}
 		$('#navind').text($(this).text());
-
+		// alert(this.id);
 		$('#mainframe').load(this.id);
 	});
 });
 
-function load_home() {
-	$('#mainframe').load('#');
-}
+// function load_home() {
+// 	$('#mainframe').load('#');
+// }
 
-window.onload = load_home;
+// window.onload = load_home;
