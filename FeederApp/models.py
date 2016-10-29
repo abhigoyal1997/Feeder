@@ -45,3 +45,4 @@ class Course(models.Model):
 	course_branch = models.CharField(max_length = 2,choices = BRANCHES)
 	course_credits = models.IntegerField()
 	course_duration = models.DecimalField(max_digits = 2,decimal_places = 1)
+

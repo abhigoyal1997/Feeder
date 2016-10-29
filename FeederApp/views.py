@@ -24,6 +24,8 @@ def login(request):
 def signup(request):
 	return render(request,'signup.html',{})
 def admin_login(request):
+	if request.user.is_authenticated:
+		return redirect(login)
 	return render(request,'admin_login.html',{})
 def register(request):
 	firstname = request.POST['firstname']
@@ -57,6 +59,8 @@ def register(request):
 	return redirect('login')
 
 def auth_admin(request):
+	if request.user.is_authenticated:
+		return redirect(login)
 	password = request.POST['password']
 	adminname = request.POST['username']
 	user = authenticate(username="a:"+adminname, password=password)
@@ -68,6 +72,8 @@ def auth_admin(request):
 		return redirect('login')
 
 def auth_inst(request):
+	if request.user.is_authenticated:
+		return redirect(login)
 	email = request.POST['email']
 	password = request.POST['password']
 	user = authenticate(username="i:"+email,password=password)
