@@ -11,7 +11,7 @@
 <div class = "container">
 <div class = "well well-sm" style = "text-align:center">
 <h2>Course Details</h2></div>
-<form method="post" action="#">
+<form method="post" action="createcourse">
 			{% csrf_token %}
 			<div class="form-group">
 				<input type="text" class="textinput" name = "cname" required id="cname" placeholder="Course Name">
@@ -38,7 +38,7 @@
 			</div>
 			<div class = "form-group">
 				<div class="form-group">
-				  <label for="branch">Select Credit:</label>
+				  <label for="credit">Select Credit:</label>
 				  <select class="form-control" name="credit">
 				    <option value="4">4</option>
 				    <option value="3">3</option>
@@ -61,6 +61,7 @@
 			</div>
 
 			<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4">Submit</button>
+
 </form>
 </div>
 </body>

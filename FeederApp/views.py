@@ -2,10 +2,9 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
-from FeederApp.models import Student,Instructor
+from FeederApp.models import *
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
-#added for admin login page added from django raw way page
 from django.conf import settings
 from django.shortcuts import redirect
 from django.contrib.auth import logout
@@ -117,6 +116,43 @@ def add_course(request):
 		return render(request,'add_course.html',{})
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
-	
+
+def make_course(request):
+	if request.user.username[0] == "a":
+		cname = request.POST['cname']
+		ccode = request.POST['ccode']
+		duration = '1'
+		branch = request.POST.get('branch')
+		credits = request.POST.get('credit')
+		midsem = request.POST['midsem']
+		endsem = request.POST['endsem']
+		newcourse = Course.objects.create(course_name = cname,course_code=ccode,course_duration=duration,course_credits=credits,course_branch=branch)
+		newcourse.save()
+		mfdead = Deadlines.objects.create(course=newcourse,name='FD',desc='Mid-Semester Exam Feedback',date=midsem,code = ccode)
+		mfdead.save()
+		mfeed = Feedback.objects.create(course=newcourse,deadline=mfdead,name="Midsem Feedback")
+		count = 1
+		while(count <= 4):
+			mfeed.question_set.add(Question.objects.all().get(id = count))
+			count = count + 1
+		mfeed.save()
+		efdead = Deadlines.objects.create(course=newcourse,name='FD',desc='End-Semester Exams Feedback',date=endsem,code = ccode)
+		efdead.save()
+		efeed = Feedback.objects.create(course=newcourse,deadline=efdead,name="Endsem Feedback")
+		count = 1
+		while(count <= 4):
+			efeed.question_set.add(Question.objects.all().get(id = count))
+			count = count + 1
+		efeed.save()
+		mdead = Deadlines.objects.create(course=newcourse,name='EX',desc='Mid-Semester Exams',date=midsem,code = ccode)
+		mdead.save()
+		edead = Deadlines.objects.create(course=newcourse,name='EX',desc='End-Semester Exams',date=endsem,code = ccode)
+		edead.save()
+		return HttpResponse("Hello")
+		
+
+
+
+
 
 
