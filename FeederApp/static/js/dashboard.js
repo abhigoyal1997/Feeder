@@ -7,6 +7,7 @@ $(document).ready(function () {
         if (!$parent.hasClass('active')) {
             $parent.addClass('active');
         }
+        $('#navind').text($(this).text());
         e.preventDefault();
     });
 });

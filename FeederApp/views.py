@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
-# from FeederApp.models import Student,Instructor
+from FeederApp.models import Student,Instructor
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 #added for admin login page added from django raw way page

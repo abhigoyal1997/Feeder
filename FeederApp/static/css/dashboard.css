@@ -7,6 +7,9 @@ body {
   padding-top: 50px;
 }
 
+.test {
+  background: #000;
+}
 
 /*
  * Global add-ons
@@ -22,6 +25,10 @@ body {
  */
 .navbar-fixed-top {
   border: 0;
+}
+
+.nav-header {
+  box-shadow: 0 0 5px #000;
 }
 
 .navbar-brand {
@@ -102,6 +109,7 @@ body {
 }
 @media (min-width: 768px) {
   .main {
+    height: 100%;
     padding-right: 40px;
     padding-left: 40px;
   }
