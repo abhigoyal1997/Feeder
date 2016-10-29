@@ -8,6 +8,11 @@ $(document).ready(function () {
             $parent.addClass('active');
         }
         $('#navind').text($(this).text());
-        e.preventDefault();
     });
 });
+
+function load_home() {
+	$('#mainframe').load('students');
+}
+
+window.onload = load_home;
