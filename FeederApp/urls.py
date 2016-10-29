@@ -12,4 +12,6 @@ urlpatterns = [
 	url(r'^admin',views.admin_login,name='admin_login'),	
 	url(r'^ins_home',views.ins_home,name='ins_home'),
 	url(r'^logout',views.logout_view,name='logout'),
+	url(r'^students',views.student_list,name='student_list'),
+	url(r'^addcourse',views.add_course,name='add_course')
 ]

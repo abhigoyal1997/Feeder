@@ -24,8 +24,6 @@ def login(request):
 def signup(request):
 	return render(request,'signup.html',{})
 def admin_login(request):
-	if request.user.is_authenticated:
-		return redirect(login)
 	return render(request,'admin_login.html',{})
 def register(request):
 	firstname = request.POST['firstname']
@@ -46,7 +44,8 @@ def register(request):
 			newusr.save()
 			program = request.POST.get('program')
 			progy = request.POST.get('programyear')
-			newstud = Student.objects.create(user = newusr,student_branch=branch,student_year=progy,student_program=program,student_dob=dob)
+			rollno = request.POST.get('rollnumber')
+			newstud = Student.objects.create(user = newusr,student_branch=branch,student_year=progy,student_program=program,student_dob=dob,roll_number=rollno)
 			newstud.save()
 		else:
 			newusr = User.objects.create_user("i:"+email,email,password) # Adding "i:" at the beginning of any instructer username
@@ -59,8 +58,6 @@ def register(request):
 	return redirect('login')
 
 def auth_admin(request):
-	if request.user.is_authenticated:
-		return redirect(login)
 	password = request.POST['password']
 	adminname = request.POST['username']
 	user = authenticate(username="a:"+adminname, password=password)
@@ -72,8 +69,6 @@ def auth_admin(request):
 		return redirect('login')
 
 def auth_inst(request):
-	if request.user.is_authenticated:
-		return redirect(login)
 	email = request.POST['email']
 	password = request.POST['password']
 	user = authenticate(username="i:"+email,password=password)
@@ -108,3 +103,20 @@ def logout_view(request):
 		return redirect('admin_login')
 	else:
 		return redirect('login')
+
+def student_list(request):
+	if request.user.username[0] == "a":
+		return render(request,'student_list.html',{
+			'students':Student.objects.all()
+			})
+	else:
+		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
+
+def add_course(request):
+	if request.user.username[0] == "a":
+		return render(request,'add_course.html',{})
+	else:
+		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
+	
+
+
