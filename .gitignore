@@ -1,0 +1,4 @@
+db.sqlite3
+*.pyc
+Feeder/__pycache__/
+FeederApp/__pycache__/
