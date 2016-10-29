@@ -1,58 +1,110 @@
-from django.shortcuts import render,redirect	
+from django.shortcuts import render,redirect    
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
 from FeederApp.models import Student,Instructor
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
+#added for admin login page added from django raw way page
+from django.conf import settings
+from django.shortcuts import redirect
+from django.contrib.auth import logout
 
 def login(request):
+	if request.user.is_authenticated:
+		if request.user.username[0] == 'a':
+			return redirect(admin_home)
+		if request.user.username[0] == 'i':
+			return redirect(ins_home)
+		if request.user.username[0] == 's':
+			return HttpResponse("Student is logged in")
+			# We can also logout the person
+		return HttpResponse("How??")
 	return render(request,'login.html',{})    
 def signup(request):
 	return render(request,'signup.html',{})
+def admin_login(request):
+	if request.user.is_authenticated:
+		return redirect(login)
+	return render(request,'admin_login.html',{})
 def register(request):
 	firstname = request.POST['firstname']
 	lastname = request.POST['lastname']
-	ldap = request.POST['ldap']
+	email = request.POST['email']
 	dob = request.POST['birthdate']
 	password = request.POST['password']
 	branch = request.POST.get('branch')
 	role = request.POST['role']
-	if {'username' : ldap} in User.objects.all().values('username'):
+	if {'username' : email} in User.objects.all().values('username'):
 		messages.add_message(request, messages.ERROR, 'Username Already Exists.')
 		return redirect('signup')
 	else:
-		newusr = User.objects.create_user(ldap,ldap,password)
-		newusr.first_name = firstname
-		newusr.last_name = lastname
-		newusr.save()
 		if role == 'Student':
+			newusr = User.objects.create_user("s:"+email,email,password) # Adding "s:" at the beginning of any student username
+			newusr.first_name = firstname
+			newusr.last_name = lastname
+			newusr.save()
 			program = request.POST.get('program')
 			progy = request.POST.get('programyear')
-			newstud = Student.objects.create(user = newusr,student_ldap=ldap,student_branch=branch,student_year=progy,student_program=program,student_dob=dob)
+			newstud = Student.objects.create(user = newusr,student_branch=branch,student_year=progy,student_program=program,student_dob=dob)
 			newstud.save()
 		else:
-			newins = Instructor.objects.create(user = newusr,instructor_ldap=ldap,instructor_branch=branch,instructor_dob=dob)
+			newusr = User.objects.create_user("i:"+email,email,password) # Adding "i:" at the beginning of any instructer username
+			newusr.first_name = firstname
+			newusr.last_name = lastname
+			newusr.save()
+			newins = Instructor.objects.create(user = newusr,instructor_branch=branch,instructor_dob=dob)
 			newins.save()
 	messages.success(request, 'Congratulations!! Successful Signup!! Login to Continue')
 	return redirect('login')
-def auth_stud(request):
-	ldap = request.POST['email']
+
+def auth_admin(request):
+	if request.user.is_authenticated:
+		return redirect(login)
 	password = request.POST['password']
-	user = authenticate(username=ldap, password=password)
+	adminname = request.POST['username']
+	user = authenticate(username="a:"+adminname, password=password)
 	if user is not None:
 		auth_login(request,user)
-		return HttpResponse("Hello")
+		return redirect('admin_home')
 	else:
 		messages.error(request, 'Bad Login Credentials')
 		return redirect('login')
+
 def auth_inst(request):
-	ldap = request.POST['email']
+	if request.user.is_authenticated:
+		return redirect(login)
+	email = request.POST['email']
 	password = request.POST['password']
-	user = authenticate(username=ldap,password=password)
+	user = authenticate(username="i:"+email,password=password)
 	if user is not None:
 		auth_login(request,user)
-		return HttpResponse("hello")
+		return redirect('ins_home')
 	else:
 		messages.error(request, 'Bad Login Credentials')
+		return redirect('login')
+
+def admin_home(request):
+	if not request.user.is_authenticated:
+		return redirect(login)
+	if not request.user.username == "a:admin@feeder.com":
+		return redirect(login)
+	return render(request,'admin_home.html',{})
+
+def ins_home(request):
+	if not request.user.is_authenticated:
+		return redirect(login)
+	if not request.user.username[0] == "i":
+		return redirect(login)
+	return render(request,'instructor_home.html',{})
+
+def logout_view(request):
+	if request.user.username[0] == "a":
+		user = "a"
+	else:
+		user = "i"
+	logout(request)
+	if user == "a":
+		return redirect('admin_login')
+	else:
 		return redirect('login')

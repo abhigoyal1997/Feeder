@@ -41,12 +41,12 @@
 				<div class="row" id="role">
 					<div class="col-sm-4">
 						<label class="radio-inline">
-							<input type="radio" name="role" id="student" value="Student" checked="checked" onchange="changerole();">Student
+							<input type="radio" name="role" id="instructor" value="Instructor" checked="checked" onchange="changerole();">Instructor
 						</label>
 					</div>
 					<div class="col-sm-4">
 						<label class="radio-inline">
-							<input type="radio" name="role" id="instructor" value="Instructor" onchange="changerole();">Instructor
+							<input type="radio" name="role" id="student" value="Student" onchange="changerole();">Student
 						</label>
 					</div>
 				</div>
@@ -62,9 +62,9 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="ldap" class="col-sm-3 control-label">LDAP</label>
+			<label for="email" class="col-sm-3 control-label">Email</label>
 			<div class="col-sm-9">
-				<input type="email" id="ldap" name="ldap" placeholder="Enter Your LDAP" class="form-control">
+				<input type="email" id="email" name="email" placeholder="Enter Your Email ID" class="form-control">
 			</div>
 		</div>
 		<div class="form-group">
@@ -97,8 +97,8 @@
 				</select>
 			</div>
 		</div>
-		<div class="form-group" id="program">
-			<label for="program" class="col-sm-3 control-label">Program</label>
+		<div class="form-group hidden" id="program">
+			<label for="program" class="col-sm-3 control-label hidde">Program</label>
 			<div class="col-sm-9">
 				<select name="program" class="form-control">
 					<option>Select Your Program</option>
@@ -108,7 +108,7 @@
 				</select>
 			</div>
 		</div>
-		<div class="form-group program" id="programyear">
+		<div class="form-group program hidden" id="programyear">
 			<label for="programyear" class="col-sm-3 control-label">Year</label>
 			<div class="col-sm-9">
 				<select name="programyear" class="form-control">
