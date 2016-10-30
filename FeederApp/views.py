@@ -163,6 +163,7 @@ def make_course(request):
 		question4 = Question.objects.create(question="Feedback on curriculum/course content",question_type="TF")
 		question4.save()
 		mfeed.question_set.add(question4)
+
 		mfeed.save()
 		efdead = Deadlines.objects.create(course=newcourse,name='FD',desc='End-Semester Exams Feedback',date=endsem,code = ccode)
 		efdead.save()
@@ -205,6 +206,7 @@ def update_admin(request):
 			return redirect('admin_home')
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
+
 def make_feedback(request):
 	if request.user.username[0] == "i":
 		return render(request,'add_feedback.html',{

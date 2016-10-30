@@ -1,0 +1,24 @@
+<table class="table">
+	<thead>
+	  <tr>
+		<th>First Name</th>
+		<th>Last Name</th>
+		<th>Roll Number</th>
+		<th>Branch</th>
+		<th>Program</th>
+		<th>Year</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  {% for student in students %}
+	  <tr>
+		<td>{{student.user.first_name}}</td>
+		<td>{{student.user.last_name}}</td>
+		<td>{{student.roll_number}}</td>
+		<td>{{student.get_student_branch_display}}</td>
+		<td>{{student.get_student_program_display}}</td>
+		<td>{{student.student_year}}</td>
+	  </tr>
+	  {% endfor %}
+	</tbody>
+  </table>

@@ -7,10 +7,6 @@ body {
   padding-top: 50px;
 }
 
-.test {
-  background: #000;
-}
-
 /*
  * Global add-ons
  */
@@ -91,12 +87,13 @@ body {
 .nav-sidebar > li > a:focus,
 .nav-sidebar > li > a:active {
   color: #fff;
-  background: inherit;
+  background: inherit !important;
 }
 .nav-sidebar > .active > a,
 .nav-sidebar > .active > a:hover,
 .nav-sidebar > .active > a:focus {
   color: #fff;
+  background: inherit !important;
 }
 
 
@@ -104,20 +101,25 @@ body {
  * Main content
  */
 
-.main {
+#mainframe {
   padding: 20px;
 }
 @media (min-width: 768px) {
-  .main {
-    height: 100%;
-    padding-right: 40px;
-    padding-left: 40px;
+  #mainframe {
+    position: fixed;
+    top: 50px;
+    bottom: 0;
+    overflow-y: auto;
   }
 }
-.main .page-header {
+#mainframe .page-header {
   margin-top: 0;
 }
 
+#mainframe .form {
+  width: 500px;
+  margin: auto;
+}
 
 /*
  * Placeholder dashboard ideas

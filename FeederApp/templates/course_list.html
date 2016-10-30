@@ -1,0 +1,22 @@
+<table class="table">
+<thead>
+	<tr>
+		<th>Course Code</th>
+		<th>Course Name</th>
+		<th>Department</th>
+		<th>Course Credits</th>
+		<th>Duration</th>
+	</tr>
+</thead>
+<tbody>
+	{% for course in courses %}
+	<tr>
+		<td>{{course.course_code}}</td>
+		<td>{{course.course_name}}</td>
+		<td>{{course.course_branch}}</td>
+		<td>{{course.course_credits}}</td>
+		<td>{{course.course_duration}}</td>
+	</tr>
+	{% endfor %}
+</tbody>
+</table>
