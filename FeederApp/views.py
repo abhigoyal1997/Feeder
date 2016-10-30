@@ -186,6 +186,8 @@ def make_course(request):
 		edead = Deadlines.objects.create(course=newcourse,name='EX',desc='End-Semester Exams',date=endsem,code = ccode)
 		edead.save()
 		return HttpResponse("Hello")
+	else:
+		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 
 def update_admin(request):
 	if request.user.username[0] == "a":
@@ -236,5 +238,25 @@ def view_deadline(request):
 def instprofile(request):
 	if request.user.username[0] == "i":
 		return render(request,'inst_profile.html',{})
+	else:
+		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
+
+def remove_stdcourse(request,username,coursecode):
+	if request.user.username[0] == "a":
+		student = Student.objects.get(user=User.objects.get(username=username))
+		course = Course.objects.get(course_code=coursecode)
+		course.students.remove(student)
+		course.save()
+		return redirect(admin_home)
+	else:
+		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
+
+def remove_inscourse(request,username,coursecode):
+	if request.user.username[0] == "a":
+		instructor = Instructor.objects.get(user=User.objects.get(username=username))
+		course = Course.objects.get(course_code=coursecode)
+		course.instructors.remove(instructor)
+		course.save()
+		return redirect(admin_home)
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
