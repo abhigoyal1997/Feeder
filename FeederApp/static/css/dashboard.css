@@ -19,6 +19,11 @@ body {
   padding: 0 !important;
 }
 
+.sub-header {
+  padding-bottom: 10px;
+
+}
+
 /*
  * Top navigation
  * Hide default border to remove 1px line.

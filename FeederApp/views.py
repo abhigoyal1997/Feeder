@@ -141,7 +141,7 @@ def make_course(request):
 	if request.user.username[0] == "a":
 		cname = request.POST['cname']
 		ccode = request.POST['ccode']
-		duration = '1'
+		duration = request.POST.get('duration')
 		branch = request.POST.get('branch')
 		credits = request.POST.get('credit')
 		midsem = request.POST['midsem']
@@ -163,7 +163,6 @@ def make_course(request):
 		question4 = Question.objects.create(question="Feedback on curriculum/course content",question_type="TF")
 		question4.save()
 		mfeed.question_set.add(question4)
-
 		mfeed.save()
 		efdead = Deadlines.objects.create(course=newcourse,name='FD',desc='End-Semester Exams Feedback',date=endsem,code = ccode)
 		efdead.save()
@@ -260,3 +259,25 @@ def remove_inscourse(request,username,coursecode):
 		return redirect(admin_home)
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
+
+
+def add_stud_to_course(request,code):
+	if request.user.username[0] == "a":
+		ccode = Course.objects.get(course_code = code)
+		return render(request,'add_stud_to_course.html',{
+			'students': Student.objects.all(),
+			'course' :  ccode,
+			'code' : code,
+			})
+	else:
+		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
+
+def modify(request):
+	 idstd = request.POST.get('id', None)
+	 code = request.POST.get('code',None)
+	 usr = User.objects.get(id = idstd)
+	 if {'course_code' : code} in usr.student.course_set.values('course_code'):
+	 	usr.student.course_set.remove(Course.objects.get(course_code = code))
+	 else:
+	 	usr.student.course_set.add(Course.objects.get(course_code=code))
+	 return HttpResponse("hello")
