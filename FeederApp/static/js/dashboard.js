@@ -13,8 +13,3 @@ $(document).ready(function () {
 	});
 });
 
-// function load_home() {
-// 	$('#mainframe').load('#');
-// }
-
-// window.onload = load_home;

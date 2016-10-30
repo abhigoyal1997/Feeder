@@ -13,9 +13,7 @@ body {
 .container {
   width: 500px;
   margin: 90px auto;
-/*  background: #35FFA9;
-  color: #1D8358;
-*/  padding: 0 !important;
+  padding: 0 !important;
 }
 .nav {
   border: none !important;
@@ -36,20 +34,28 @@ body {
 }
 
 .anim-form .textinput {
- margin: 40px auto;
- width: 500px;
- display: block;
- border: none;
- padding: 10px 0;
- border-bottom: solid 1px #1abc9c;
- -webkit-transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
- transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
- background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 96%, #1abc9c 4%);
- background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 96%, #1abc9c 4%);
- background-position: -500px 0;
- background-size: 100% 100%;
- background-repeat: no-repeat;
- color: #0e6252;
+  margin: 40px 0 0 0;
+  width: 100%;
+  display: block;
+  border: none;
+  padding: 0;
+  border-bottom: solid 1px #1abc9c;
+  -webkit-transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+  transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 96%, #1abc9c 4%);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 96%, #1abc9c 4%);
+  background-position: -500px 0;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  color: #0e6252;
+}
+
+.anim-form .textinput-sm {
+  width: 50% !important;
+}
+
+.anim-form form {
+  padding: 0;
 }
 
 .anim-form .textinput:focus,

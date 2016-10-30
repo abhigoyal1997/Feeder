@@ -28,7 +28,6 @@
 	  						<th>#</th>
 	  						<th>Courses Student Is Enrolled In</th>
 	  						<th>Course Credits</th>
-	  						<th>Remove Course</th>
 	  					</tr>
 	  				</thead>
 	  				<tbody>
@@ -37,7 +36,6 @@
 	  						<td>{{forloop.counter}}</td>
 		  					<td>{{course.course_name}}</td>
 		  					<td>{{course.course_credits}}</td>
-		  					<td><a href="remove_course/{{student.user.username}}&{{course.course_code}}">Remove</a></td>
 	  					</tr>
 	  					{% endfor %}
 	  				</tbody>

@@ -23,7 +23,5 @@ urlpatterns = [
 	url(r'^adddeadline$',views.make_deadline,name='make_deadline'),
 	url(r'^viewdeadline$',views.view_deadline,name='view_deadline'),
 	url(r'^viewfeedback$',views.view_feedback,name='view_feedback'),
-	url(r'^instructor_profile$',views.instprofile,name='instprofile'),
-	url(r'^remove_stdcourse/(?P<username>.*)&(?P<coursecode>[A-Z]{2}[\s][0-9]{3})$',views.remove_stdcourse,name='remove_stdcourse'),
-	url(r'^remove_inscourse/(?P<username>.*)&(?P<coursecode>[A-Z]{2}[\s][0-9]{3})$',views.remove_inscourse,name='remove_inscourse')	
+	url(r'^instructor_profile$',views.instprofile,name='instprofile')
 ]
