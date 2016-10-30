@@ -163,8 +163,8 @@ def make_course(request):
 		question4 = Question.objects.create(question="Feedback on curriculum/course content",question_type="TF")
 		question4.save()
 		mfeed.question_set.add(question4)
-
 		mfeed.save()
+
 		efdead = Deadlines.objects.create(course=newcourse,name='FD',desc='End-Semester Exams Feedback',date=endsem,code = ccode)
 		efdead.save()
 		efeed = Feedback.objects.create(course=newcourse,deadline=efdead,name="Endsem Feedback")
@@ -207,7 +207,7 @@ def update_admin(request):
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 
-def make_feedback(request):
+def add_feedback(request):
 	if request.user.username[0] == "i":
 		return render(request,'add_feedback.html',{
 		'courses':Course.objects.all()
@@ -221,7 +221,7 @@ def view_feedback(request):
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 
-def make_deadline(request):
+def add_deadline(request):
 	if request.user.username[0] == "i":
 		return render(request,'add_deadline.html',{})
 	else:
@@ -238,3 +238,22 @@ def instprofile(request):
 		return render(request,'inst_profile.html',{})
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
+
+def make_feedback(request):
+	if request.user.username[0] == "i":
+		fcourseid = request.POST['fcourse']
+		fname = request.POST['fname']
+		fdeadline = request.POST['deadline']
+		qcount = int(request.POST['qcount'])
+		course_concerned = Course.objects.get(course_code=fcourseid)
+		newdeadline = Deadlines.objects.create(course=course_concerned,name='FD',desc=fname,date=fdeadline,code=fcourseid)
+		newdeadline.save()
+		newfeedback = Feedback.objects.create(course=course_concerned,deadline=newdeadline,name=fname)
+		for i in range(qcount):
+			newquestion(question=request.POST['q'+str(i+1)],question_type=request.POST['t'+str(i+1)])
+			newquestion.save()
+			newfeedback.question_set.add(newquestion)
+		newfeedback.save()
+		return redirect(login)
+	else:
+		return HttpResponse("Over smart, huh??");

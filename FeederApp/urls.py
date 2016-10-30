@@ -19,9 +19,10 @@ urlpatterns = [
 	url(r'^admin_profile$',views.admin_profile,name='admin_profile'),
 	url(r'^update_admin$',views.update_admin,name='update_admin'),
 	url(r'^createcourse$',views.make_course,name='make_course'),
-	url(r'^addfeedback$',views.make_feedback,name='make_feedback'),
-	url(r'^adddeadline$',views.make_deadline,name='make_deadline'),
+	url(r'^addfeedback$',views.add_feedback,name='add_feedback'),
+	url(r'^adddeadline$',views.add_deadline,name='add_deadline'),
 	url(r'^viewdeadline$',views.view_deadline,name='view_deadline'),
 	url(r'^viewfeedback$',views.view_feedback,name='view_feedback'),
 	url(r'^instructor_profile$',views.instprofile,name='instprofile'),
+	url(r'^createfeedback$',views.make_feedback,name='make_feedback'),
 ]
