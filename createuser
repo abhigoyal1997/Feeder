@@ -1,0 +1,4 @@
+from django.contrib.auth.models import User
+from FeederApp.models import *
+
+User.objects.create_user(username='a:admin@feeder.com',password='admin1234')
