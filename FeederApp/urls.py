@@ -18,5 +18,7 @@ urlpatterns = [
 	url(r'^addcourse$',views.add_course,name='add_course'),
 	url(r'^admin_profile$',views.admin_profile,name='admin_profile'),
 	url(r'^update_admin$',views.update_admin,name='update_admin'),
-	url(r'^createcourse$',views.make_course,name='make_course')
+	url(r'^createcourse$',views.make_course,name='make_course'),
+	url(r'^remove_stdcourse/(?P<username>.*)&(?P<coursecode>[A-Z]{2}[\s][0-9]{3})$',views.remove_stdcourse,name='remove_stdcourse'),
+	url(r'^remove_inscourse/(?P<username>.*)&(?P<coursecode>[A-Z]{2}[\s][0-9]{3})$',views.remove_inscourse,name='remove_inscourse')	
 ]

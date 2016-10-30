@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table table-condensed" style="border-bottom: 0.5px solid #ccc;">
 	<thead>
 	  <tr>
 		<th>First Name</th>
@@ -6,12 +6,38 @@
 		<th>Branch</th>
 	  </tr>
 	</thead>
-	<tbody>
+	<tbody id="accordion">
 	  {% for instructor in instructors %}
-	  <tr>
+	  <tr class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" data-target="#acc{{ forloop.counter }}">
 		<td>{{instructor.user.first_name}}</td>
 		<td>{{instructor.user.last_name}}</td>
 		<td>{{instructor.get_instructor_branch_display}}</td>
+	  </tr>
+	  <tr>
+	  	<td colspan="6" class="hidden-row">
+	  		<div class="accordion-body collapse" id="acc{{ forloop.counter }}">
+	  			<table class="table table-condensed" style="border-bottom: 0.5px solid #ccc;">
+	  				<thead>
+	  					<tr>
+	  						<th>#</th>
+	  						<th>Courses Assigned To Instructor</th>
+	  						<th>Course Credits</th>
+	  						<th>Remove Course</th>
+	  					</tr>
+	  				</thead>
+	  				<tbody>
+	  					{% for course in instructor.course_set.all %}
+	  					<tr>
+	  						<td>{{forloop.counter}}</td>
+		  					<td>{{course.course_name}}</td>
+		  					<td>{{course.course_credits}}</td>
+		  					<td><a href="remove_inscourse/{{instructor.user.username}}&{{course.course_code}}">Remove</a></td>
+	  					</tr>
+	  					{% endfor %}
+	  				</tbody>
+	  			</table>
+	  		</div>	  		
+	  	</td>
 	  </tr>
 	  {% endfor %}
 	</tbody>
