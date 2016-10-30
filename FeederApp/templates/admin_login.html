@@ -27,7 +27,7 @@
 	{% endif %}    
 
 	<div id="admin"> <!--Admin user name: admin@feeder.com  password: admin1234-->
-		<form method="post" action="authadmin">
+		<form class="anim-form" method="post" action="/feeder/authadmin">
 			{% csrf_token %}
 			<div class="form-group">
 				<input required id="username" class="textinput" name="username" placeholder="User Name">

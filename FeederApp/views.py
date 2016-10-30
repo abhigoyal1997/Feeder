@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect    
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 from FeederApp.models import *
@@ -111,9 +112,28 @@ def student_list(request):
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 
+def instructor_list(request):
+	if request.user.username[0] == "a":
+		return render(request,'instructor_list.html',{
+			'instructors':Instructor.objects.all()
+			})
+	else:
+		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
+
+def course_list(request):
+	return render(request,'course_list.html',{
+		'courses':Course.objects.all()
+		})
+
 def add_course(request):
 	if request.user.username[0] == "a":
 		return render(request,'add_course.html',{})
+	else:
+		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
+	
+def admin_profile(request):
+	if request.user.username[0] == "a":
+		return render(request,'admin_profile.html',{})
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 
@@ -121,7 +141,7 @@ def make_course(request):
 	if request.user.username[0] == "a":
 		cname = request.POST['cname']
 		ccode = request.POST['ccode']
-		duration = '1'
+		duration = request.POST.get('duration')
 		branch = request.POST.get('branch')
 		credits = request.POST.get('credit')
 		midsem = request.POST['midsem']
@@ -131,28 +151,76 @@ def make_course(request):
 		mfdead = Deadlines.objects.create(course=newcourse,name='FD',desc='Mid-Semester Exam Feedback',date=midsem,code = ccode)
 		mfdead.save()
 		mfeed = Feedback.objects.create(course=newcourse,deadline=mfdead,name="Midsem Feedback")
-		count = 1
-		while(count <= 4):
-			mfeed.question_set.add(Question.objects.all().get(id = count))
-			count = count + 1
+		question1 = Question.objects.create(question="Do you have any comments or suggestions you would like to share about the instructor or the course?",question_type="TF")
+		question1.save()
+		mfeed.question_set.add(question1)
+		question2 = Question.objects.create(question="Overall, the course was well organized.",question_type="RB")
+		question2.save()
+		mfeed.question_set.add(question2)
+		question3 = Question.objects.create(question="The instructor was well prepared for each class.",question_type="RB")
+		question3.save()
+		mfeed.question_set.add(question3)
+		question4 = Question.objects.create(question="Feedback on curriculum/course content",question_type="TF")
+		question4.save()
+		mfeed.question_set.add(question4)
 		mfeed.save()
 		efdead = Deadlines.objects.create(course=newcourse,name='FD',desc='End-Semester Exams Feedback',date=endsem,code = ccode)
 		efdead.save()
 		efeed = Feedback.objects.create(course=newcourse,deadline=efdead,name="Endsem Feedback")
-		count = 1
-		while(count <= 4):
-			efeed.question_set.add(Question.objects.all().get(id = count))
-			count = count + 1
+		question1 = Question.objects.create(question="Do you have any comments or suggestions you would like to share about the instructor or the course?",question_type="TF")
+		question1.save()
+		efeed.question_set.add(question1)
+		question2 = Question.objects.create(question="Overall, the course was well organized.",question_type="RB")
+		question2.save()
+		efeed.question_set.add(question2)
+		question3 = Question.objects.create(question="The instructor was well prepared for each class.",question_type="RB")
+		question3.save()
+		efeed.question_set.add(question3)
+		question4 = Question.objects.create(question="Feedback on curriculum/course content",question_type="TF")
+		question4.save()
+		efeed.question_set.add(question4)
 		efeed.save()
 		mdead = Deadlines.objects.create(course=newcourse,name='EX',desc='Mid-Semester Exams',date=midsem,code = ccode)
 		mdead.save()
 		edead = Deadlines.objects.create(course=newcourse,name='EX',desc='End-Semester Exams',date=endsem,code = ccode)
 		edead.save()
 		return HttpResponse("Hello")
-		
 
+def update_admin(request):
+	if request.user.username[0] == "a":
+		firstname = request.POST['firstname']
+		lastname = request.POST['lastname']
+		email = request.POST['email']
+		password = request.POST['password']
+		user = authenticate(username=request.user.username, password=password)
+		if user is not None:
+			user.first_name = firstname
+			user.last_name = lastname
+			user.email = email
+			user.save()
+			messages.success(request, 'Profile Successfully Updated')
+			return redirect('admin_home')
+		else:
+			messages.error(request, 'Wrong Password')
+			return redirect('admin_home')
+	else:
+		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 
-
-
-
+def add_stud_to_course(request,code):
+	if request.user.username[0] == "a":
+		ccode = Course.objects.get(course_code = code)
+		return render(request,'add_stud_to_course.html',{
+			'students': Student.objects.all(),
+			'course' :  ccode,
+			'code' : code,
+			})
+def modify(request):
+	 idstd = request.POST.get('id', None)
+	 code = request.POST.get('code',None)
+	 usr = User.objects.get(id = idstd)
+	 if {'course_code' : code} in usr.student.course_set.values('course_code'):
+	 	usr.student.course_set.remove(Course.objects.get(course_code = code))
+	 else:
+	 	usr.student.course_set.add(Course.objects.get(course_code=code))
+	 return HttpResponse("hello")
 

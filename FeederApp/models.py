@@ -76,18 +76,3 @@ class Question(models.Model):
 	question_type = models.CharField(max_length=2,choices = TYPES)
 	response = models.TextField(null = True)
 	feedback = models.ForeignKey(Feedback,on_delete=models.CASCADE,null = True)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -8,6 +8,9 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	{% load static %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/signup.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+	<script src="{% static 'js/dashboard.js' %}"></script>
 	<title>
 		Home
 	</title>
@@ -16,8 +19,8 @@
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-sm-3 col-md-2">
-					<a class="navbar-brand" href="#">Feed'er</a>
+				<div class="col-sm-3 col-md-2 nav-header">
+					<a class="navbar-brand" href="#">Feeder</a>
 				</div>
 				<div class="col-sm-9 col-md-10" id="navind">
 					Home	
@@ -29,16 +32,36 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span> Home <span class="sr-only">(current)</span></a></li>
-					<li><a href="#">Running Courses <span class="sr-only"></span></a></li>
-		            <li><a href="#">Instructors</a></li>
+					<li class="active"><a href="#" id="home"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+					<li><a href="#" id="courses">Running Courses</a></li>
+					<li><a href="#" id="addcourse">Add Course</a></li>
+					<li><a href="#" id="students">Students</a></li>
+		            <li><a href="#" id="instructors">Instructors</a></li>
 				</ul>
 				<ul class="nav nav-sidebar sidebar-bottom">
-					<li><a href="#"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+					<li><a href="#" id="admin_profile"><span class="glyphicon glyphicon-user"></span>Profile</a></li>
 					<li><a href="logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 				</ul>
 			</div>
 		</div>		
+	</div>
+	<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2" id="mainframe">
+		{% if messages %}
+	{% for message in messages %}
+	{% if 'success' in message.tags %}
+	<div class= "alert alert-success">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<span{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</span>
+	</div>
+	{% endif %}
+	{% if 'error' in message.tags %}
+	<div class= "alert alert-danger">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<span{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</span>
+	</div>
+	{% endif %}
+	{% endfor %}
+	{% endif %}    
 	</div>
 </body>
 </html>

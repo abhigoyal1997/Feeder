@@ -1,67 +1,53 @@
-<!doctype html>
-<head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<title>Feeder</title>
-</head>
-<body>
-<div class = "container">
-<div class = "well well-sm" style = "text-align:center">
-<h2>Course Details</h2></div>
+<div class="form anim-form">
 <form method="post" action="createcourse">
-			{% csrf_token %}
-			<div class="form-group">
-				<input type="text" class="textinput" name = "cname" required id="cname" placeholder="Course Name">
-			</div>
-			<div class="form-group">
-				<input type="text" class="textinput" name = "ccode" required id="ccode" placeholder="Course Code">
-			</div>
-			<div class = "form-group">
-				<label for="duration">Select Duration:</label>
-				<label class="radio-inline"><input type="radio" name="duration" value = "1">One</label>
-				<label class="radio-inline"><input type="radio" name="duration" value="2">Two</label>
-			</div>
-			<div class = "form-group">
-				<!-- <h4>Course Branch</h4><br> -->
-				<div class="form-group">
-				  <label for="branch">Select Branch:</label>
-				  <select class="form-control" name="branch">
-				    <option value="CS">Computer Science and Engineering</option>
-				    <option value="EE">Electrical Engineering</option>
-				    <option value="CL">Chemical Engineering</option>
-				    <option value="ME">Mechanical Engineering</option>
-				  </select>
-				</div>
-			</div>
-			<div class = "form-group">
-				<div class="form-group">
-				  <label for="credit">Select Credit:</label>
-				  <select class="form-control" name="credit">
-				    <option value="4">4</option>
-				    <option value="3">3</option>
-				    <option value="8">8</option>
-				    <option value="6">6</option>
-				  </select>
-				</div>
-			</div>
-			<div class="form-group">
-			<label for="midsem" class="control-label">MidSem Date</label>
-			<!-- <div class="col-sm-9"> -->
-				<input type="date" id="midsem" name="midsem"class="form-control">
-			<!-- </div> -->
-			</div>
-			<div class="form-group">
-			<label for="endsem" class="control-label">EndSem Date</label>
-			<!-- <div class="col-sm-9"> -->
-				<input type="date" id="endsem" name="endsem"class="form-control">
-			<!-- </div> -->
-			</div>
+	{% csrf_token %}
+	<div class="form-group">
+		<input type="text" class="textinput" name = "cname" required id="cname" placeholder="Course Name">
+	</div>
+	<div class="form-group">
+		<input type="text" class="textinput" name = "ccode" required id="ccode" placeholder="Course Code">
+	</div>
+	<div class = "form-group">
+		<label for="duration">Select Duration:  </label>
+		<label class="radio-inline"><input type="radio" name="duration" value = "1">Half Semester</label>
+		<label class="radio-inline"><input type="radio" name="duration" value="2">One Semester</label>
+	</div>
+	<div class = "form-group">
+		<!-- <h4>Course Branch</h4><br> -->
+		<div class="form-group">
+		  <label for="branch">Select Branch:</label>
+		  <select class="form-control" name="branch">
+		    <option value="CS">Computer Science and Engineering</option>
+		    <option value="EE">Electrical Engineering</option>
+		    <option value="CL">Chemical Engineering</option>
+		    <option value="ME">Mechanical Engineering</option>
+		  </select>
+		</div>
+	</div>
+	<div class = "form-group">
+		<div class="form-group">
+		  <label for="branch">Select Credit:</label>
+		  <select class="form-control" name="credit">
+		    <option value="3">3</option>
+		    <option value="4">4</option>
+		    <option value="8">8</option>
+		    <option value="6">6</option>
+		  </select>
+		</div>
+	</div>
+	<div class="form-group">
+	<label for="midsem" class="control-label">MidSem Date</label>
+	<!-- <div class="col-sm-9"> -->
+		<input type="date" id="midsem" name="midsem"class="form-control">
+	<!-- </div> -->
+	</div>
+	<div class="form-group">
+	<label for="endsem" class="control-label">EndSem Date</label>
+	<!-- <div class="col-sm-9"> -->
+		<input type="date" id="endsem" name="endsem"class="form-control">
+	<!-- </div> -->
+	</div>
 
-			<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4">Submit</button>
-
+	<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4">Submit</button>
 </form>
 </div>
-</body>
