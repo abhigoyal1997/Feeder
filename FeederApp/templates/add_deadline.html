@@ -5,7 +5,7 @@
 		<label>Select Course</label>
 		<select class="form-control" name="dcourse">
 		{% for course in courses %}
-			<option value=" {{course.course_code}} ">{{course.course_code}} {{course.course_name}}</option>
+			<option value="{{course.course_code}}">{{course.course_code}} {{course.course_name}}</option>
 		{% endfor %}
 		</select>
 	</div>

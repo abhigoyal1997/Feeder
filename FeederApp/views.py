@@ -231,7 +231,9 @@ def add_deadline(request):
 
 def view_deadline(request):
 	if request.user.username[0] == "i":
-		return render(request,'view_feedback.html',{})
+		return render(request,'view_deadline.html',{
+			'courses':Course.objects.all()
+	})
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 

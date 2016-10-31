@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.db import models
+from datetime import date
 
 class Student(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)	
@@ -59,6 +60,12 @@ class Deadlines(models.Model):
 	date = models.DateField()
 	code = models.CharField(max_length=10)
 	course = models.ForeignKey(Course,on_delete=models.CASCADE,null =True)
+	@property
+	def is_past_due(self):
+		if date.today() > self.date:
+			return True
+		return False
+
 
 class Feedback(models.Model):
 	deadline = models.OneToOneField(Deadlines,on_delete=models.CASCADE)
