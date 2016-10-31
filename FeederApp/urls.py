@@ -9,7 +9,6 @@ urlpatterns = [
 	url(r'^authadmin$',views.auth_admin,name='auth_admin'),
 	url(r'^authinstruct$',views.auth_inst,name='auth_inst'),
 	url(r'^admin_home$',views.admin_home,name='admin_home'),	
-	url(r'^admin$',views.admin_login,name='admin_login'),	
 	url(r'^ins_home$',views.ins_home,name='ins_home'),
 	url(r'^logout$',views.logout_view,name='logout'),
 	url(r'^students$',views.student_list,name='student_list'),
@@ -26,4 +25,6 @@ urlpatterns = [
 	url(r'^createfeedback$',views.make_feedback,name='make_feedback'),
 	url(r'^createdeadline$',views.make_deadline,name='make_deadline'),
 	url(r'^instructor_profile$',views.instprofile,name='instprofile')
+	url(r'^addsttocourse/(?P<code>[A-Z]{2}[-][0-9]{3})$',views.add_stud_to_course,name='add_stud_to_course'),
+	url(r'^ajax/modify/$',views.modify,name='modify'),
 ]

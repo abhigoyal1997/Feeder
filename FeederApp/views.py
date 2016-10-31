@@ -23,8 +23,6 @@ def login(request):
 	return render(request,'login.html',{})    
 def signup(request):
 	return render(request,'signup.html',{})
-def admin_login(request):
-	return render(request,'admin_login.html',{})
 def register(request):
 	firstname = request.POST['firstname']
 	lastname = request.POST['lastname']
@@ -99,10 +97,7 @@ def logout_view(request):
 	else:
 		user = "i"
 	logout(request)
-	if user == "a":
-		return redirect('admin_login')
-	else:
-		return redirect('login')
+	return redirect('login')
 
 def student_list(request):
 	if request.user.username[0] == "a":
@@ -141,7 +136,7 @@ def make_course(request):
 	if request.user.username[0] == "a":
 		cname = request.POST['cname']
 		ccode = request.POST['ccode']
-		duration = '1'
+		duration = request.POST.get('duration')
 		branch = request.POST.get('branch')
 		credits = request.POST.get('credit')
 		midsem = request.POST['midsem']
@@ -185,7 +180,9 @@ def make_course(request):
 		mdead.save()
 		edead = Deadlines.objects.create(course=newcourse,name='EX',desc='End-Semester Exams',date=endsem,code = ccode)
 		edead.save()
-		return HttpResponse("Hello")
+		messages.add_message(request, messages.SUCCESS, 'Congratulations.New Course has been added!')
+		messages.add_message(request,messages.INFO,'You can add new students to the course by clicking Add/Remove Students in Running Courses Menu')
+		return redirect('admin_home')
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 
@@ -275,4 +272,26 @@ def make_deadline(request):
 		newdeadline.save()
 		return redirect(login)
 	else:
-		return HttpResponse("Try and try, you would succeed. Sure??")
+		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
+
+
+def add_stud_to_course(request,code):
+	if request.user.username[0] == "a":
+		ccode = Course.objects.get(course_code = code)
+		return render(request,'add_stud_to_course.html',{
+			'students': Student.objects.all(),
+			'course' :  ccode,
+			'code' : code,
+			})
+	else:
+		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
+
+def modify(request):
+	 idstd = request.POST.get('id', None)
+	 code = request.POST.get('code',None)
+	 usr = User.objects.get(id = idstd)
+	 if {'course_code' : code} in usr.student.course_set.values('course_code'):
+	 	usr.student.course_set.remove(Course.objects.get(course_code = code))
+	 else:
+	 	usr.student.course_set.add(Course.objects.get(course_code=code))
+	 return HttpResponse("hello")

@@ -6,6 +6,7 @@
 		<th>Department</th>
 		<th>Course Credits</th>
 		<th>Duration</th>
+		<th>Modify</th>
 	</tr>
 </thead>
 <tbody>
@@ -16,7 +17,14 @@
 		<td>{{course.course_branch}}</td>
 		<td>{{course.course_credits}}</td>
 		<td>{{course.course_duration}}</td>
+		<td><a href = "#" class="modify" id = "addsttocourse/{{course.course_code}}">Add/Remove Student</a></td> 
 	</tr>
 	{% endfor %}
 </tbody>
 </table>
+<script>
+$('.modify').click(function(){
+		$('#navind').text("Add/Remove Students")
+		$('#mainframe').load(this.id)
+	});
+</script>

@@ -3,12 +3,16 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}" />
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <title>Feeder</title>
+<style>
+
+</style>
 </head>
-<body>
-<div class="container anim-form">
+<body style="background-image: url({% static 'images/background.jpg' %});background-size: cover;overflow:hidden">
+<div class="container">
 	{% if messages %}
 	{% for message in messages %}
 	{% if 'success' in message.tags %}
@@ -24,31 +28,29 @@
 	</div>
 	{% endif %}
 	{% endfor %}
-	{% endif %}    
-	<div class ="row">
+	{% endif %}
+	<div class = "logo" style="text-align: center;margin-top:-50px ">
+	{% load static %} <img src="{% static 'images/feeder_logo.png' %}"/>
+	</div>    
+	<div class ="well" style="background-color: #1b1010">
 	<ul class="nav nav-tabs nav-justified">
 		<li class="active"><a data-toggle="pill" href="#instructor">Instructor</a></li>
-		<li><a data-toggle="pill" href="#student">Student</a></li>
+		<li><a data-toggle="pill" href="#admin">Admin</a></li>
 	</ul>
-	</div>
+	
 	<div class ="tab-content">
 
-	<div id="student" class="tab-pane fade">
-		<form method="post" action="authstudent">
+	<div id="admin" class="tab-pane fade">
+		<form class="anim-form" method="post" action="/feeder/authadmin">
 			{% csrf_token %}
 			<div class="form-group">
-				<input type="email" name = "email" class="textinput" required id="email" placeholder="Email ID">
+				<input required id="username" class="textinput" name="username" placeholder="User Name">
 			</div>
 			<div class="form-group">
 				<input type="password" name = "password" class = "textinput" required id="pwd" placeholder="Password">
 			</div>
-			<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4">Submit</button>
-
-			<button type="button" class="btn btn-info col-sm-5" style="background-color: #3b5998;">Sign In With Facebook</button>
-			<button type="button" class="btn btn-info col-sm-offset-2 col-sm-5" style="background-color: #d34836">Sign In With Google</button>
-
-			<a href = "signup">
-			<button type="button" class="btn btn-info col-sm-offset-3 col-sm-6" style="background-color: #68D957">New Here?? Sign Up!!</button></a>
+			<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4" style="background-color: #3F42F0"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Log In</button>
+			<!-- Add captcha feature if possible -->
 		</form>
 	</div>
 
@@ -61,12 +63,13 @@
 			<div class="form-group">
 				<input type="password" required id="pwd" name = "password" class = "textinput" placeholder="Password">
 			</div>
-			<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4">Submit</button>
+			<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4" style="background-color: #3F42F0"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Log In</button>
 			<button type="button" class="btn btn-info col-sm-5" style="background-color: #3b5998;">Sign In With Facebook</button>
 			<button type="button" class="btn btn-info col-sm-offset-2 col-sm-5" style="background-color: #d34836">Sign In With Google</button>
 			<a href = "signup">
-			<button type="button" class="btn btn-info col-sm-offset-3 col-sm-6" style="background-color: #68D957">New Here?? Sign Up!!</button></a>
+			<button type="button" class="btn btn-info col-sm-offset-3 col-sm-6" style="background-color: #136606">New Here?? Sign Up!!</button></a>
 		</form>
+	</div>
 	</div>
 	</div>
 	</div>
