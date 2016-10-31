@@ -12,3 +12,11 @@ function validateFeedbackForm(){
 	}
 	return true;
 }
+function assignmentchecked(){
+	element = document.getElementById("textfieldforassignment");
+	element.innerHTML = "<input type='text' class='textinput' name = 'deadlinedetails' required id='deadlinedetails' placeholder='Assignment Details'>"
+}
+function examclicked(){
+	element = document.getElementById("textfieldforassignment");
+	element.innerHTML = "<input type='text' class='textinput' name = 'deadlinedetails' required id='deadlinedetails' placeholder='Exam Details'>"
+}

@@ -223,7 +223,9 @@ def view_feedback(request):
 
 def add_deadline(request):
 	if request.user.username[0] == "i":
-		return render(request,'add_deadline.html',{})
+		return render(request,'add_deadline.html',{
+			'courses':Course.objects.all()
+	})
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 
@@ -257,3 +259,16 @@ def make_feedback(request):
 		return redirect(login)
 	else:
 		return HttpResponse("Over smart, huh??");
+
+def make_deadline(request):
+	if request.user.username[0] == "i":
+		dcourseid = request.POST['dcourse']
+		course_concerned = Course.objects.get(course_code=dcourseid)
+		typeofdeadline = request.POST['type']
+		details = request.POST['deadlinedetails']
+		deadlinedate = request.POST['deadlinedate']
+		newdeadline = Deadlines.objects.create(course=course_concerned,name=typeofdeadline,desc=details,date=deadlinedate,code=dcourseid)
+		newdeadline.save()
+		return redirect(login)
+	else:
+		return HttpResponse("Try and try, you would succeed. Sure??")

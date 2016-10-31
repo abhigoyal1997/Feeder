@@ -25,4 +25,5 @@ urlpatterns = [
 	url(r'^viewfeedback$',views.view_feedback,name='view_feedback'),
 	url(r'^instructor_profile$',views.instprofile,name='instprofile'),
 	url(r'^createfeedback$',views.make_feedback,name='make_feedback'),
+	url(r'^createdeadline$',views.make_deadline,name='make_deadline'),
 ]

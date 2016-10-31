@@ -2,14 +2,12 @@
 <form action="createfeedback" onsubmit="return validateFeedbackForm()"  method="post">
 	{% csrf_token %}
 	<div class="form-group">
-		<div class="form-group">
-			<label>Select Course</label>
-			<select class="form-control" name="fcourse">
-			{% for course in courses %}
-				<option value=" {{course.course_code}} ">{{course.course_code}} {{course.course_name}}</option>
-			{% endfor %}
-			</select>
-		</div>
+		<label>Select Course</label>
+		<select class="form-control" name="fcourse">
+		{% for course in courses %}
+			<option value=" {{course.course_code}} ">{{course.course_code}} {{course.course_name}}</option>
+		{% endfor %}
+		</select>
 	</div>
 	<div class="form-group">
 		<input type="text" class="textinput" name = "fname" required id="description" placeholder="Feedback Name">
