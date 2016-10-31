@@ -27,4 +27,5 @@ urlpatterns = [
 	url(r'^instructor_profile$',views.instprofile,name='instprofile'),
 	url(r'^addsttocourse/(?P<code>[A-Z]{2}[-][0-9]{3})$',views.add_stud_to_course,name='add_stud_to_course'),
 	url(r'^ajax/modify/$',views.modify,name='modify'),
+	url(r'^fb_login/$',views.fb_login,name='fb_login'),
 ]

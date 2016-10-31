@@ -30,28 +30,16 @@ def register(request):
 	dob = request.POST['birthdate']
 	password = request.POST['password']
 	branch = request.POST.get('branch')
-	role = request.POST['role']
-	if {'username' : email} in User.objects.all().values('username'):
+	if {'username' : email} in list(map(lambda x:x[2:],User.objects.all().values('username'))):
 		messages.add_message(request, messages.ERROR, 'Username Already Exists.')
 		return redirect('signup')
 	else:
-		if role == 'Student':
-			newusr = User.objects.create_user("s:"+email,email,password) # Adding "s:" at the beginning of any student username
-			newusr.first_name = firstname
-			newusr.last_name = lastname
-			newusr.save()
-			program = request.POST.get('program')
-			progy = request.POST.get('programyear')
-			rollno = request.POST.get('rollnumber')
-			newstud = Student.objects.create(user = newusr,student_branch=branch,student_year=progy,student_program=program,student_dob=dob,roll_number=rollno)
-			newstud.save()
-		else:
-			newusr = User.objects.create_user("i:"+email,email,password) # Adding "i:" at the beginning of any instructer username
-			newusr.first_name = firstname
-			newusr.last_name = lastname
-			newusr.save()
-			newins = Instructor.objects.create(user = newusr,instructor_branch=branch,instructor_dob=dob)
-			newins.save()
+		newusr = User.objects.create_user("i:"+email,email,password) # Adding "i:" at the beginning of any instructer username
+		newusr.first_name = firstname
+		newusr.last_name = lastname
+		newusr.save()
+		newins = Instructor.objects.create(user = newusr,instructor_branch=branch,instructor_dob=dob)
+		newins.save()
 	messages.success(request, 'Congratulations!! Successful Signup!! Login to Continue')
 	return redirect('login')
 
@@ -76,6 +64,24 @@ def auth_inst(request):
 	else:
 		messages.error(request, 'Bad Login Credentials')
 		return redirect('login')
+
+def fb_login(request):
+	firstname = request.POST['firstname']
+	lastname = request.POST['lastname']
+	username = "i:"+request.POST['email']
+	try:
+		user = User.objects.get(username=username)
+		auth_login(request,user)
+		return redirect('ins_home')
+	except Exception as e:
+		newusr = User.objects.create_user(username,username) # Adding "i:" at the beginning of any instructer username
+		newusr.first_name = firstname
+		newusr.last_name = lastname
+		newusr.save()
+		newins = Instructor.objects.create(user = newusr)
+		newins.save()
+		auth_login(request,newusr)
+		return redirect('ins_home')
 
 def admin_home(request):
 	if not request.user.is_authenticated:

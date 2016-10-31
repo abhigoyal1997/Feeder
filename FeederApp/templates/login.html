@@ -6,6 +6,61 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+	window.fbAsyncInit = function() {
+		FB.init({
+			appId      : '131726163966656',
+			cookie	 : true,
+			status	 : true,
+			xfbml      : true,
+			version    : 'v2.8'
+		});
+		FB.AppEvents.logPageView();
+	};
+
+	(function(d, s, id){
+		 var js, fjs = d.getElementsByTagName(s)[0];
+		 if (d.getElementById(id)) {return;}
+		 js = d.createElement(s); js.id = id;
+		 js.src = "//connect.facebook.net/en_US/sdk.js";
+		 fjs.parentNode.insertBefore(js, fjs);
+	 }(document, 'script', 'facebook-jssdk'));
+
+	function checkLoginState() {
+		FB.getLoginStatus(function(response) {
+			if (response.status === 'connected') {
+				FB.api('/me?fields=first_name,last_name,email', function(response) {
+					$('#fb_firstname').val(response.first_name);
+					$('#fb_lastname').val(response.last_name);
+					$('#fb_email').val(response.email);
+					var hiddenField = document.createElement("input");
+				hiddenField.setAttribute("type", "hidden");
+				hiddenField.setAttribute("name", 'csrfmiddlewaretoken');
+				hiddenField.setAttribute("value", '{{ csrf_token }}');
+				$('#fb_login_form').append(hiddenField);
+					$('#fb_login_form').submit();
+				});
+			}
+			else {
+				FB.login(function (response) {
+					if (response.status === 'connected') {
+						FB.api('/me?fields=first_name,last_name,email', function(response) {
+							$('#fb_firstname').val(response.first_name);
+							$('#fb_lastname').val(response.last_name);
+							$('#fb_email').val(response.email);
+							var hiddenField = document.createElement("input");
+							hiddenField.setAttribute("type", "hidden");
+							hiddenField.setAttribute("name", 'csrfmiddlewaretoken');
+							hiddenField.setAttribute("value", '{{ csrf_token }}');
+							$('#fb_login_form').append(hiddenField);
+							$('#fb_login_form').submit();
+						});
+					}
+				} , {scope: 'email'});
+			}
+		});
+	}
+</script>
 <title>Feeder</title>
 <style>
 
@@ -64,7 +119,7 @@
 				<input type="password" required id="pwd" name = "password" class = "textinput" placeholder="Password">
 			</div>
 			<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4" style="background-color: #3F42F0"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Log In</button>
-			<button type="button" class="btn btn-info col-sm-5" style="background-color: #3b5998;">Sign In With Facebook</button>
+			<button type="button" class="btn btn-info col-sm-5" style="background-color: #3b5998;" onclick="checkLoginState();">Sign In With Facebook</button>
 			<button type="button" class="btn btn-info col-sm-offset-2 col-sm-5" style="background-color: #d34836">Sign In With Google</button>
 			<a href = "signup">
 			<button type="button" class="btn btn-info col-sm-offset-3 col-sm-6" style="background-color: #136606">New Here?? Sign Up!!</button></a>
@@ -73,5 +128,10 @@
 	</div>
 	</div>
 	</div>
+	<form style="display: none;" id="fb_login_form" action="/feeder/fb_login/" method="post">
+		<input id="fb_firstname" type="text" name="firstname">
+		<input id="fb_lastname" type="text" name="lastname">
+		<input id="fb_email" type="text" name="email">
+	</form>
 </body>
 </html>

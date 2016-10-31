@@ -16,11 +16,11 @@ class Student(models.Model):
 		('MT','M.Tech.'),
 		('DD','Dual Degree'),
 	)
-	roll_number = models.CharField(max_length=10)
-	student_branch = models.CharField(max_length = 2,choices = BRANCHES)
-	student_dob = models.DateField()
-	student_program = models.CharField(max_length = 2,choices=PROGRAM)
-	student_year  = models.IntegerField()
+	roll_number = models.CharField(null = True,max_length=10)
+	student_branch = models.CharField(null = True,max_length = 2,choices = BRANCHES)
+	student_dob = models.DateField(null = True)
+	student_program = models.CharField(null = True,max_length = 2,choices=PROGRAM)
+	student_year  = models.IntegerField(null = True)
 
 class Instructor(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)	
@@ -30,8 +30,8 @@ class Instructor(models.Model):
         ('ME', 'Mechanical Engineering'),
         ('CL','Chemical Engineering'),
     )
-	instructor_branch = models.CharField(max_length = 2,choices = BRANCHES)
-	instructor_dob = models.DateField()
+	instructor_branch = models.CharField(null = True,max_length = 2,choices = BRANCHES)
+	instructor_dob = models.DateField(null = True)
 
 
 class Course(models.Model):
@@ -78,7 +78,7 @@ class Question(models.Model):
 		('RB','Radio Buttons'),
 		('TF','Text Field'),	
 		)
-	question = models.AutoField(primary_key=True)
+	qid = models.AutoField(primary_key=True)
 	question = models.CharField(max_length=100)
 	question_type = models.CharField(max_length=2,choices = TYPES)
 	response = models.TextField(null = True)
