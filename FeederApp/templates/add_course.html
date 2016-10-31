@@ -1,14 +1,15 @@
+<div class = "well" style="margin-left:200px;height:560px;background-color: #000000;color:#ffffff">
 <div class="form anim-form">
 <form method="post" action="createcourse">
 	{% csrf_token %}
 	<div class="form-group">
-		<input type="text" class="textinput" name = "cname" required id="cname" placeholder="Course Name">
+		<input type="text" class="textinput" name = "cname" required id="cname" style="margin-top:20px" placeholder="Course Name">
 	</div>
 	<div class="form-group">
 		<input type="text" class="textinput" name = "ccode" required id="ccode" placeholder="Course Code">
 	</div>
 	<div class = "form-group">
-		<label for="duration">Select Duration:  </label>
+		<label for="duration">Select Duration:&nbsp;&nbsp;  </label>
 		<label class="radio-inline"><input type="radio" name="duration" value = "1">Half Semester</label>
 		<label class="radio-inline"><input type="radio" name="duration" value="2">One Semester</label>
 	</div>
@@ -48,6 +49,7 @@
 	<!-- </div> -->
 	</div>
 
-	<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4">Submit</button>
+	<button type="submit" style="background-color:#3F42F0"class="btn btn-info col-sm-offset-4 col-sm-4">Add Course</button>
 </form>
+</div>
 </div>

@@ -22,7 +22,7 @@
 				<div class="col-sm-3 col-md-2 nav-header">
 					<a class="navbar-brand" href="#">Feeder</a>
 				</div>
-				<div class="col-sm-9 col-md-10" id="navind">
+				<div class="col-sm-9 col-md-10" style="background-color: #B6BAE5" id="navind">
 					Home	
 				</div>
 			</div>
@@ -32,11 +32,11 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li class="active"><a href="#" id="home"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-					<li><a href="#" id="courses">Running Courses</a></li>
-					<li><a href="#" id="addcourse">Add Course</a></li>
-					<li><a href="#" id="students">Students</a></li>
-		            <li><a href="#" id="instructors">Instructors</a></li>
+					<li class="active"><a href="admin_home" id="home"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Home</a></li>
+					<li><a href="#" id="courses"><span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;Running Courses</a></li>
+					<li><a href="#" id="addcourse"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add Course</a></li>
+					<li><a href="#" id="students"><span class = "glyphicon glyphicon-user"></span>&nbsp;&nbsp;Students</a></li>
+		            <li><a href="#" id="instructors"><span class = "glyphicon glyphicon-user"></span>&nbsp;&nbsp;Instructors</a></li>
 				</ul>
 				<ul class="nav nav-sidebar sidebar-bottom">
 					<li><a href="#" id="admin_profile"><span class="glyphicon glyphicon-user"></span>Profile</a></li>
@@ -45,7 +45,7 @@
 			</div>
 		</div>		
 	</div>
-	<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2" id="mainframe">
+	<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2" id="mainframe" >
 		{% if messages %}
 	{% for message in messages %}
 	{% if 'success' in message.tags %}
@@ -56,6 +56,12 @@
 	{% endif %}
 	{% if 'error' in message.tags %}
 	<div class= "alert alert-danger">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<span{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</span>
+	</div>
+	{% endif %}
+	{% if 'info' in message.tags %}
+	<div class= "alert alert-info">
 		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 		<span{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</span>
 	</div>

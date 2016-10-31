@@ -23,8 +23,6 @@ def login(request):
 	return render(request,'login.html',{})    
 def signup(request):
 	return render(request,'signup.html',{})
-def admin_login(request):
-	return render(request,'admin_login.html',{})
 def register(request):
 	firstname = request.POST['firstname']
 	lastname = request.POST['lastname']
@@ -99,10 +97,7 @@ def logout_view(request):
 	else:
 		user = "i"
 	logout(request)
-	if user == "a":
-		return redirect('admin_login')
-	else:
-		return redirect('login')
+	return redirect('login')
 
 def student_list(request):
 	if request.user.username[0] == "a":
@@ -184,7 +179,9 @@ def make_course(request):
 		mdead.save()
 		edead = Deadlines.objects.create(course=newcourse,name='EX',desc='End-Semester Exams',date=endsem,code = ccode)
 		edead.save()
-		return HttpResponse("Hello")
+		messages.add_message(request, messages.SUCCESS, 'Congratulations.New Course has been added!')
+		messages.add_message(request,messages.INFO,'You can add new students to the course by clicking Add/Remove Students in Running Courses Menu')
+		return redirect('admin_home')
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 
@@ -281,3 +278,4 @@ def modify(request):
 	 else:
 	 	usr.student.course_set.add(Course.objects.get(course_code=code))
 	 return HttpResponse("hello")
+

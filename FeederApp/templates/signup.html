@@ -10,12 +10,13 @@
 
 	{% load static %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/signup.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}" />
 	{% load static %}
 	<script type="text/javascript" src="{% static 'js/form-validation.js' %}"></script>
 	{% load static %}
 	<script type="text/javascript" src="{% static 'js/signup.js' %}"></script>
 </head>
-<body>
+<body style="background-image: url({% static 'images/background.jpg' %});background-size: cover;overflow:hidden">
 <div class="container">
 	{% if messages %}
       {% for message in messages %}
@@ -32,69 +33,40 @@
         </div>
         {% endif %}
       {% endfor %}
-  	{% endif %}    
-	<form class="form-horizontal" name="signup_form" id="signup_form" role="form" action = "/feeder/register/" method = "post">
-		{% csrf_token %}
-		<h2>Registration Form</h2>
-		<div class="form-group">
-			<label class="control-label col-sm-3">Role</label>
-			<div class="col-sm-9">
-				<div class="row" id="role">
-					<div class="col-sm-4">
-						<label class="radio-inline">
-							<input type="radio" name="role" id="instructor" value="Instructor" checked="checked" onchange="changerole();">Instructor
-						</label>
-					</div>
-					<div class="col-sm-4">
-						<label class="radio-inline">
-							<input type="radio" name="role" id="student" value="Student" onchange="changerole();">Student
-						</label>
-					</div>
-				</div>
+  	{% endif %}
+  	<div class = "logo" style="text-align: center;margin-top:-50px ">
+	{% load static %} <img src="{% static 'images/feeder_logo.png' %}"/>
+	</div>    
+  	<div class = "well" style="background-color: #000000;">
+  	<h4 style="color:#ffffff;text-align:center;margin-bottom:-30px">Registration Form for Instructor</h2>   
+  	<form class="anim-form" method="post" action="/feeder/register/">
+			{% csrf_token %}
+			<div class="form-group">
+			<div class = "col-sm-6">
+				<input required id="firstname" class="textinput1" name="firstname" placeholder="First Name">
 			</div>
-		</div>
-		<div class="form-group hidden student">
-			<label for="rollnumber" class="col-sm-3 control-label">Roll No.</label>
-			<div class="col-sm-9">
-				<input type="text" id="rollnumber" name="rollnumber" placeholder="Enter Your Roll Number" class="form-control" autofocus>
+			<div class = "col-sm-6">
+				<input required id="lastname" class="textinput1" name="lastname" placeholder="Last Name">
 			</div>
-		</div>
-		<div class="form-group">
-			<label for="name" class="col-sm-3 control-label">Full Name</label>
-			<div class="col-sm-5">
-				<input type="text" id="firstname" name="firstname" placeholder="First Name" class="form-control">
 			</div>
-			<div class="col-sm-4">
-				<input type="text" id="lastname" name="lastname" placeholder="Last Name" class="form-control">
+			<div class="form-group">
+				<input type="email" name = "email" class = "textinput" required id="email" placeholder="Email">
 			</div>
-		</div>
-		<div class="form-group">
-			<label for="email" class="col-sm-3 control-label">Email</label>
-			<div class="col-sm-9">
-				<input type="email" id="email" name="email" placeholder="Enter Your Email ID" class="form-control">
+			<div class="form-group">
+				<input type="password" name = "password" class = "textinput" required id="password" placeholder="Password">
 			</div>
-		</div>
-		<div class="form-group">
-			<label for="password" class="col-sm-3 control-label">Password</label>
-			<div class="col-sm-9">
-				<input type="password" id="password" name="password" placeholder="Create a Password" class="form-control">
+			<div class="form-group">
+				<input type="password" name = "cnfm_password" class = "textinput" required id="cnfm_password" placeholder=" Confirm Password">
 			</div>
-		</div>
-		<div class="form-group">
-			<label for="cnfm_password" class="col-sm-3 control-label">Confirm Password</label>
-			<div class="col-sm-9">
-				<input type="password" id="cnfm_password" name="cnfm_password" placeholder="Confirm Your Password" class="form-control">
+			<div class="form-group" style = "margin-bottom: 100px">
+			<label for="birthDate" style="color:#ffffff;margin-left: 20px" class="col-sm-3 control-label">Date of Birth</label>
+			<div class="col-sm-8">
+				<input type="date" id="birthdate" name="birthdate" class="form-control" style="margin-top:-5px">
 			</div>
-		</div>
-		<div class="form-group">
-			<label for="birthDate" class="col-sm-3 control-label">Date of Birth</label>
-			<div class="col-sm-9">
-				<input type="date" id="birthdate" name="birthdate"class="form-control">
 			</div>
-		</div>
-		<div class="form-group">
-			<label for="branch" class="col-sm-3 control-label">Department</label>
-			<div class="col-sm-9">
+			<div class="form-group" style = "margin-bottom: 150px">
+			<label for="branch" style="color:#ffffff;margin-left: 20px" class="col-sm-3 control-label">Department</label>
+			<div class="col-sm-8">
 				<select name ="branch" class="form-control">
 					<option>Select Your Department</option>
 					<option value="CS">Computer Science and Engineering</option>
@@ -104,36 +76,10 @@
 				</select>
 			</div>
 		</div>
-		<div class="form-group hidden student">
-			<label for="program" class="col-sm-3 control-label">Program</label>
-			<div class="col-sm-9">
-				<select name="program" class="form-control">
-					<option>Select Your Program</option>
-					<option value="BT">Bachelor of Technology</option>
-					<option value="MT">Master of Technology</option>
-					<option value="DD">Dual Degree</option>
-				</select>
-			</div>
-		</div>
-		<div class="form-group program hidden student">
-			<label for="programyear" class="col-sm-3 control-label">Year</label>
-			<div class="col-sm-9">
-				<select name="programyear" class="form-control">
-					<option>Select Your Year of Study</option>
-					<option value="1">First</option>
-					<option value="2">Second</option>
-					<option value="3">Third</option>
-					<option value="4">Fourth</option>
-					<option value="5">Fifth</option>
-				</select>
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="col-sm-9 col-sm-offset-3">
-				<button type="submit" class="btn btn-primary btn-block">Register</button>
-			</div>
-		</div>
-	</form>
+			<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4" style="background-color: #3F42F0"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Register</button>
+			<!-- Add captcha feature if possible -->
+		</form>
+	</div>
 </div>
 </body>
 </html>

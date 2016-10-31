@@ -16,44 +16,10 @@ body {
 	margin: 20px auto;
 }
 
-form {
-	padding: 20px;
-	/*background: #35FFA9;*/
-	/*color: #1D8358;*/
-}
-form h2 {
-	text-align: center;
-}
-form label,
-form input,
-form button {
-	border: 0;
-	margin-bottom: 3px;
-	display: block;
-}
-form input {
-	height: 25px;
-	line-height: 25px;
-	background: #fff;
-	color: #000;
-	padding: 0 6px;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-}
-form input[type=radio] {
-	height: 12.5px;
-}
-form .hidden {
-	display: none;
-}
-form button {
-	height: 30px;
-	line-height: 30px;
-	background: #e67e22;
-	color: #fff;
-	margin-top: 10px;
-	cursor: pointer;
+.well {
+  width:600px;
+  height: 500px;
+  box-shadow: 10px 10px 5px #888888;
 }
 form .error {
 	color: #ff0000;

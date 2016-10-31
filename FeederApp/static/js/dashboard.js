@@ -8,9 +8,10 @@ $(document).ready(function () {
 			$parent.addClass('active');
 		}
 		$('#navind').text($(this).text());
-		// alert(this.id);
+		//alert(this.id);
 		$('#mainframe').load(this.id);
 	});
+	
 });
 
 // function load_home() {

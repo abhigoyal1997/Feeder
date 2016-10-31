@@ -1,9 +1,16 @@
-<!doctype html>
-<head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<title>Feeder</title>
+<style>
+input
+{
+	width:70px;
+	height:30px;
+	border-radius: 5px;
+	background: #3F42F0;
+	color:#ffffff;
+	box-shadow: 2px 2px 2px #000000;
+	border:0px;
+    
+}
+</style>
 <script>
 $(document).ready(function()
 {
@@ -30,10 +37,7 @@ $(document).ready(function()
 	});
 });
 </script>
-</head>
-<body>
-<div class="container">
-<table class="table">
+<table class="table table-condensed" style="border-bottom: 0.5px solid #ccc;">
 	<thead>
 	  <tr>
 		<th>First Name</th>
@@ -47,7 +51,7 @@ $(document).ready(function()
 	</thead>
 	<tbody>
 	  {% for student in students %}
-	  <tr>
+	  <tr style="max-height: 10px">
 		<td>{{student.user.first_name}}</td>
 		<td>{{student.user.last_name}}</td>
 		<td>{{student.roll_number}}</td>
@@ -66,4 +70,3 @@ $(document).ready(function()
 			
 	</tbody>
 </table>
-</div>
