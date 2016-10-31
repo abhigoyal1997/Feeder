@@ -24,7 +24,7 @@ urlpatterns = [
 	url(r'^viewfeedback$',views.view_feedback,name='view_feedback'),
 	url(r'^createfeedback$',views.make_feedback,name='make_feedback'),
 	url(r'^createdeadline$',views.make_deadline,name='make_deadline'),
-	url(r'^instructor_profile$',views.instprofile,name='instprofile')
+	url(r'^instructor_profile$',views.instprofile,name='instprofile'),
 	url(r'^addsttocourse/(?P<code>[A-Z]{2}[-][0-9]{3})$',views.add_stud_to_course,name='add_stud_to_course'),
 	url(r'^ajax/modify/$',views.modify,name='modify'),
 ]
