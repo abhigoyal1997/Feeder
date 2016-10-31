@@ -15,6 +15,14 @@ body {
   padding-bottom: 10px;
 }
 
+.hidden-row {
+  padding: 0 !important;
+}
+
+.hidden {
+  display: none;
+}
+
 /*
  * Top navigation
  * Hide default border to remove 1px line.

@@ -8,7 +8,7 @@
 <title>Feeder</title>
 </head>
 <body>
-<div class="container">
+<div class="container anim-form">
 	{% if messages %}
 	{% for message in messages %}
 	{% if 'success' in message.tags %}
@@ -34,7 +34,7 @@
 	<div class ="tab-content">
 
 	<div id="student" class="tab-pane fade">
-		<form class="anim-form" method="post" action="authstudent">
+		<form method="post" action="authstudent">
 			{% csrf_token %}
 			<div class="form-group">
 				<input type="email" name = "email" class="textinput" required id="email" placeholder="Email ID">

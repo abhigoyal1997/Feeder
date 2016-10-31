@@ -186,6 +186,8 @@ def make_course(request):
 		edead = Deadlines.objects.create(course=newcourse,name='EX',desc='End-Semester Exams',date=endsem,code = ccode)
 		edead.save()
 		return HttpResponse("Hello")
+	else:
+		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 
 def update_admin(request):
 	if request.user.username[0] == "a":

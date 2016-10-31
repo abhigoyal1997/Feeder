@@ -23,7 +23,7 @@ urlpatterns = [
 	url(r'^adddeadline$',views.add_deadline,name='add_deadline'),
 	url(r'^viewdeadline$',views.view_deadline,name='view_deadline'),
 	url(r'^viewfeedback$',views.view_feedback,name='view_feedback'),
-	url(r'^instructor_profile$',views.instprofile,name='instprofile'),
 	url(r'^createfeedback$',views.make_feedback,name='make_feedback'),
 	url(r'^createdeadline$',views.make_deadline,name='make_deadline'),
+	url(r'^instructor_profile$',views.instprofile,name='instprofile')
 ]
