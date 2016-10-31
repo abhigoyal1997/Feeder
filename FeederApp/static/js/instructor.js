@@ -1,8 +1,9 @@
 function addquestion(x,y,z){
-	questions = document.getElementById("questions");
 	qcount = document.getElementById("qcount");
 	qcount.value = parseInt(qcount.value)+1;
-	questions.innerHTML = questions.innerHTML + "<input type'hidden' name='t"+qcount.value+"' value='"+z+"'><label for='q"+qcount.value+"'>Question "+qcount.value +"</label><input type='text' class='textinput' name = '"+x+"' required name='q"+qcount.value+"' placeholder='"+y+"'>"
+	var container = document.createElement("div");
+	container.innerHTML = "<input type='hidden' name='t"+qcount.value+"' value='"+z+"'><label for='q"+qcount.value+"'>Question "+qcount.value +"</label><input name='q"+qcount.value+"' type='text' class='textinput' required placeholder='"+y+"'>"; 
+	document.getElementById("questions").appendChild(container);
 }
 function validateFeedbackForm(){
 	qcount = document.getElementById("qcount");

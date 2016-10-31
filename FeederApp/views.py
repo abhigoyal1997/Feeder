@@ -215,14 +215,16 @@ def update_admin(request):
 def add_feedback(request):
 	if request.user.username[0] == "i":
 		return render(request,'add_feedback.html',{
-		'courses':Course.objects.all()
-	})
+			'courses':Course.objects.all()
+		})
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 
 def view_feedback(request):
 	if request.user.username[0] == "i":
-		return render(request,'view_feedback.html',{})
+		return render(request,'view_feedback.html',{
+			'courses':Course.objects.all()
+		})
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 
@@ -265,7 +267,7 @@ def make_feedback(request):
 		newfeedback.save()
 		return redirect(login)
 	else:
-		return HttpResponse("Over smart, huh??");
+		return HttpResponse("Try and try, you would succeed. Sure??");
 
 def make_deadline(request):
 	if request.user.username[0] == "i":
@@ -278,8 +280,18 @@ def make_deadline(request):
 		newdeadline.save()
 		return redirect(login)
 	else:
-		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
+		return HttpResponse("Over smart, huh??")
 
+def viewresponses(request, feedbackid):
+	if request.user.username[0] == "i":
+		return render(request,'renderresponses.html',{
+			'feedback':Feedback.objects.get(id=feedbackid)
+	})
+	else:
+		return HttpResponse("Ahh! I am too hard, I won't break!");
+
+def viewobjective(request, feedbackid):
+	return HttpResponse(feedbackid);
 
 def add_stud_to_course(request,code):
 	if request.user.username[0] == "a":
