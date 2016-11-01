@@ -59,23 +59,23 @@
 </style>
 </head>
 <body style="background-image: url({% static 'images/background.jpg' %});background-size: cover;overflow:hidden">
-<div class="container">
 	{% if messages %}
 	{% for message in messages %}
 	{% if 'success' in message.tags %}
-	<div class= "alert alert-success">
+	<div class= "alert alert-success" style=" width: 600px; position: relative; margin: auto;">
 		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 		<span{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</span>
 	</div>
 	{% endif %}
 	{% if 'error' in message.tags %}
-	<div class= "alert alert-danger">
+	<div class= "alert alert-danger" style=" width: 600px; position: relative; margin: auto;">
 		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 		<span{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</span>
 	</div>
 	{% endif %}
 	{% endfor %}
 	{% endif %}
+<div class="container" style="height: 500px">
 	<div class = "logo" style="text-align: center;margin-top:-50px ">
 	{% load static %} <img src="{% static 'images/feeder_logo.png' %}"/>
 	</div>    
