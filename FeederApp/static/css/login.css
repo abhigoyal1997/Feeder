@@ -11,10 +11,13 @@ body {
 }
 
 .container {
-  width: 500px;
-  margin: 90px auto;
-/*  color: #1D8358;*/  
+  width: 600px;
+  margin: auto;
   padding: 0 !important;
+  position: absolute;
+  top: 100px;
+  left: 0;
+  right: 0;
 }
 
 .logo

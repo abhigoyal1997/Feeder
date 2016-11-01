@@ -18,5 +18,5 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^feeder/',include('FeederApp.urls'))
+    url(r'',include('FeederApp.urls'))
 ]

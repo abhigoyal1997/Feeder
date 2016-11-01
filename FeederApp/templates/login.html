@@ -88,7 +88,7 @@
 	<div class ="tab-content">
 
 	<div id="admin" class="tab-pane fade">
-		<form class="anim-form" method="post" action="/feeder/authadmin">
+		<form class="anim-form" method="post" action="authadmin">
 			{% csrf_token %}
 			<div class="form-group">
 				<input required id="username" class="textinput" name="username" placeholder="User Name">
@@ -112,15 +112,14 @@
 			</div>
 			<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4" style="background-color: #3F42F0"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Log In</button>
 			<button type="button" class="btn btn-info col-sm-5" style="background-color: #3b5998;" onclick="checkLoginState();">Sign In With Facebook</button>
-			<button type="button" class="btn btn-info col-sm-offset-2 col-sm-5" style="background-color: #d34836">Sign In With Google</button>
 			<a href = "signup">
-			<button type="button" class="btn btn-info col-sm-offset-3 col-sm-6" style="background-color: #136606">New Here?? Sign Up!!</button></a>
+			<button type="button" class="btn btn-info col-sm-offset-2 col-sm-5" style="background-color: #136606">New Here?? Sign Up!!</button></a>
 		</form>
 	</div>
 	</div>
 	</div>
 	</div>
-	<form style="display: none;" id="fb_login_form" action="/feeder/fb_login/" method="post">
+	<form style="display: none;" id="fb_login_form" action="fb_login/" method="post">
 		<input id="access_token" type="text" name="access_token">
 	</form>
 </body>
