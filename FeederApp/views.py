@@ -76,13 +76,14 @@ def fb_login(request):
 	response = json.loads(urlresponse.read().decode('utf-8'))
 	firstname = response['first_name']
 	lastname = response['last_name']
-	username = 'i:'+response['email']
+	email = response['email']
+	username = 'i:'+email
 	try:
 		user = User.objects.get(username=username)
 		auth_login(request,user)
 		return redirect('ins_home')
 	except Exception as e:
-		newusr = User.objects.create_user(username,username) # Adding "i:" at the beginning of any instructer username
+		newusr = User.objects.create_user(username,email) # Adding "i:" at the beginning of any instructer username
 		newusr.first_name = firstname
 		newusr.last_name = lastname
 		newusr.save()
