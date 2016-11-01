@@ -9,6 +9,10 @@ from django.contrib.auth import login as auth_login
 from django.conf import settings
 from django.shortcuts import redirect
 from django.contrib.auth import logout
+import urllib.request
+import json
+import csv
+import io
 
 def login(request):
 	if request.user.is_authenticated:
@@ -66,9 +70,13 @@ def auth_inst(request):
 		return redirect('login')
 
 def fb_login(request):
-	firstname = request.POST['firstname']
-	lastname = request.POST['lastname']
-	username = "i:"+request.POST['email']
+	access_token = request.POST['access_token']
+	url = 'https://graph.facebook.com/v2.8/me?fields=first_name,last_name,email&access_token='+access_token
+	urlresponse = urllib.request.urlopen(url)
+	response = json.loads(urlresponse.read().decode('utf-8'))
+	firstname = response['first_name']
+	lastname = response['last_name']
+	username = 'i:'+response['email']
 	try:
 		user = User.objects.get(username=username)
 		auth_login(request,user)
@@ -86,16 +94,26 @@ def fb_login(request):
 def admin_home(request):
 	if not request.user.is_authenticated:
 		return redirect(login)
-	if not request.user.username == "a:admin@feeder.com":
-		return redirect(login)
-	return render(request,'admin_home.html',{})
+	try:
+		user = User.objects.get(username=request.user.username)
+		if not request.user.username[0] == "a":
+			return HttpResponse('Page not Found')
+		return render(request,'admin_home.html',{
+			'admin':request.user
+		})
+	except Exception as e:
+		return HttpResponse('Does not exist')
 
 def ins_home(request):
 	if not request.user.is_authenticated:
 		return redirect(login)
-	if not request.user.username[0] == "i":
-		return redirect(login)
-	return render(request,'instructor_home.html',{})
+	try:
+		user = User.objects.get(username=request.user.username)
+		if not request.user.username[0] == "i":
+			return HttpResponse('Page not Found')
+		return render(request,'instructor_home.html',{})
+	except Exception as e:
+		return HttpResponse('Page not Found')
 
 def logout_view(request):
 	if request.user.username[0] == "a":
@@ -143,6 +161,7 @@ def make_course(request):
 		cname = request.POST['cname']
 		ccode = request.POST['ccode']
 		duration = request.POST.get('duration')
+		duration = int(duration)/2.0
 		branch = request.POST.get('branch')
 		credits = request.POST.get('credit')
 		midsem = request.POST['midsem']
@@ -203,6 +222,7 @@ def update_admin(request):
 			user.first_name = firstname
 			user.last_name = lastname
 			user.email = email
+			user.username = 'a:'+email
 			user.save()
 			messages.success(request, 'Profile Successfully Updated')
 			return redirect('admin_home')
@@ -215,14 +235,16 @@ def update_admin(request):
 def add_feedback(request):
 	if request.user.username[0] == "i":
 		return render(request,'add_feedback.html',{
-		'courses':Course.objects.all()
-	})
+			'courses':Course.objects.all()
+		})
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 
 def view_feedback(request):
 	if request.user.username[0] == "i":
-		return render(request,'view_feedback.html',{})
+		return render(request,'view_feedback.html',{
+			'courses':Course.objects.all()
+		})
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 
@@ -265,7 +287,7 @@ def make_feedback(request):
 		newfeedback.save()
 		return redirect(login)
 	else:
-		return HttpResponse("Over smart, huh??");
+		return HttpResponse("Try and try, you would succeed. Sure??");
 
 def make_deadline(request):
 	if request.user.username[0] == "i":
@@ -278,8 +300,18 @@ def make_deadline(request):
 		newdeadline.save()
 		return redirect(login)
 	else:
-		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
+		return HttpResponse("Over smart, huh??")
 
+def viewresponses(request, feedbackid):
+	if request.user.username[0] == "i":
+		return render(request,'renderresponses.html',{
+			'feedback':Feedback.objects.get(id=feedbackid)
+	})
+	else:
+		return HttpResponse("Ahh! I am too hard, I won't break!");
+
+def viewobjective(request, feedbackid):
+	return HttpResponse(feedbackid);
 
 def add_stud_to_course(request,code):
 	if request.user.username[0] == "a":
@@ -301,3 +333,18 @@ def modify(request):
 	 else:
 	 	usr.student.course_set.add(Course.objects.get(course_code=code))
 	 return HttpResponse("hello")
+
+def updatedatabase(request):
+	csvf = request.FILES["studentscsv"]
+	for a in csvf:
+		row = a.decode("utf-8").split(',')
+		if {'username' : "s:" + row[0]} in User.objects.all().values('username'):
+			continue
+		else:
+			usr = User.objects.create_user("s:"+row[0],row[0],row[1])
+			usr.first_name = row[3]
+			usr.last_name = row[4]
+			usr.save()
+			newstudent = Student.objects.create(user = usr,roll_number = row[2])
+			newstudent.save()
+	return redirect('login')

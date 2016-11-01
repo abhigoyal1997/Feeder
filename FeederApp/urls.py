@@ -28,4 +28,7 @@ urlpatterns = [
 	url(r'^addsttocourse/(?P<code>[A-Z]{2}[-][0-9]{3})$',views.add_stud_to_course,name='add_stud_to_course'),
 	url(r'^ajax/modify/$',views.modify,name='modify'),
 	url(r'^fb_login/$',views.fb_login,name='fb_login'),
+	url(r'^viewresponses/(?P<feedbackid>\w{0,50})$',views.viewresponses,name='viewresponses'),	
+	url(r'^viewobjective/(?P<feedbackid>\w{0,50})$',views.viewobjective,name='viewobjective'),	
+	url(r'^updatedatabase$',views.updatedatabase,name='updatedatabase'),
 ]

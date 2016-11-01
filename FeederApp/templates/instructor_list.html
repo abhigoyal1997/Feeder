@@ -4,6 +4,7 @@
 	  <tr>
 		<th>First Name</th>
 		<th>Last Name</th>
+		<th>Email ID</th>
 		<th>Branch</th>
 	  </tr>
 	</thead>
@@ -12,6 +13,7 @@
 	  <tr class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" data-target="#acc{{ forloop.counter }}">
 		<td>{{instructor.user.first_name}}</td>
 		<td>{{instructor.user.last_name}}</td>
+		<td>{{instructor.user.email}}</td>
 		<td>{{instructor.get_instructor_branch_display}}</td>
 	  </tr>
 	  <tr>

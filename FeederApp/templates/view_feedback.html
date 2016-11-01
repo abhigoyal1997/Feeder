@@ -1,5 +1,4 @@
 <p align="center">Click on a course to view its list of feedbacks</p>
-It is {% now "jS F Y H:i" %}
 <table class="table">
 
 	<thead>
@@ -26,19 +25,19 @@ It is {% now "jS F Y H:i" %}
 				<table class="table table-condensed" style="border-bottom: 0.5px solid #ccc;">
 					<thead>
 						<tr>
-							<th>#</th>
 							<th>Deadline</th>
 							<th>Feedback Name</th>
-							<th>View </th>
+							<th>Student Responses</th>
+							<th>Aggregate Results for Objective Questions</th>
 						</tr>
 					</thead>
 					<tbody>
-						{% for deadline in course.deadlines_set.all %}
+						{% for feedback in course.feedback_set.all %}
 						<tr>
-							<td>{{forloop.counter}}</td>
-	  					<td>{{deadline.get_name_display}}</td>
-	  					<td>{{deadline.desc}}</td>
-	  					<td>{{deadline.date}}</td>
+	  					<td>{{feedback.deadline.date}}</td>
+	  					<td>{{feedback.name}}</td>
+	  					<td><a href="/feeder/viewresponses/{{feedback.id}}" target="_blank">View</a></td>
+	  					<td>View</td>
 						</tr>
 						{% endfor %}
 					</tbody>
