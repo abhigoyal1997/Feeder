@@ -12,6 +12,7 @@ from django.contrib.auth import logout
 import urllib.request
 import json
 import csv
+import io
 
 def login(request):
 	if request.user.is_authenticated:
@@ -324,21 +325,20 @@ def modify(request):
 	 return HttpResponse("hello")
 
 def updatedatabase(request):
-	csvf = request.POST.get('studentscsv')
-	with open(csvf) as csvfile:
-		reader = csv.DictReader(csvfile)
-		for row in reader:
-			try:
-				usr = User.objects.get(username = "s:"+row[0])
-			except User.DoesNotExist:
-				usr = User.objects.create_user("s:"+row[0],row[0],row[1])
-				usr.first_name = row[2]
-				usr.lastname = row[3]
-				usr.save()
-				if row[5] is None:
-					newstudent = Student.objects.create(user = usr,roll_number = row[4],student_branch=row[5],student_dob=row[6],student_program=row[7],student_year=row[8])
-				else:
-					newstudent = Student.objects.create(user = usr,roll_number = row[4],student_branch='CS',student_dob=row[6],student_program=row[7],student_year=row[8])
-				newstudent.save()
+	csvf = request.FILES["studentscsv"]
+	for a in csvf:
+		row = a.decode("utf-8").split(',')
+		if {'username' : "s:" + row[0]} in User.objects.all().values('username'):
+			# messages.add_message(request, messages.ERROR, 'Username Already Exists.')
+			# return redirect('signup')
+			continue
+		else:
+			usr = User.objects.create_user("s:"+row[0],row[0],row[1])
+			usr.first_name = row[3]
+			# usr.lastname = row[4]
+			usr.save()
+			newstudent = Student.objects.create(user = usr,roll_number = row[2])
+			newstudent.save()
+	return redirect('login')
 	# except:
 	# 	return HttpResponse("File format not correct, please upload a proper csv file")
