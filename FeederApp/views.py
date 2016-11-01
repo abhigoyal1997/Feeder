@@ -324,23 +324,21 @@ def modify(request):
 	 return HttpResponse("hello")
 
 def updatedatabase(request):
-	csvfile = request.POST.det('studentscsv')
-	try:
-		with open('csvfile') as csvfile:
-			reader = csv.DictReader(csvfile)
-			for row in reader:
-				try:
-					usr = User.objects.get(username = "s:"+row[0])
-				except User.DoesNotExist:
-					usr = User.objects.create_user("s:"+row[0],row[0],row[1])
-					usr.first_name = row[1]
-					usr.lastname = row[2]
-					usr.save()
-					if row[3] is None:
-						newstudent = Student.objects.create(user = usr,student_branch=row[3],student_dob=row[4],student_program=row[5],student_year=row[6])
-					else:
-						newstudent = Student.objects.create(user = usr,student_branch='CS',student_dob=row[4],student_program=row[5],student_year=row[6])
-					newstudent.save()
-					# newstudent = Student.objects.createnew
-	except:
-		return HttpResponse("File format not correct, please upload a proper csv file")
+	csvf = request.POST.get('studentscsv')
+	with open(csvf) as csvfile:
+		reader = csv.DictReader(csvfile)
+		for row in reader:
+			try:
+				usr = User.objects.get(username = "s:"+row[0])
+			except User.DoesNotExist:
+				usr = User.objects.create_user("s:"+row[0],row[0],row[1])
+				usr.first_name = row[2]
+				usr.lastname = row[3]
+				usr.save()
+				if row[5] is None:
+					newstudent = Student.objects.create(user = usr,roll_number = row[4],student_branch=row[5],student_dob=row[6],student_program=row[7],student_year=row[8])
+				else:
+					newstudent = Student.objects.create(user = usr,roll_number = row[4],student_branch='CS',student_dob=row[6],student_program=row[7],student_year=row[8])
+				newstudent.save()
+	# except:
+	# 	return HttpResponse("File format not correct, please upload a proper csv file")

@@ -69,14 +69,14 @@
 	{% endfor %}
 	{% endif %} 
 	<h1 align="center"> Welcome {{ admin.first_name }} {{ admin.last_name }}!</h1>
-	<div class = "well" style="margin-top:12%;margin-left:200px;height:230px;background-color: #000000;color:#ffffff">
+	<div class = "well" style="margin-top:12%;margin-left:200px;height:235px;background-color: #000000;color:#ffffff">
 		<div class="form anim-form">
 			<p align="center" color="#B6BAE5"><b> Update students database (Upload the csv file containing student details)</b></p>
-			<p align="center"> email* | password* | firstname | lastname | branch | dob | program | year</p>
+			<p align="center"> email*|password*|rollnumber|firstname|lastname|branch|dob|program|year</p>
 			<p align="right">* Required fields</p>
 			<form method="post" action="updatedatabase" align="center">
 				{% csrf_token %}
-				<input type="file" name="studentscsv" name="studentscsv" style="margin-left:35%;margin-bottom:30px;margin-top:30px;">
+				<input type="file" name="studentscsv" id="studentscsv" style="margin-left:35%;margin-bottom:30px;margin-top:30px;">
 				<div>
 					<button type="submit" style="background-color:#3F42F0"" class="btn btn-info btn-file">Upload</button>
 				</div>
