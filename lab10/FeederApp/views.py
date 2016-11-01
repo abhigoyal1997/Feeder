@@ -48,8 +48,8 @@ def register(request):
 	return redirect('login')
 
 def auth_admin(request):
+	adminname = request.POST['email']
 	password = request.POST['password']
-	adminname = request.POST['username']
 	user = authenticate(username="a:"+adminname, password=password)
 	if user is not None:
 		auth_login(request,user)

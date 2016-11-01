@@ -8,9 +8,6 @@ $(document).ready(function () {
 			$parent.addClass('active');
 		}
 		$('#navind').text($(this).text());
-		//alert(this.id);
 		$('#mainframe').load(this.id);
-	});
-	
+	});	
 });
-

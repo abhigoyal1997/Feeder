@@ -1,19 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	{% load static %}
-	<link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/signup.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
-	<script src="{% static 'js/dashboard.js' %}"></script>
-	<title>
-		Home
-	</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+<title>Home</title>
 </head>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -22,8 +16,7 @@
 				<div class="col-sm-3 col-md-2 nav-header">
 					<a class="navbar-brand" href="#">Feeder</a>
 				</div>
-				<div class="col-sm-9 col-md-10" style="background-color: #B6BAE5" id="navind">
-					Home	
+				<div class="col-sm-9 col-md-10" style="background-color: #B6BAE5" id="navind">&nbsp;&nbsp;Home	
 				</div>
 			</div>
 		</div>
@@ -39,14 +32,14 @@
 		            <li><a href="#" id="instructors"><span class = "glyphicon glyphicon-user"></span>&nbsp;&nbsp;Instructors</a></li>
 				</ul>
 				<ul class="nav nav-sidebar sidebar-bottom">
-					<li><a href="#" id="admin_profile"><span class="glyphicon glyphicon-user"></span>Profile</a></li>
-					<li><a href="logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+					<li><a href="#" id="admin_profile"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Profile</a></li>
+					<li><a href="logout"><span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;Logout</a></li>
 				</ul>
 			</div>
 		</div>		
 	</div>
 	<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2" id="mainframe" >
-		{% if messages %}
+	{% if messages %}
 	{% for message in messages %}
 	{% if 'success' in message.tags %}
 	<div class= "alert alert-success">
@@ -68,21 +61,45 @@
 	{% endif %}
 	{% endfor %}
 	{% endif %} 
-	<h1 align="center"> Welcome {{ admin.first_name }} {{ admin.last_name }}!</h1>
-	<div class = "well" style="margin-top:12%;margin-left:200px;height:235px;background-color: #000000;color:#ffffff">
+	<h1 align="center">Welcome {{ admin.first_name }} {{ admin.last_name }}!</h1>
+	<div class = "well" style="height:300px;">
 		<div class="form anim-form">
-			<p align="center" color="#B6BAE5"><b> Update students database (Upload the csv file containing student details)</b></p>
-			<p align="center"> email*|password*|rollnumber|firstname|lastname</p>
-			<p align="right">* Required fields</p>
-			<form method="post" action="updatedatabase" align="center" enctype="multipart/form-data">
-				{% csrf_token %}
-				<input type="file" name="studentscsv" id="studentscsv" style="margin-left:35%;margin-bottom:30px;margin-top:30px;" >
-				<div>
-					<button type="submit" style="background-color:#3F42F0"" class="btn btn-info btn-file">Upload</button>
+			<h5 style="color:#fff;text-align:center;">Update students database (Upload the csv file containing student details)</h5>
+			<p style="color:#fff;text-align:center;"> email*|password*|rollnumber|firstname|lastname</p>
+			<p style="color:#fff;text-align:right;">* Required fields</p>
+			<form class="form-anim" method="post" action="updatedatabase" style="align-content: center;" enctype="multipart/form-data">
+			{% csrf_token %}
+				<div class="col-sm-5" style="margin-left: 30%;">
+					<input type="file" name="studentscsv" id="file" class="input-file" required onchange="changeFile()">
+					<label for="file" style="background-color:#3F42F0" class="btn btn-info btn-file">Choose a file</label>
+				</div>
+				<div class="col-sm-4" style="margin: 30px 0; margin-left: -40px; padding: 0; color: #fff;" id="file-name">No File Chosen</div>
+				<div class="col-sm-4" style="margin-left: 35%;">
+					<button type="submit" style="background-color:#3F42F0" class="btn btn-info btn-file">Upload</button>
 				</div>
 			</form>
 		</div>
 	</div>
 	</div>
 </body>
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('.nav li a').click(function(e) {
+
+			$('.nav li').removeClass('active');
+
+			var $parent = $(this).parent();
+			if (!$parent.hasClass('active')) {
+				$parent.addClass('active');
+			}
+			$('#navind').text($(this).text());
+			$('#mainframe').load(this.id);
+		});	
+	});
+
+	function changeFile() {
+		var filename = $('#file').val().replace(/^.*[\\\/]/, '')
+		$('#file-name').text(filename);
+	}
+</script>
 </html>

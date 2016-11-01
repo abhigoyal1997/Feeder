@@ -1,30 +1,30 @@
-<table class="table">
-<thead>
-	<tr>
-		<th>Course Code</th>
-		<th>Course Name</th>
-		<th>Department</th>
-		<th>Course Credits</th>
-		<th>Duration</th>
-		<th>Modify</th>
-	</tr>
-</thead>
-<tbody>
-	{% for course in courses %}
-	<tr>
-		<td>{{course.course_code}}</td>
-		<td>{{course.course_name}}</td>
-		<td>{{course.course_branch}}</td>
-		<td>{{course.course_credits}}</td>
-		<td>{{course.course_duration}}</td>
-		<td><a href = "#" class="modify" id = "addsttocourse/{{course.course_code}}">Add/Remove Student</a></td> 
-	</tr>
-	{% endfor %}
-</tbody>
+<table class="table table-condensed" style="border-bottom: 0.5px solid #ccc;">
+	<thead>
+		<tr>
+			<th>Course Code</th>
+			<th>Course Name</th>
+			<th>Department</th>
+			<th>Course Credits</th>
+			<th>Duration</th>
+			<th>Modify</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for course in courses %}
+		<tr>
+			<td>{{course.course_code}}</td>
+			<td>{{course.course_name}}</td>
+			<td>{{course.course_branch}}</td>
+			<td>{{course.course_credits}}</td>
+			<td>{{course.course_duration}}</td>
+			<td><a href = "#" class="modify" id = "addsttocourse/{{course.course_code}}">Add/Remove Student</a></td> 
+		</tr>
+		{% endfor %}
+	</tbody>
 </table>
 <script>
 $('.modify').click(function(){
-		$('#navind').text("Add/Remove Students")
-		$('#mainframe').load(this.id)
-	});
+	$('#navind').text("Add/Remove Students")
+	$('#mainframe').load(this.id)
+});
 </script>

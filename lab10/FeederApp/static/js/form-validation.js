@@ -1,7 +1,7 @@
 $().ready(function() {
 	$("#signup_form").validate({
 	rules: {
-		name: {
+		first_name: {
 		required: true,
 		maxlength: 100
 		},
