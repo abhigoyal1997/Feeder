@@ -15,7 +15,7 @@ body {
   margin: auto;
   padding: 0 !important;
   position: absolute;
-  top: 150px;
+  top: 100px;
   left: 0;
   right: 0;
 }
@@ -63,10 +63,16 @@ width:600px;
   padding: 0;
 }
 
-
+.alert {
+   width: 600px;
+   position: relative;
+   margin: auto;
+   margin-top: 30px; 
+}
 
 .anim-form .textinput-sm {
   width: 50% !important;
+  color: #fff;
 }
 
 .anim-form .textinput {
@@ -83,7 +89,7 @@ width:600px;
  background-position: -500px 0;
  background-size: 100% 100%;
  background-repeat: no-repeat;
- color: #0e6252;
+ color: #fff;
 }
 
 .anim-form .textinput:focus,
@@ -112,7 +118,7 @@ width:600px;
  width: 100%;
  display: block;
  border: none;
- padding: 10px 0;
+ padding: 0px 0;
  border-bottom: solid 1px #1abc9c;
  -webkit-transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
  transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
@@ -121,7 +127,7 @@ width:600px;
  background-position: -500px 0;
  background-size: 100% 100%;
  background-repeat: no-repeat;
- color: #0e6252;
+ color: #fff;
 }
 
 .anim-form .textinput1:focus,

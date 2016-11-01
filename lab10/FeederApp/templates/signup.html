@@ -16,29 +16,23 @@
 	<script type="text/javascript" src="{% static 'js/signup.js' %}"></script>
 </head>
 <body style="background-image: url({% static 'images/background.jpg' %});background-size: cover;overflow:hidden">
-<div class="container">
-	{% if messages %}
-      {% for message in messages %}
-        {% if 'success' in message.tags %}
-        <div class= "alert alert-success">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <span{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</span>
-        </div>
-        {% endif %}
-        {% if 'error' in message.tags %}
-        <div class= "alert alert-danger">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <span{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</span>
-        </div>
-        {% endif %}
-      {% endfor %}
-  	{% endif %}
-  	<div class = "logo" style="text-align: center;margin-top:-50px ">
-	{% load static %} <img src="{% static 'images/feeder_logo.png' %}"/>
+{% if messages %}
+	{% for message in messages %}
+	{% if 'error' in message.tags %}
+	<div class= "alert alert-danger" style="margin-top: 0;">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<span{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</span>
+	</div>
+	{% endif %}
+	{% endfor %}
+{% endif %}
+<div class="container" style="top: 50px;">
+  	<div class = "logo" style="text-align: center; height: 100px;">
+	{% load static %} <img src="{% static 'images/feeder_logo.png' %}" style="height: 100px" />
 	</div>    
-  	<div class = "well" style="background-color: #000000;">
+  	<div class = "well" style="background-color: #000000; height: 500px;">
   	<h4 style="color:#ffffff;text-align:center;margin-bottom:-30px">Registration Form for Instructor</h2>   
-  	<form class="anim-form" method="post" action="/feeder/register/">
+  	<form class="anim-form" id="signup_form" method="post" action="/register/">
 			{% csrf_token %}
 			<div class="form-group">
 			<div class = "col-sm-6">

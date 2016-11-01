@@ -34,7 +34,7 @@ def register(request):
 	dob = request.POST['birthdate']
 	password = request.POST['password']
 	branch = request.POST.get('branch')
-	if {'username' : email} in list(map(lambda x:x[2:],User.objects.all().values('username'))):
+	if email in list(map(lambda x:x['username'][2:],User.objects.all().values('username'))):
 		messages.add_message(request, messages.ERROR, 'Username Already Exists.')
 		return redirect('signup')
 	else:
