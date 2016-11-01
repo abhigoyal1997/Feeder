@@ -19,7 +19,7 @@ $(document).ready(function()
 		ii = this.id
 		$.ajax({
 		type: 'POST',
-        url: '/feeder/ajax/modify/',
+        url: '/ajax/modify/',
         data: {
           csrfmiddlewaretoken: '{{ csrf_token }}',
           'id': this.id,
