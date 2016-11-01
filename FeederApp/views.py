@@ -9,6 +9,8 @@ from django.contrib.auth import login as auth_login
 from django.conf import settings
 from django.shortcuts import redirect
 from django.contrib.auth import logout
+import urllib.request
+import json
 
 def login(request):
 	if request.user.is_authenticated:
@@ -66,9 +68,13 @@ def auth_inst(request):
 		return redirect('login')
 
 def fb_login(request):
-	firstname = request.POST['firstname']
-	lastname = request.POST['lastname']
-	username = "i:"+request.POST['email']
+	access_token = request.POST['access_token']
+	url = 'https://graph.facebook.com/v2.8/me?fields=first_name,last_name,email&access_token='+access_token
+	urlresponse = urllib.request.urlopen(url)
+	response = json.loads(urlresponse.read().decode('utf-8'))
+	firstname = response['first_name']
+	lastname = response['last_name']
+	username = 'i:'+response['email']
 	try:
 		user = User.objects.get(username=username)
 		auth_login(request,user)
@@ -87,14 +93,14 @@ def admin_home(request):
 	if not request.user.is_authenticated:
 		return redirect(login)
 	if not request.user.username == "a:admin@feeder.com":
-		return redirect(login)
+		return HttpResponse('Page not Found')
 	return render(request,'admin_home.html',{})
 
 def ins_home(request):
 	if not request.user.is_authenticated:
 		return redirect(login)
 	if not request.user.username[0] == "i":
-		return redirect(login)
+		return HttpResponse('Page not Found')
 	return render(request,'instructor_home.html',{})
 
 def logout_view(request):
