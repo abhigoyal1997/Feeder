@@ -11,6 +11,7 @@ from django.shortcuts import redirect
 from django.contrib.auth import logout
 import urllib.request
 import json
+import csv
 
 def login(request):
 	if request.user.is_authenticated:
@@ -94,7 +95,9 @@ def admin_home(request):
 		return redirect(login)
 	if not request.user.username == "a:admin@feeder.com":
 		return HttpResponse('Page not Found')
-	return render(request,'admin_home.html',{})
+	return render(request,'admin_home.html',{
+			'admin':request.user
+		})
 
 def ins_home(request):
 	if not request.user.is_authenticated:
@@ -319,3 +322,25 @@ def modify(request):
 	 else:
 	 	usr.student.course_set.add(Course.objects.get(course_code=code))
 	 return HttpResponse("hello")
+
+def updatedatabase(request):
+	csvfile = request.POST.det('studentscsv')
+	try:
+		with open('csvfile') as csvfile:
+			reader = csv.DictReader(csvfile)
+			for row in reader:
+				try:
+					usr = User.objects.get(username = "s:"+row[0])
+				except User.DoesNotExist:
+					usr = User.objects.create_user("s:"+row[0],row[0],row[1])
+					usr.first_name = row[1]
+					usr.lastname = row[2]
+					usr.save()
+					if row[3] is None:
+						newstudent = Student.objects.create(user = usr,student_branch=row[3],student_dob=row[4],student_program=row[5],student_year=row[6])
+					else:
+						newstudent = Student.objects.create(user = usr,student_branch='CS',student_dob=row[4],student_program=row[5],student_year=row[6])
+					newstudent.save()
+					# newstudent = Student.objects.createnew
+	except:
+		return HttpResponse("File format not correct, please upload a proper csv file")
