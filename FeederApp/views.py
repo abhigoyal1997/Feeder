@@ -94,18 +94,26 @@ def fb_login(request):
 def admin_home(request):
 	if not request.user.is_authenticated:
 		return redirect(login)
-	if not request.user.username == "a:admin@feeder.com":
-		return HttpResponse('Page not Found')
-	return render(request,'admin_home.html',{
+	try:
+		user = User.objects.get(username=request.user.username)
+		if not request.user.username[0] == "a":
+			return HttpResponse('Page not Found')
+		return render(request,'admin_home.html',{
 			'admin':request.user
 		})
+	except Exception as e:
+		return HttpResponse('Does not exist')
 
 def ins_home(request):
 	if not request.user.is_authenticated:
 		return redirect(login)
-	if not request.user.username[0] == "i":
+	try:
+		user = User.objects.get(username=request.user.username)
+		if not request.user.username[0] == "i":
+			return HttpResponse('Page not Found')
+		return render(request,'instructor_home.html',{})
+	except Exception as e:
 		return HttpResponse('Page not Found')
-	return render(request,'instructor_home.html',{})
 
 def logout_view(request):
 	if request.user.username[0] == "a":
@@ -153,6 +161,7 @@ def make_course(request):
 		cname = request.POST['cname']
 		ccode = request.POST['ccode']
 		duration = request.POST.get('duration')
+		duration = int(duration)/2.0
 		branch = request.POST.get('branch')
 		credits = request.POST.get('credit')
 		midsem = request.POST['midsem']
@@ -213,6 +222,7 @@ def update_admin(request):
 			user.first_name = firstname
 			user.last_name = lastname
 			user.email = email
+			user.username = 'a:'+email
 			user.save()
 			messages.success(request, 'Profile Successfully Updated')
 			return redirect('admin_home')
@@ -329,16 +339,12 @@ def updatedatabase(request):
 	for a in csvf:
 		row = a.decode("utf-8").split(',')
 		if {'username' : "s:" + row[0]} in User.objects.all().values('username'):
-			# messages.add_message(request, messages.ERROR, 'Username Already Exists.')
-			# return redirect('signup')
 			continue
 		else:
 			usr = User.objects.create_user("s:"+row[0],row[0],row[1])
 			usr.first_name = row[3]
-			# usr.lastname = row[4]
+			usr.last_name = row[4]
 			usr.save()
 			newstudent = Student.objects.create(user = usr,roll_number = row[2])
 			newstudent.save()
 	return redirect('login')
-	# except:
-	# 	return HttpResponse("File format not correct, please upload a proper csv file")
