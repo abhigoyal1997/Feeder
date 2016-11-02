@@ -1,2 +1,12 @@
-db.sqlite3
+CS251project/django/db.sqlite3
+
 *.pyc
+*.iml
+CS251project/Feeder31/.gradle
+CS251project/Feeder31/local.properties
+CS251project/Feeder31/.idea/workspace.xml
+CS251project/Feeder31/.idea/libraries
+CS251project/Feeder31/.DS_Store
+CS251project/Feeder31/build
+CS251project/Feeder31/captures
+
