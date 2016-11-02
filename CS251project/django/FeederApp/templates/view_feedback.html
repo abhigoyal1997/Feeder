@@ -13,7 +13,7 @@
 	<tbody id="accordion">
 	<tr>
 	</tr>
-	  {% for course in courses %}
+	{% for course in courses %}
 	<tr class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" data-target="#acc{{ forloop.counter }}" bgcolor="#DDDDDD">
 		<td>{{course.course_code}}</td>
 		<td>{{course.course_name}}</td>
@@ -47,6 +47,6 @@
 			</div>	  		
 		</td>
 	</tr>
-	  {% endfor %}
+	{% endfor %}
 	</tbody>
   </table>

@@ -8,8 +8,6 @@
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
-{% load static %}
-<script type="text/javascript" src="{% static 'js/form-validation.js' %}"></script>
 </head>
 <body style="background-image: url({% static 'images/background.jpg' %});background-size: cover;overflow:hidden">
 	{% if messages %}
@@ -50,7 +48,7 @@
 			</div>
 			<div class="col-sm-9">
 				<select name ="branch" class="input-text">
-					<option>Select Your Department</option>
+					<option disabled selected>Select Your Department</option>
 					{% for branch in branches %}
 					<option value="{{branch.0}}">{{branch.1}}</option>
 					{% endfor %}
@@ -61,4 +59,65 @@
 	</div>
 </div>
 </body>
+<script type="text/javascript">
+	$().ready(function() {
+		$("#signup_form").validate({
+		errorElement: 'div',
+		rules: {
+			firstname: {
+			required: true,
+			maxlength: 100
+			},
+			lastname: {
+			required: true,
+			maxlength: 100
+			},
+			email: {
+			required: true,
+			email: true
+			},
+			password: {
+			required: true,
+			minlength: 5
+			},
+			cnfm_password: {
+			required: true,
+			equalTo: "#password"
+			},
+			branch: {
+			required: true,
+			},
+		},
+		messages: {
+			firstname: {
+			required: "Please enter your First Name",
+			maxlength: "Name can't be more than 100 characters long"
+			},
+			lastname: {
+			required: "Please enter your Last Name",
+			maxlength: "Name can't be more than 100 characters long"
+			},
+			email: {
+			required: "Please enter your Email ID",
+			email: "This is not a valid Email ID"
+			},
+			password: {
+			required: "Please provide a password",
+			minlength: "Your password must be at least 5 characters long"
+			},
+			cnfm_password: {
+			required: "Please enter your password again",
+			equalTo: "The two passwords doesn't match"
+			},
+			branch: {
+			required: "Please select your department"
+			},
+		},
+
+		submitHandler: function(form) {
+			form.submit();
+		}
+		});
+	});
+</script>
 </html>
