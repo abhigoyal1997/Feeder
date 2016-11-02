@@ -282,7 +282,7 @@ def make_feedback(request):
 		newdeadline.save()
 		newfeedback = Feedback.objects.create(course=course_concerned,deadline=newdeadline,name=fname)
 		for i in range(qcount):
-			newquestion(question=request.POST['q'+str(i+1)],question_type=request.POST['t'+str(i+1)])
+			newquestion = Question.objects.create(question=request.POST['q'+str(i+1)],question_type=request.POST['t'+str(i+1)])
 			newquestion.save()
 			newfeedback.question_set.add(newquestion)
 		newfeedback.save()
@@ -349,3 +349,18 @@ def updatedatabase(request):
 			newstudent = Student.objects.create(user = usr,roll_number = row[2])
 			newstudent.save()
 	return redirect('login')
+
+def stud_login(request):
+	body_unicode = request.body.decode('utf-8')
+	body = json.loads(body_unicode)
+	username = body['username']
+	password = body['password']
+	user = authenticate(username="s:"+username,password=password)
+	response_data = {}
+	if user is not None:
+		auth_login(request,user)
+		response_data['name'] = user.first_name;
+		return HttpResponse(json.dumps(response_data),content_type="application/json")
+	else:
+		response_data['name'] = 'hello';
+		return HttpResponse(json.dumps(response_data),content_type="application/json")

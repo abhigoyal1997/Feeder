@@ -71,6 +71,7 @@ class Feedback(models.Model):
 	deadline = models.OneToOneField(Deadlines,on_delete=models.CASCADE)
 	course = models.ForeignKey(Course,on_delete=models.CASCADE)	
 	name = models.CharField(max_length = 100)
+	studentsresponded = models.TextField(null = True)
 	id = models.AutoField(primary_key=True)
 
 class Question(models.Model):
