@@ -1,5 +1,5 @@
 <p align="center">Click on a course to view its list of feedbacks</p>
-<table class="table">
+<table class="table" border="1px">
 
 	<thead>
 	  <tr>
@@ -11,8 +11,10 @@
 	  </tr>
 	</thead>
 	<tbody id="accordion">
+	<tr>
+	</tr>
 	  {% for course in courses %}
-	<tr class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" data-target="#acc{{ forloop.counter }}">
+	<tr class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" data-target="#acc{{ forloop.counter }}" bgcolor="#DDDDDD">
 		<td>{{course.course_code}}</td>
 		<td>{{course.course_name}}</td>
 		<td>{{course.course_branch}}</td>
@@ -33,11 +35,11 @@
 					</thead>
 					<tbody>
 						{% for feedback in course.feedback_set.all %}
-						<tr>
-	  					<td>{{feedback.deadline.date}}</td>
-	  					<td>{{feedback.name}}</td>
-	  					<td><a href="/feeder/viewresponses/{{feedback.id}}" target="_blank">View</a></td>
-	  					<td>View</td>
+						<tr bgcolor="#EEEEEE">
+		  					<td>{{feedback.deadline.date}}</td>
+		  					<td>{{feedback.name}}</td>
+		  					<td><a href="/feeder/viewresponses/{{feedback.id}}" target="_blank">View</a></td>
+		  					<td>View</td>
 						</tr>
 						{% endfor %}
 					</tbody>

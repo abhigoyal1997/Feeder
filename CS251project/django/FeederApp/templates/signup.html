@@ -26,7 +26,7 @@
   	<div class = "logo" style="text-align: center;">
 	{% load static %} <img src="{% static 'images/feeder_logo.png' %}"/>
 	</div>
-  	<div class ="well" style="height: 470px;">
+  	<div class ="well" style="height: 420px;">
 	  	<h4 style="color:#fff;text-align:center;">Registration Form for Instructor</h2>
 	  	<form class="form-anim" id="signup_form" method="post" action="/register/">
 		{% csrf_token %}
@@ -44,12 +44,6 @@
 			</div>
 			<div class="col-sm-12">
 				<input type="password" name = "cnfm_password" class = "input-text" required id="cnfm_password" placeholder=" Confirm Password">	
-			</div>
-			<div class="col-sm-3 label">
-				Date of Birth
-			</div>
-			<div class="col-sm-9">
-				<input type="date" id="birthdate" name="birthdate" class="input-text">
 			</div>
 			<div class="col-sm-3 label">
 				Department

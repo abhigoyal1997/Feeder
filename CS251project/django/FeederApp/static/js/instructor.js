@@ -2,7 +2,11 @@ function addquestion(x,y,z){
 	qcount = document.getElementById("qcount");
 	qcount.value = parseInt(qcount.value)+1;
 	var container = document.createElement("div");
-	container.innerHTML = "<input type='hidden' name='t"+qcount.value+"' value='"+z+"'><label for='q"+qcount.value+"'>Question "+qcount.value +"</label><input name='q"+qcount.value+"' type='text' class='textinput' required placeholder='"+y+"'>"; 
+	container.innerHTML = "<input type='hidden' name='t"+qcount.value+"' value='"+z+"'/>Question "+qcount.value +"<input name='q"+qcount.value+"' type='text' class='input-text' required placeholder='"+y+"'>"; 
+    var el = document.getElementById("feedback");
+    var height = el.offsetHeight;
+    var newHeight = height + 70;
+    el.style.height = newHeight + 'px';
 	document.getElementById("questions").appendChild(container);
 }
 function validateFeedbackForm(){

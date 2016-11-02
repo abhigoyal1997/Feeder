@@ -31,8 +31,6 @@ class Instructor(models.Model):
         ('CL','Chemical Engineering'),
     )
 	instructor_branch = models.CharField(null = True,max_length = 2,choices = BRANCHES)
-	instructor_dob = models.DateField(null = True)
-
 
 class Course(models.Model):
 	instructors = models.ManyToManyField(Instructor)

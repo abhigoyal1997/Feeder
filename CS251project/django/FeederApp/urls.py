@@ -17,6 +17,7 @@ urlpatterns = [
 	url(r'^addcourse$',views.add_course,name='add_course'),
 	url(r'^admin_profile$',views.admin_profile,name='admin_profile'),
 	url(r'^update_admin$',views.update_admin,name='update_admin'),
+	url(r'^update_ins$',views.update_ins,name='update_ins'),
 	url(r'^createcourse$',views.make_course,name='make_course'),
 	url(r'^addfeedback$',views.add_feedback,name='add_feedback'),
 	url(r'^adddeadline$',views.add_deadline,name='add_deadline'),

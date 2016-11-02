@@ -35,7 +35,6 @@ def register(request):
 	firstname = request.POST['firstname']
 	lastname = request.POST['lastname']
 	email = request.POST['email']
-	dob = request.POST['birthdate']
 	password = request.POST['password']
 	branch = request.POST.get('branch')
 	if email in list(map(lambda x:x['username'][2:],User.objects.all().values('username'))):
@@ -46,7 +45,7 @@ def register(request):
 		newusr.first_name = firstname
 		newusr.last_name = lastname
 		newusr.save()
-		newins = Instructor.objects.create(user = newusr,instructor_branch=branch,instructor_dob=dob)
+		newins = Instructor.objects.create(user = newusr,instructor_branch=branch)
 		newins.save()
 	messages.success(request, 'Congratulations!! Successful Signup!! Login to Continue')
 	return redirect('login')
@@ -169,13 +168,12 @@ def make_course(request):
 	if request.user.username[0] == "a":
 		cname = request.POST['cname']
 		ccode = request.POST['ccode']
-		duration = request.POST.get('semester')
-		duration = int(duration)/2.0
+		semester = request.POST.get('semester')
 		branch = request.POST.get('branch')
 		credits = request.POST.get('credit')
 		midsem = request.POST['midsem']
 		endsem = request.POST['endsem']
-		newcourse = Course.objects.create(course_name = cname,course_code=ccode,course_duration=duration,course_credits=credits,course_branch=branch)
+		newcourse = Course.objects.create(course_name = cname,course_code=ccode,course_semester=semester,course_credits=credits,course_branch=branch)
 		newcourse.save()
 		mfdead = Deadlines.objects.create(course=newcourse,name='FD',desc='Mid-Semester Exam Feedback',date=midsem,code = ccode)
 		mfdead.save()
@@ -246,13 +244,34 @@ def update_ins(request):
 		firstname = request.POST['firstname']
 		lastname = request.POST['lastname']
 		email = request.POST['email']
-		user.first_name = firstname
-		user.last_name = lastname
-		user.email = email
-		user.username = 'i:'+email
-		user.save()
-		messages.success(request, 'Profile Successfully Updated')
-		return redirect('ins_home')
+		branch = request.POST.get('branch')
+		username = 'i:'+email
+		try:
+			user = User.objects.get(username=username)
+			if not (user == request.user):
+				messages.error(request, 'User with this email already exits!')
+				return redirect('ins_home')
+			user = request.user
+			user.first_name = firstname
+			user.last_name = lastname
+			user.save()
+			ins = Instructor.objects.get(user=user)
+			ins.instructor_branch = branch
+			ins.save()
+			messages.success(request, 'Profile Successfully Updated')
+			return redirect('ins_home')
+		except Exception as e:
+			user = request.user
+			user.first_name = firstname
+			user.last_name = lastname
+			user.email = email
+			user.username = username
+			user.save()
+			ins = Instructor.objects.get(user=user)
+			ins.instructor_branch = branch
+			ins.save()
+			messages.success(request, 'Profile Successfully Updated')
+			return redirect('ins_home')
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 
@@ -284,13 +303,16 @@ def view_deadline(request):
 	if request.user.username[0] == "i":
 		return render(request,'view_deadline.html',{
 			'courses':Course.objects.all()
-	})
+			})
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 
 def instprofile(request):
 	if request.user.username[0] == "i":
-		return render(request,'ins_profile.html',{})
+		return render(request,'ins_profile.html',{
+			'branches':Student.BRANCHES,
+			'instructor':Instructor.objects.get(user=request.user)
+			})
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 
@@ -330,7 +352,7 @@ def viewresponses(request, feedbackid):
 	if request.user.username[0] == "i":
 		return render(request,'renderresponses.html',{
 			'feedback':Feedback.objects.get(id=feedbackid)
-	})
+			})
 	else:
 		return HttpResponse("Ahh! I am too hard, I won't break!");
 
