@@ -1,6 +1,6 @@
 <div class = "well" style="height: 300px;">
   	<form class="form-anim" method="post" action="update_admin">
-		{% csrf_token %}
+	{% csrf_token %}
 		<div class = "col-sm-6">
 			<input required id="firstname" class="input-text" name="firstname" placeholder="First Name" value="{{ request.user.first_name }}">
 		</div>
