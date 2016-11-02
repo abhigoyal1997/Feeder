@@ -27,8 +27,10 @@ def login(request):
 	return render(request,'login.html',{})
 
 def signup(request):
-	return render(request,'signup.html',{})
-	
+	return render(request,'signup.html',{
+		'branches':Student.BRANCHES
+		})
+
 def register(request):
 	firstname = request.POST['firstname']
 	lastname = request.POST['lastname']
@@ -151,7 +153,9 @@ def course_list(request):
 
 def add_course(request):
 	if request.user.username[0] == "a":
-		return render(request,'add_course.html',{})
+		return render(request,'add_course.html',{
+			'branches':Student.BRANCHES
+			})
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 	

@@ -18,14 +18,13 @@
 			Department
 		</div>
 		<div class="col-sm-9">
-			<select name ="branch" class="input-text">
-				<option>Select Department</option>
-				<option value="CS">Computer Science and Engineering</option>
-				<option value="EE">Electrial Engineering</option>
-				<option value="ME">Mechanical Engineering</option>
-				<option value="CL">Chemical Engineering</option>
-			</select>
-		</div>
+				<select name ="branch" class="input-text">
+					<option>Select Your Department</option>
+					{% for branch in branches %}
+					<option value="{{branch.0}}">{{branch.1}}</option>
+					{% endfor %}
+				</select>
+			</div>
 		<div class="col-sm-3 label">
 			Select Credit
 		</div>

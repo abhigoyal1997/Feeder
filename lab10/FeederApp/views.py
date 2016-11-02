@@ -28,7 +28,7 @@ def login(request):
 
 def signup(request):
 	return render(request,'signup.html',{})
-	
+
 def register(request):
 	firstname = request.POST['firstname']
 	lastname = request.POST['lastname']
