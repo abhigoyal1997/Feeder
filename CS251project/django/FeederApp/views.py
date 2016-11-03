@@ -345,22 +345,22 @@ def make_deadline(request):
 def viewresponses(request, feedbackid):
 	feedbackconcerned = Feedback.objects.get(id=feedbackid)
 	questionresponses = []
-	a = []
 	for question in feedbackconcerned.question_set.all():
-		a = [1,2,3]
+		a = [11,22,33]
 		question.response = json.dumps(a)
-		# question.response = a
 		question.save()
 	for question in feedbackconcerned.question_set.all():
-		# questionresponses.append([1,2,3])
 		jsonDec = json.decoder.JSONDecoder()
-		# print(question.response)
 		a = jsonDec.decode(question.response)
+		for r in a:
+			r = question.question + str(r)
+			print(r)
+		questionresponses.append(a)
+	questionresponses = list(map(list, zip(*questionresponses)))
 	if request.user.username[0] == "i":
 		return render(request,'renderresponses.html',{
 			'feedback': feedbackconcerned,
-			'responses': a
-			# 'responses': questionresponses
+			'responses': questionresponses,
 			})
 	else:
 		return HttpResponse("Ahh! I am too hard, I won't break!");
@@ -403,3 +403,33 @@ def updatedatabase(request):
 			newstudent = Student.objects.create(user = usr,roll_number = row[2])
 			newstudent.save()
 	return redirect('login')
+
+def stud_login(request):
+	# print(request.body.decode('utf-8'))
+	body_unicode = request.body.decode('utf-8')
+	body = json.loads(body_unicode)
+	username = body['username']
+	password = body['password']
+	user = authenticate(username="s:"+username,password=password)
+	response_data = {}
+	if user is not None:
+		auth_login(request,user)
+		response_data['name'] = user.first_name;
+		response_data['uname'] = user.username;
+		return HttpResponse(json.dumps(response_data),content_type="application/json")
+	else:
+		response_data['name'] = 'Does Not Exist';
+		response_data['uname'] = 'invalid access';
+		return HttpResponse(json.dumps(response_data),content_type="application/json")
+
+def stud_home(request):
+	body_unicode = request.body.decode('utf-8')
+	body = json.loads(body_unicode)
+	username1 = body["username"]
+	# print(username1)
+	user = User.objects.get(username = username1)
+	data = serializers.serialize('json',[user,],fields=('first_name','last_name'))
+	print(data)
+	struct = json.loads(data)
+	data = json.loads(json.dumps(struct[0]))
+	return HttpResponse(json.dumps(data['fields']),content_type="application/json")

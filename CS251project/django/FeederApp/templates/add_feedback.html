@@ -3,7 +3,7 @@
 	{% csrf_token %}
 	<div class = "col-sm-3 label">Select Course</div>
 		<div class = "col-sm-9">
-		<select class="input-text" name="dcourse">
+		<select class="input-text" name="fcourse">
 		{% for course in courses %}
 			<option value="{{course.course_code}}">{{course.course_code}} {{course.course_name}}</option>
 		{% endfor %}

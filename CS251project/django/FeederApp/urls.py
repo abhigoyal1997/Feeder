@@ -32,4 +32,6 @@ urlpatterns = [
 	url(r'^viewresponses/(?P<feedbackid>\w{0,50})$',views.viewresponses,name='viewresponses'),	
 	url(r'^viewobjective/(?P<feedbackid>\w{0,50})$',views.viewobjective,name='viewobjective'),	
 	url(r'^updatedatabase$',views.updatedatabase,name='updatedatabase'),
+	url(r'^stud_login',views.stud_login,name="stud_login"),
+	url(r'^stud_home',views.stud_home,name="stud_home"),
 ]
