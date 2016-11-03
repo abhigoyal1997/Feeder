@@ -133,10 +133,6 @@ def ins_home(request):
 
 def logout_view(request):
 	if request.user.is_authenticated:
-		if request.user.username[0] == "a":
-			user = "a"
-		else:
-			user = "i"
 		logout(request)
 		return redirect('login')
 	else:
@@ -211,7 +207,6 @@ def make_course(request):
 			question4.save()
 			mfeed.question_set.add(question4)
 			mfeed.save()
-
 			efdead = Deadlines.objects.create(course=newcourse,name='FD',desc='End-Semester Exams Feedback',date=endsem,code = ccode)
 			efdead.save()
 			efeed = Feedback.objects.create(course=newcourse,deadline=efdead,name="Endsem Feedback")
@@ -383,27 +378,26 @@ def make_deadline(request):
 		return error(request,"Over smart, huh??")
 
 def viewresponses(request, feedbackid):
-	# First check that the user is instructor or not only then proceed
-	feedbackconcerned = Feedback.objects.get(id=feedbackid)
-	questionresponses = []
-	for question in feedbackconcerned.question_set.all():
-		a = ['11','22','33']
-		question.response = json.dumps(a)
-		question.save()
-	for question in feedbackconcerned.question_set.all():
-		jsonDec = json.decoder.JSONDecoder()
-		a = jsonDec.decode(question.response)
-		for i in range(len(a)):
-			a[i] = question.question + a[i]
-		questionresponses.append(a)
-	questionresponses = list(map(list, zip(*questionresponses)))
-	if request.user.username[0] == "i":
+	if request.user.is_authenticated and request.user.username[0] == "i":
+		feedbackconcerned = Feedback.objects.get(id=feedbackid)
+		questionresponses = []
+		# for question in feedbackconcerned.question_set.all():
+		# 	a = ['11','22','33']
+		# 	question.response = json.dumps(a)
+		# 	question.save()
+		for question in feedbackconcerned.question_set.all():
+			jsonDec = json.decoder.JSONDecoder()
+			a = jsonDec.decode(question.response)
+			for i in range(len(a)):
+				a[i] = question.question + a[i]
+			questionresponses.append(a)
+		questionresponses = list(map(list, zip(*questionresponses)))
 		return render(request,'renderresponses.html',{
 			'feedback': feedbackconcerned,
 			'responses': questionresponses,
 			})
 	else:
-		return error(request,"Ahh! I am too hard, I won't break!");
+		return error(request,"With all due respect, You don't have access to this url!");
 
 def viewobjective(request, feedbackid):
 	feedbackconcerned = Feedback.objects.get(id=feedbackid)
@@ -450,7 +444,7 @@ def add_stud_to_course(request,code):
 		return error(request,"Don't try to be smart!! We ensure quite enough security!! :)")
 
 def modify(request):
-	if request.user.is_authenticated and request.user.username[0] == "i":
+	if request.user.is_authenticated and request.user.username[0] == "a":
 		if request.method == 'POST':
 			idstd = request.POST.get('id', None)
 			code = request.POST.get('code',None)
@@ -505,15 +499,16 @@ def stud_login(request):
 		return HttpResponse(json.dumps(response_data),content_type="application/json")
 
 def questionjson(question):
-	return "{\"question_type\":\""+question.question_type+"\",\"question\":\"" + question.question + "\",}"
+	return "{\"question_type\":\""+question.question_type+"\",\"question\":\"" + question.question + "\"}"
 
 def deadlinejson(deadline):
-	jsonstr = "{\"date\":\"" + str(deadline.date) + "\",\"name\":\"" + deadline.name + "\",\"description\":\"" + deadline.desc + "\"," 
+	jsonstr = "{\"date\":\"" + str(deadline.date) + "\",\"name\":\"" + deadline.name + "\",\"description\":\"" + deadline.desc + "\"" 
 	if deadline.name == 'FD':
-		jsonstr = jsonstr + "\"feedbackname\":\"" + deadline.feedback.name + "\",\"questionset\":[" 
+		jsonstr = jsonstr + ",\"feedbackname\":\"" + deadline.feedback.name + "\",\"questionset\":[" 
 		for question in deadline.feedback.question_set.all():
 			jsonstr = jsonstr + questionjson(question) + ","
-		jsonstr = jsonstr + "],"
+		jsonstr = jsonstr[0:len(jsonstr)-1]
+		jsonstr = jsonstr + "]"
 	jsonstr = jsonstr + "}"
 	return jsonstr
 
@@ -521,37 +516,24 @@ def coursejson(course):
 	jsonstr = "{\"course_name\":\""+course.course_name+"\",\"course_code\":\""+course.course_code+"\",\"deadlines\":["
 	for deadline in course.deadlines_set.all():
 		jsonstr = jsonstr + deadlinejson(deadline) + ","
+	jsonstr = jsonstr[0:len(jsonstr)-1]
 	jsonstr = jsonstr + "]}"
 	return jsonstr
 
 def stud_home(request):
+	# Add check if needed
 	body_unicode = request.body.decode('utf-8')
 	body = json.loads(body_unicode)
 	username1 = body["username"]
-	# username1 is the required username
-	# print(username1)
 	user = User.objects.get(username = username1)
 	jsonfinal = "{\"courses\":["
-	#do something
 	for course in user.student.course_set.all():
 		jsonfinal = jsonfinal + coursejson(course) + ","
+	jsonfinal = jsonfinal[0:len(jsonfinal)-1]
 	jsonfinal = jsonfinal + "]}"
-	# data = serializers.serialize('json',user.student.course_set.all(),fields=('course_name'))
 	# print(jsonfinal)
 	return HttpResponse(jsonfinal,content_type="application/json") 
-	# # print(data)
-	# struct = json.loads(data)
-	# # temp_arr = [val[0] for val in data.itervalues()]
-	# # print(temp_arr)
-	# # print(struct)
-	# print(struct[0])
-	# # data = json.dumps(struct[0])
-	# data = [json.dumps(item) for item in struct]
-	# data = json.dumps(data)
-	# print(data)
-	# return HttpResponse(data,content_type="application/json")
-	# # return HttpResponse(json.dumps(data['fields']),content_type="application/json")
-
+	
 def error(request, error):
 	return render(request,'error.html',{
 		'error':error
