@@ -1,6 +1,6 @@
-<div class = "well" style="height: 500px;">
-	<form class="form-anim" method="post" action="createcourse">
-		{% csrf_token %}
+<div class = "well" style="height: 500px; margin-top: 4%;">
+	<form id="addcourse_form" class="form-anim" method="post" action="createcourse">
+	{% csrf_token %}
 		<div class="col-sm-12">
 			<input type="text" class="input-text" name = "cname" required id="cname" placeholder="Course Name">
 		</div>
@@ -11,15 +11,15 @@
 			Select Semester
 		</div>
 		<div class="col-sm-9 radio-group">
-			<label class="radio-inline"><input type="radio" name="semester" value="1">Fall</label>
-			<label class="radio-inline"><input type="radio" name="semester" value="2" checked="checked">Spring</label>	
+			<label class="radio-inline"><input type="radio" name="semester" value="1" checked>Fall</label>
+			<label class="radio-inline"><input type="radio" name="semester" value="2">Spring</label>	
 		</div>
 		<div class="col-sm-3 label">
 			Department
 		</div>
 		<div class="col-sm-9">
 			<select name ="branch" class="input-text">
-				<option>Department</option>
+				<option selected disabled>Department</option>
 				{% for branch in branches %}
 				<option value="{{branch.0}}">{{branch.1}}</option>
 				{% endfor %}
@@ -32,8 +32,8 @@
 			<select name="credit" class="input-text">
 				<option value="3">3</option>
 				<option value="4">4</option>
-				<option value="8">8</option>
 				<option value="6">6</option>
+				<option value="8">8</option>
 			</select>
 		</div>
 		<div class="col-sm-3 label">
@@ -51,3 +51,61 @@
 		<button type="submit" style="background-color:#3F42F0; margin-top: 30px;" class="btn btn-info col-sm-offset-4 col-sm-4">Add Course</button>
 	</form>
 </div>
+<script type="text/javascript">
+	$().ready(function() {
+		$.validator.addMethod("regex", function(value,element,regexp){
+			regexp = new RegExp(regexp);
+			return this.optional(element) || regexp.test(value);
+		},'Please enter a valid input!');
+
+		$("#addcourse_form").validate({
+		errorElement: 'div',
+		rules: {
+			cname: {
+			required: true,
+			maxlength: 100
+			},
+			ccode: {
+			required: true,
+			regex: /^[A-Z]{2}-[0-9]{3}$/
+			},
+			midsem: {
+			required: true
+			},
+			endsem: {
+			required: true
+			},
+			branch: {
+			required: true
+			},
+		},
+		messages: {
+			cname: {
+			required: "Please enter the Course Name",
+			maxlength: "Course Name can't be more than 100 characters long"
+			},
+			ccode: {
+			required: "Please enter Course Code",
+			regex: "The Course Code entered is not valid"
+			},
+			email: {
+			required: "Please enter your Email ID",
+			email: "This is not a valid Email ID"
+			},
+			midsem: {
+			required: "Please provide a Midsem Date"
+			},
+			endsem: {
+			required: "Please provide an Endsem Date"
+			},
+			branch: {
+			required: "Please select your department"
+			},
+		},
+
+		submitHandler: function(form) {
+			form.submit();
+		}
+		});
+	});
+</script>

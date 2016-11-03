@@ -7,7 +7,6 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-<script src="{% static 'js/dashboard.js' %}"></script>
 <title>Home</title>
 </head>
 <body>
@@ -17,7 +16,7 @@
 				<div class="col-sm-3 col-md-2 nav-header">
 					<a class="navbar-brand" href="#">Feeder</a>
 				</div>
-				<div class="col-sm-9 col-md-10" id="navind">&nbsp;&nbsp;Home	
+				<div class="col-sm-9 col-md-10" style="background-color: #B6BAE5" id="navind">&nbsp;&nbsp;Home	
 				</div>
 			</div>
 		</div>
@@ -27,13 +26,13 @@
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
 					<li class="active"><a href="admin_home" id="home"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Home</a></li>
-					<li><a href="#" id="courses" class="nav-side-btn"><span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;Running Courses</a></li>
-					<li><a href="#" id="addcourse" class="nav-side-btn"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add Course</a></li>
-					<li><a href="#" id="students" class="nav-side-btn"><span class = "glyphicon glyphicon-user"></span>&nbsp;&nbsp;Students</a></li>
-		            <li><a href="#" id="instructors" class="nav-side-btn"><span class = "glyphicon glyphicon-user"></span>&nbsp;&nbsp;Instructors</a></li>
+					<li><a href="#" id="courses"><span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;Running Courses</a></li>
+					<li><a href="#" id="addcourse"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add Course</a></li>
+					<li><a href="#" id="students"><span class = "glyphicon glyphicon-user"></span>&nbsp;&nbsp;Students</a></li>
+		            <li><a href="#" id="instructors"><span class = "glyphicon glyphicon-user"></span>&nbsp;&nbsp;Instructors</a></li>
 				</ul>
 				<ul class="nav nav-sidebar sidebar-bottom">
-					<li><a href="#" id="admin_profile" class="nav-side-btn"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Profile</a></li>
+					<li><a href="#" id="admin_profile"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Profile</a></li>
 					<li><a href="logout"><span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;Logout</a></li>
 				</ul>
 			</div>
@@ -84,9 +83,23 @@
 	</div>
 </body>
 <script type="text/javascript">
-function changeFile() {
-	var filename = $('#file').val().replace(/^.*[\\\/]/, '')
-	$('#file-name').text(filename);
-}
+	$(document).ready(function () {
+		$('.nav li a').click(function(e) {
+
+			$('.nav li').removeClass('active');
+
+			var $parent = $(this).parent();
+			if (!$parent.hasClass('active')) {
+				$parent.addClass('active');
+			}
+			$('#navind').text($(this).text());
+			$('#mainframe').load(this.id);
+		});	
+	});
+
+	function changeFile() {
+		var filename = $('#file').val().replace(/^.*[\\\/]/, '')
+		$('#file-name').text(filename);
+	}
 </script>
 </html>

@@ -31,8 +31,6 @@ class Instructor(models.Model):
         ('CL','Chemical Engineering'),
     )
 	instructor_branch = models.CharField(null = True,max_length = 2,choices = BRANCHES)
-	instructor_dob = models.DateField(null = True)
-
 
 class Course(models.Model):
 	instructors = models.ManyToManyField(Instructor)
@@ -48,6 +46,12 @@ class Course(models.Model):
 	course_branch = models.CharField(max_length = 2,choices = BRANCHES)
 	course_credits = models.IntegerField()
 	course_semester = models.IntegerField()
+	@property
+	def is_fall_sem(self):
+		if self.course_semester == 1:
+			return True
+		else:
+			return False
 
 class Deadlines(models.Model):
 	NAME = (

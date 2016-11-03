@@ -1,5 +1,5 @@
 $(document).ready(function () {
-	$('.nav li a.nav-side-btn').click(function(e) {
+	$('.nav li a').click(function(e) {
 
 		$('.nav li').removeClass('active');
 

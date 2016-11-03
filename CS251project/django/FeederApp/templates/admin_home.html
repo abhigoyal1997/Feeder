@@ -4,6 +4,8 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.min.js"></script>
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
@@ -68,13 +70,13 @@
 			<h5 style="color:#fff;text-align:center;">Update students database (Upload the csv file containing student details)</h5>
 			<p style="color:#fff;text-align:center;"> email*|password*|rollnumber|firstname|lastname</p>
 			<p style="color:#fff;text-align:right;">* Required fields</p>
-			<form class="form-anim" method="post" action="updatedatabase" style="align-content: center;" enctype="multipart/form-data">
+			<form id="upload_form" class="form-anim" method="post" action="updatedatabase" style="align-content: center;" enctype="multipart/form-data">
 			{% csrf_token %}
 				<div class="col-sm-5" style="margin-left: 30%;">
 					<input type="file" name="studentscsv" id="file" class="input-file" required onchange="changeFile()">
 					<label for="file" style="background-color:#3F42F0" class="btn btn-info btn-file">Choose a file</label>
 				</div>
-				<div class="col-sm-4" style="margin: 30px 0; margin-left: -40px; padding: 0; color: #fff;" id="file-name">No File Chosen</div>
+				<div class="col-sm-4" style="margin: 30px 0; margin-left: -40px; padding: 0; color: #fff;" id="filename">No File Chosen</div>
 				<div class="col-sm-4" style="margin-left: 35%;">
 					<button type="submit" style="background-color:#3F42F0" class="btn btn-info btn-file">Upload</button>
 				</div>
@@ -84,9 +86,36 @@
 	</div>
 </body>
 <script type="text/javascript">
-function changeFile() {
-	var filename = $('#file').val().replace(/^.*[\\\/]/, '')
-	$('#file-name').text(filename);
-}
+	function changeFile() {
+		var filename = $('#file').val().replace(/^.*[\\\/]/, '');
+		$('#filename').text(filename);
+	}
+
+	$().ready(function() {
+		$.validator.addMethod("regex", function(value,element,regexp){
+			regexp = new RegExp(regexp);
+			return this.optional(element) || regexp.test(value);
+		},'Please enter a valid input!');
+
+		$("#upload_form").validate({
+		errorElement: 'div',
+		rules: {
+			studentscsv: {
+			required: true,
+			extension: "csv"
+			},
+		},
+		messages: {
+			studentscsv: {
+			required: "Please choose a csv file to upload",
+			extension: "The file is not a valid CSV file"
+			},
+		},
+
+		submitHandler: function(form) {
+			form.submit();
+		}
+		});
+	});
 </script>
 </html>

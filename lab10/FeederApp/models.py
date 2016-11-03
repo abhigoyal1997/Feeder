@@ -47,7 +47,7 @@ class Course(models.Model):
 	course_name = models.CharField(max_length=100)
 	course_branch = models.CharField(max_length = 2,choices = BRANCHES)
 	course_credits = models.IntegerField()
-	course_semester = models.IntegerField()
+	course_duration = models.DecimalField(max_digits = 2,decimal_places = 1)
 
 class Deadlines(models.Model):
 	NAME = (

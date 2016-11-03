@@ -24,11 +24,9 @@ def login(request):
 			return HttpResponse("Student is logged in")
 			# We can also logout the person
 		return HttpResponse("How??")
-	return render(request,'login.html',{})
-
+	return render(request,'login.html',{})    
 def signup(request):
 	return render(request,'signup.html',{})
-
 def register(request):
 	firstname = request.POST['firstname']
 	lastname = request.POST['lastname']
@@ -103,7 +101,7 @@ def admin_home(request):
 			return HttpResponse('Page not Found')
 		return render(request,'admin_home.html',{
 			'admin':request.user
-			})
+		})
 	except Exception as e:
 		return HttpResponse('Does not exist')
 
@@ -114,9 +112,7 @@ def ins_home(request):
 		user = User.objects.get(username=request.user.username)
 		if not request.user.username[0] == "i":
 			return HttpResponse('Page not Found')
-		return render(request,'instructor_home.html',{
-			'instructor':request.user
-			})
+		return render(request,'instructor_home.html',{})
 	except Exception as e:
 		return HttpResponse('Page not Found')
 
@@ -165,7 +161,7 @@ def make_course(request):
 	if request.user.username[0] == "a":
 		cname = request.POST['cname']
 		ccode = request.POST['ccode']
-		duration = request.POST.get('semester')
+		duration = request.POST.get('duration')
 		duration = int(duration)/2.0
 		branch = request.POST.get('branch')
 		credits = request.POST.get('credit')
@@ -237,21 +233,6 @@ def update_admin(request):
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 
-def update_ins(request):
-	if request.user.username[0] == "i":
-		firstname = request.POST['firstname']
-		lastname = request.POST['lastname']
-		email = request.POST['email']
-		user.first_name = firstname
-		user.last_name = lastname
-		user.email = email
-		user.username = 'i:'+email
-		user.save()
-		messages.success(request, 'Profile Successfully Updated')
-		return redirect('ins_home')
-	else:
-		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
-
 def add_feedback(request):
 	if request.user.username[0] == "i":
 		return render(request,'add_feedback.html',{
@@ -286,7 +267,7 @@ def view_deadline(request):
 
 def instprofile(request):
 	if request.user.username[0] == "i":
-		return render(request,'ins_profile.html',{})
+		return render(request,'inst_profile.html',{})
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 

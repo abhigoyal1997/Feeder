@@ -1,5 +1,7 @@
 package com.feeder.spartans.feederandroid;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -29,11 +31,12 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class LoginActivity extends AppCompatActivity {
 
-
+   private  SessionManager session ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        session = new SessionManager(getApplicationContext());
         Button button = (Button) findViewById(R.id.submit);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -41,14 +44,15 @@ public class LoginActivity extends AppCompatActivity {
                EditText password = (EditText)findViewById(R.id.password);
                 String uname = username.getText().toString();
                 String pass = password.getText().toString();
-                sendPostRequest(uname,pass);
+                sendPostRequest(uname,pass,session);
+
 
             }
         });
 
 
     }
-    private void sendPostRequest(final String username,final String password)
+    private void sendPostRequest(final String username,final String password,final SessionManager session)
     {
         new AsyncTask<String, Void, String>()
         {
@@ -59,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 try {
 
-                    URL url = new URL("http://192.168.0.107:8031/stud_login"); // here is your URL path
+                    URL url = new URL("http://192.168.0.108:8000/stud_login"); // here is your URL path
                     JSONObject postDataParams = new JSONObject();
                     postDataParams.put("username", username);
                     postDataParams.put("password", password);
@@ -84,11 +88,23 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     rd.close();
                     JSONObject json = new JSONObject(response.toString());
-                    String resp = json.getString("name");
-                    return resp;
+                    String name = json.getString("name");
+//                    return name;
+                    if(!name.equals("Does Not Exist")) {
+                        String uname = json.getString("uname");
+                        session.createLoginSession(name, uname);
+                        Intent i = new Intent(getApplicationContext(), StudentHomePage.class);
+                        startActivity(i);
+                        return "Successful Login";
+                    }
+                    else
+                    {
+                        return "Bad Login Credentials!!";
+                    }
+                    
                 }
                 catch(Exception e){
-                    return new String("Internal Error: Cant Connect");
+                    return e.toString();
                 }
 
             }

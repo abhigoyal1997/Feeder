@@ -1,5 +1,5 @@
-<div class = "well" style="height: 300px;">
-  	<form class="form-anim" method="post" action="update_admin">
+<div class = "well" style="height: 300px; margin-top: 7%;">
+  	<form id="update_form" class="form-anim" method="post" action="update_admin">
 	{% csrf_token %}
 		<div class = "col-sm-6">
 			<input required id="firstname" class="input-text" name="firstname" placeholder="First Name" value="{{ request.user.first_name }}">
@@ -16,3 +16,48 @@
 		<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4" style="background-color: #3F42F0; margin-top: 30px;"><span class="glyphicon glyphicon-save"></span>&nbsp;&nbsp;Update</button>
 	</form>
 </div>
+<script type="text/javascript">
+	$().ready(function() {
+		$("#update_form").validate({
+		errorElement: 'div',
+		rules: {
+			firstname: {
+			required: true,
+			maxlength: 100
+			},
+			lastname: {
+			required: true,
+			maxlength: 100
+			},
+			email: {
+			required: true,
+			email: true
+			},
+			password: {
+			required: true
+			},
+		},
+		messages: {
+			firstname: {
+			required: "Please enter your First Name",
+			maxlength: "Name can't be more than 100 characters long"
+			},
+			lastname: {
+			required: "Please enter your Last Name",
+			maxlength: "Name can't be more than 100 characters long"
+			},
+			email: {
+			required: "Please enter your Email ID",
+			email: "This is not a valid Email ID"
+			},
+			password: {
+			required: "Please enter your password"
+			}
+		},
+
+		submitHandler: function(form) {
+			form.submit();
+		}
+		});
+	});
+</script>
