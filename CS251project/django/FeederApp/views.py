@@ -321,7 +321,7 @@ def make_feedback(request):
 		newdeadline.save()
 		newfeedback = Feedback.objects.create(course=course_concerned,deadline=newdeadline,name=fname)
 		for i in range(qcount):
-			newquestion(question=request.POST['q'+str(i+1)],question_type=request.POST['t'+str(i+1)])
+			newquestion = Question.objects.create(question=request.POST['q'+str(i+1)],question_type=request.POST['t'+str(i+1)])
 			newquestion.save()
 			newfeedback.question_set.add(newquestion)
 		newfeedback.save()
