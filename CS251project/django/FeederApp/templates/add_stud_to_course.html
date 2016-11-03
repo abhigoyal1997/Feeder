@@ -21,9 +21,9 @@ $(document).ready(function()
 		type: 'POST',
         url: '/ajax/modify/',
         data: {
-          csrfmiddlewaretoken: '{{ csrf_token }}',
-          'id': this.id,
-          'code': '{{ code }}'
+			csrfmiddlewaretoken: '{{ csrf_token }}',
+			'id': this.id,
+			'code': '{{ code }}'
         },
         success: function () {
         if($("#"+ii).val() == "Selected")
