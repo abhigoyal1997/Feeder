@@ -13,6 +13,8 @@ import urllib.request
 import json
 import csv
 import io
+from chartit import DataPool, Chart
+from django.core import serializers
 
 def login(request):
 	if request.user.is_authenticated:
@@ -343,18 +345,18 @@ def make_deadline(request):
 		return HttpResponse("Over smart, huh??")
 
 def viewresponses(request, feedbackid):
+	# First check that the user is instructor or not only then proceed
 	feedbackconcerned = Feedback.objects.get(id=feedbackid)
 	questionresponses = []
 	for question in feedbackconcerned.question_set.all():
-		a = [11,22,33]
+		a = ['11','22','33']
 		question.response = json.dumps(a)
 		question.save()
 	for question in feedbackconcerned.question_set.all():
 		jsonDec = json.decoder.JSONDecoder()
 		a = jsonDec.decode(question.response)
-		for r in a:
-			r = question.question + str(r)
-			print(r)
+		for i in range(len(a)):
+			a[i] = question.question + a[i]
 		questionresponses.append(a)
 	questionresponses = list(map(list, zip(*questionresponses)))
 	if request.user.username[0] == "i":
@@ -366,7 +368,37 @@ def viewresponses(request, feedbackid):
 		return HttpResponse("Ahh! I am too hard, I won't break!");
 
 def viewobjective(request, feedbackid):
-	return HttpResponse(feedbackid);
+	feedbackconcerned = Feedback.objects.get(id=feedbackid)
+	# ds = DataPool(
+ #       series=
+ #        [{'options': {
+ #            'source': MonthlyWeatherByCity.objects.all()},
+ #          'terms': [
+ #            'month',
+ #            'boston_temp']}
+ #         ])
+
+	# cht = Chart(
+ #        datasource = ds, 
+ #        series_options = 
+ #          [{'options':{
+ #              'type': 'pie',
+ #              'stacking': False},
+ #            'terms':{
+ #              'month': [
+ #                'boston_temp']
+ #              }}],
+ #        chart_options = 
+ #          {'title': {
+ #               'text': 'Monthly Temperature of Boston'}},
+ #        x_sortf_mapf_mts = (None, monthname, False))
+	# 	chart = Chart(
+	# 		datasource = chart,
+	# 		)
+
+	return render(request,'rendercharts.html',{
+			# 'chart' : chart
+		});
 
 def add_stud_to_course(request,code):
 	if request.user.username[0] == "a":
@@ -422,14 +454,50 @@ def stud_login(request):
 		response_data['uname'] = 'invalid access';
 		return HttpResponse(json.dumps(response_data),content_type="application/json")
 
+def questionjson(question):
+	return "{\"question_type\":\""+question.question_type+"\",\"question\":\"" + question.question + "\",}"
+
+def deadlinejson(deadline):
+	jsonstr = "{\"date\":\"" + str(deadline.date) + "\",\"name\":\"" + deadline.name + "\",\"description\":\"" + deadline.desc + "\"," 
+	if deadline.name == 'FD':
+		jsonstr = jsonstr + "\"feedbackname\":\"" + deadline.feedback.name + "\",\"questionset\":[" 
+		for question in deadline.feedback.question_set.all():
+			jsonstr = jsonstr + questionjson(question) + ","
+		jsonstr = jsonstr + "],"
+	jsonstr = jsonstr + "}"
+	return jsonstr
+
+def coursejson(course):
+	jsonstr = "{\"course_name\":\""+course.course_name+"\",\"course_code\":\""+course.course_code+"\",\"deadlines\":["
+	for deadline in course.deadlines_set.all():
+		jsonstr = jsonstr + deadlinejson(deadline) + ","
+	jsonstr = jsonstr + "]}"
+	return jsonstr
+
 def stud_home(request):
 	body_unicode = request.body.decode('utf-8')
 	body = json.loads(body_unicode)
 	username1 = body["username"]
+	# username1 is the required username
 	# print(username1)
 	user = User.objects.get(username = username1)
-	data = serializers.serialize('json',[user,],fields=('first_name','last_name'))
-	print(data)
-	struct = json.loads(data)
-	data = json.loads(json.dumps(struct[0]))
-	return HttpResponse(json.dumps(data['fields']),content_type="application/json")
+	jsonfinal = "{\"courses\":["
+	#do something
+	for course in user.student.course_set.all():
+		jsonfinal = jsonfinal + coursejson(course) + ","
+	jsonfinal = jsonfinal + "]}"
+	# data = serializers.serialize('json',user.student.course_set.all(),fields=('course_name'))
+	print(jsonfinal)
+	return HttpResponse(jsonfinal,content_type="application/json") 
+	# # print(data)
+	# struct = json.loads(data)
+	# # temp_arr = [val[0] for val in data.itervalues()]
+	# # print(temp_arr)
+	# # print(struct)
+	# print(struct[0])
+	# # data = json.dumps(struct[0])
+	# data = [json.dumps(item) for item in struct]
+	# data = json.dumps(data)
+	# print(data)
+	# return HttpResponse(data,content_type="application/json")
+	# # return HttpResponse(json.dumps(data['fields']),content_type="application/json")

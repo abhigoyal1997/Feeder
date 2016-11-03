@@ -153,3 +153,12 @@ input:valid::-webkit-input-placeholder {
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
+
+th, td {
+	padding:5px;
+}
+
+table {
+	margin-top:2%;
+	align:center;
+}
