@@ -169,13 +169,12 @@ def make_course(request):
 	if request.user.username[0] == "a":
 		cname = request.POST['cname']
 		ccode = request.POST['ccode']
-		duration = request.POST.get('semester')
-		duration = int(duration)/2.0
+		semester = request.POST.get('semester')
 		branch = request.POST.get('branch')
 		credits = request.POST.get('credit')
 		midsem = request.POST['midsem']
 		endsem = request.POST['endsem']
-		newcourse = Course.objects.create(course_name = cname,course_code=ccode,course_duration=duration,course_credits=credits,course_branch=branch)
+		newcourse = Course.objects.create(course_name = cname,course_code=ccode,course_semester=semester,course_credits=credits,course_branch=branch)
 		newcourse.save()
 		mfdead = Deadlines.objects.create(course=newcourse,name='FD',desc='Mid-Semester Exam Feedback',date=midsem,code = ccode)
 		mfdead.save()
@@ -246,13 +245,28 @@ def update_ins(request):
 		firstname = request.POST['firstname']
 		lastname = request.POST['lastname']
 		email = request.POST['email']
-		user.first_name = firstname
-		user.last_name = lastname
-		user.email = email
-		user.username = 'i:'+email
-		user.save()
-		messages.success(request, 'Profile Successfully Updated')
-		return redirect('ins_home')
+		username = 'i:'+email
+		try:
+			user = User.objects.get(username=username)
+			print(user,request.user)
+			if not (user == request.user):
+				messages.error(request, 'User with this email already exits!')
+				return redirect('ins_home')
+			user = request.user
+			user.first_name = firstname
+			user.last_name = lastname
+			user.save()
+			messages.success(request, 'Profile Successfully Updated')
+			return redirect('ins_home')
+		except Exception as e:
+			user = request.user
+			user.first_name = firstname
+			user.last_name = lastname
+			user.email = email
+			user.username = username
+			user.save()
+			messages.success(request, 'Profile Successfully Updated')
+			return redirect('ins_home')
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 
@@ -284,13 +298,15 @@ def view_deadline(request):
 	if request.user.username[0] == "i":
 		return render(request,'view_deadline.html',{
 			'courses':Course.objects.all()
-	})
+			})
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 
 def instprofile(request):
 	if request.user.username[0] == "i":
-		return render(request,'ins_profile.html',{})
+		return render(request,'ins_profile.html',{
+			'branches':Student.BRANCHES
+			})
 	else:
 		return HttpResponse("Don't try to be smart!! We ensure quite enough security!! :)")
 
@@ -327,10 +343,25 @@ def make_deadline(request):
 		return HttpResponse("Over smart, huh??")
 
 def viewresponses(request, feedbackid):
+	feedbackconcerned = Feedback.objects.get(id=feedbackid)
+	questionresponses = []
+	a = []
+	for question in feedbackconcerned.question_set.all():
+		a = [1,2,3]
+		question.response = json.dumps(a)
+		# question.response = a
+		question.save()
+	for question in feedbackconcerned.question_set.all():
+		# questionresponses.append([1,2,3])
+		jsonDec = json.decoder.JSONDecoder()
+		# print(question.response)
+		a = jsonDec.decode(question.response)
 	if request.user.username[0] == "i":
 		return render(request,'renderresponses.html',{
-			'feedback':Feedback.objects.get(id=feedbackid)
-	})
+			'feedback': feedbackconcerned,
+			'responses': a
+			# 'responses': questionresponses
+			})
 	else:
 		return HttpResponse("Ahh! I am too hard, I won't break!");
 

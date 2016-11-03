@@ -18,13 +18,13 @@
 			Department
 		</div>
 		<div class="col-sm-9">
-				<select name ="branch" class="input-text">
-					<option>Select Your Department</option>
-					{% for branch in branches %}
-					<option value="{{branch.0}}">{{branch.1}}</option>
-					{% endfor %}
-				</select>
-			</div>
+			<select name ="branch" class="input-text">
+				<option>Department</option>
+				{% for branch in branches %}
+				<option value="{{branch.0}}">{{branch.1}}</option>
+				{% endfor %}
+			</select>
+		</div>
 		<div class="col-sm-3 label">
 			Select Credit
 		</div>

@@ -1,4 +1,12 @@
 <!-- Tentative code needs improvisaton in html and testing in sense of backend -->
 <h1> {{ feedback.name }} </h1>
 <h1> Course is {{feedback.course.course_code}} {{feedback.course.course_name}}</h1>
-Display responses here
+{% for question in feedback.question_set.all %}
+	<!-- {% for r in question.response %}
+		{{ r }} <br>
+	{% endfor %} -->
+ <br>
+ {% for r in responses %}
+ 	{{ r }} har
+ {% endfor %}
+{% endfor %}
