@@ -487,7 +487,7 @@ def stud_home(request):
 		jsonfinal = jsonfinal + coursejson(course) + ","
 	jsonfinal = jsonfinal + "]}"
 	# data = serializers.serialize('json',user.student.course_set.all(),fields=('course_name'))
-	print(jsonfinal)
+	# print(jsonfinal)
 	return HttpResponse(jsonfinal,content_type="application/json") 
 	# # print(data)
 	# struct = json.loads(data)
