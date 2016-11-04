@@ -22,8 +22,16 @@
 			Questions
 	</div>
 	<input type="hidden" id="qcount" name="qcount" value="0">
-	<button type="button" class="btn btn-info col-sm-offset-1 col-sm-4" style="background-color:#3F42F0; margin-top: 30px;" onclick="addquestion('radio','Linear Scale Question','RB')">Add Linear Scale</button>
-	<button type="button" class="btn btn-info col-sm-offset-2 col-sm-4" style="background-color:#3F42F0; margin-top: 30px;" onclick="addquestion('text','Text Question','TF')">Add Subjective Scale</button>
+	<div class="col-sm-8">
+	<select id="questiontoadd" required="required" class="input-text">
+		<option value="RB">Linear List</option>
+		<option value="TF">Add text response question</option>
+		<option value="MCQ">Add multiple choice question</option>
+		<option value="CB">Add check boxes</option>
+		<option value="DD">Add drop down list</option>
+	</select>
+	</div>
+	<button type="button" onclick="addquestion()" style="margin: 10px;margin-right:20px; height: 30px;float:right;" class="btn btn-info col-sm-3">Add</button>
 	<div id="questions" class="row" style="color: #fff;">
 	</div>
 	<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4">Add Feedback</button>

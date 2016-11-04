@@ -80,10 +80,14 @@ class Feedback(models.Model):
 class Question(models.Model):
 	TYPES = (
 		('RB','Radio Buttons'),
-		('TF','Text Field'),	
+		('TF','Text Field'),
+		('MCQ','Multiple Choice Question'),
+		('CB','Check Boxes'),
+		('DD','Drop Down List'),	
 		)
 	qid = models.AutoField(primary_key=True)
 	question = models.CharField(max_length=100)
 	question_type = models.CharField(max_length=2,choices = TYPES)
 	response = models.TextField(null = True)
+	options = models.TextField(null = True)
 	feedback = models.ForeignKey(Feedback,on_delete=models.CASCADE,null = True)

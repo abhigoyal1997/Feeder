@@ -351,9 +351,21 @@ def make_feedback(request):
 			newdeadline.save()
 			newfeedback = Feedback.objects.create(course=course_concerned,deadline=newdeadline,name=fname)
 			for i in range(qcount):
-				newquestion(question=request.POST['q'+str(i+1)],question_type=request.POST['t'+str(i+1)])
-				newquestion.save()
-				newfeedback.question_set.add(newquestion)
+				questiontype = request.POST['t'+str(i+1)]
+				if questiontype == 'RB' or questiontype == 'TF':
+					newquestion = Question.objects.create(question=request.POST['q'+str(i+1)],question_type=questiontype)
+					newquestion.save()
+					newfeedback.question_set.add(newquestion)
+				elif questiontype == 'MCQ' or questiontype == 'CB' or questiontype == 'DD':
+					newquestion = Question.objects.create(question=request.POST['q'+str(i+1)],question_type=questiontype)
+					numoptions = int(request.POST['optionscount'+str(i+1)])
+					options = []
+					for j in range(numoptions):
+						options.append(request.POST['q'+str(i+1)+'o'+str(j+1)])
+					newquestion.options = json.dumps(options)
+					print(newquestion.options)
+					newquestion.save()
+					newfeedback.question_set.add(newquestion)
 			newfeedback.save()
 			return redirect(login)
 		else:
@@ -502,7 +514,7 @@ def questionjson(question):
 	return "{\"question_type\":\""+question.question_type+"\",\"question\":\"" + question.question + "\"}"
 
 def deadlinejson(deadline):
-	jsonstr = "{\"date\":\"" + str(deadline.date) + "\",\"name\":\"" + deadline.name + "\",\"description\":\"" + deadline.desc + "\"" 
+	jsonstr = "{\"date\":\"" + str(deadline.date) + "\",\"name\":\"" + deadline.get_name_display() + "\",\"description\":\"" + deadline.desc + "\"" 
 	if deadline.name == 'FD':
 		jsonstr = jsonstr + ",\"feedbackname\":\"" + deadline.feedback.name + "\",\"questionset\":[" 
 		for question in deadline.feedback.question_set.all():
