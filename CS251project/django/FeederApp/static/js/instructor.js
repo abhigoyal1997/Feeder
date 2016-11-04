@@ -29,7 +29,7 @@ function addquestion(){
 		else{
 			container.innerHTML = "<input type='hidden' name='t"+qcount.value+"' value='"+qselect.value+"'>Question "+qcount.value + "<input name='q"+qcount.value+"' type='text' class='input-text' required placeholder=" + "'Drop down list question'>";
 		}
-		container.innerHTML += "<input type='hidden' value='0' id='optionscount"+qcount.value+"' name='optionscount"+qcount.value+"'><div id='options"+qcount.value+"'></div><button type='button' class='btn btn-info col-sm-3' style='height:30px; margin:0px; padding: 0px;' onclick='addoption("+qcount.value+")'>Add Option</button>";
+		container.innerHTML += "<div class='col-sm-12'><input type='hidden' value='0' id='optionscount"+qcount.value+"' name='optionscount"+qcount.value+"'><div id='options"+qcount.value+"'></div><button type='button' class='btn btn-info col-sm-3' style='height:30px; margin:0px; padding: 0px;' onclick='addoption("+qcount.value+")'>Add Option</button></div>";
 		//Add button and options
 		var el = document.getElementById("feedback");
 	    var height = el.offsetHeight;
