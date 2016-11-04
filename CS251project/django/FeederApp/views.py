@@ -411,6 +411,26 @@ def viewresponses(request, feedbackid):
 	else:
 		return error(request,"With all due respect, You don't have access to this url!");
 
+def feedback_response(request):
+	if request.user.is_authenticated and request.user.username[0] == 's':
+		if request.method == 'POST':
+			feedbackid = request.POST['fid']
+			feedbackconcerned = Feedback.objects.get(id = fid)
+			if request.user.username in json.decoder.JSONDecoder().decode(feedbackconcerned.students):
+				return HttpResponse("You have filled the form already")
+			else:
+				finalstulist = json.decoder.JSONDecoder().decode(feedbackconcerned.students).append(request.user.username)
+				finalstulist = json.dumps(finalstulist)
+				feedbackconcerned.students = finalstulist
+				for question in feedback.question_set.all():
+					response = request.POST['question'+str(question.qid)]
+					question.response = json.decoder.JSONDecoder().decode(question.response).append(response)
+			feedbackconcerned.save()
+		else:
+			return HttpResponse("Don't try random things")
+	else:
+		return HttpResponse("You don't have access")
+
 def viewobjective(request, feedbackid):
 	feedbackconcerned = Feedback.objects.get(id=feedbackid)
 	# ds = DataPool(
@@ -511,7 +531,18 @@ def stud_login(request):
 		return HttpResponse(json.dumps(response_data),content_type="application/json")
 
 def questionjson(question):
-	return "{\"question_id\":\""+str(question.qid)+"\",\"question_type\":\""+question.question_type+"\",\"question\":\"" + question.question + "\"}"
+	question_json = "{\"question_id\":\""+str(question.qid)+"\",\"question_type\":\""+question.question_type+"\",\"question\":\"" + question.question + "\""
+	# if question.question_type =='MCQ' or question.question_type =='CB' or question.question_type =='DD':
+		# print(question.options)
+		# question_json = question_json + ",\"options\":["
+		# i=1
+		# for option in question.options:
+			# question_json = question_json + "{\"option"+str(i)+"\":" + option + "},"# add options
+			# i = i+1
+		# question_json = question_json[0:len(question_json)-1]
+		# question_json = question_json + "]"
+	question_json  = question_json + "}"
+	return question_json
 
 def deadlinejson(deadline,user):
 	jsonstr = "{\"date\":\"" + str(deadline.date) + "\",\"name\":\"" + deadline.get_name_display() + "\",\"description\":\"" + deadline.desc + "\"" 
@@ -544,7 +575,7 @@ def stud_home(request):
 		jsonfinal = jsonfinal + coursejson(course,user) + ","
 	jsonfinal = jsonfinal[0:len(jsonfinal)-1]
 	jsonfinal = jsonfinal + "]}"
-	# print(jsonfinal)
+	print(jsonfinal)
 	return HttpResponse(jsonfinal,content_type="application/json") 
 	
 def error(request, error):
