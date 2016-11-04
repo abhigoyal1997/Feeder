@@ -76,6 +76,7 @@ class Feedback(models.Model):
 	course = models.ForeignKey(Course,on_delete=models.CASCADE)	
 	name = models.CharField(max_length = 100)
 	id = models.AutoField(primary_key=True)
+	stud = models.ManyToManyField(Student)
 
 class Question(models.Model):
 	TYPES = (

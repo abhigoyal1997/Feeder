@@ -511,12 +511,13 @@ def stud_login(request):
 		return HttpResponse(json.dumps(response_data),content_type="application/json")
 
 def questionjson(question):
-	return "{\"question_type\":\""+question.question_type+"\",\"question\":\"" + question.question + "\"}"
+	return "{\"question_id\":\""+str(question.qid)+"\",\"question_type\":\""+question.question_type+"\",\"question\":\"" + question.question + "\"}"
 
-def deadlinejson(deadline):
+def deadlinejson(deadline,user):
 	jsonstr = "{\"date\":\"" + str(deadline.date) + "\",\"name\":\"" + deadline.get_name_display() + "\",\"description\":\"" + deadline.desc + "\"" 
 	if deadline.name == 'FD':
-		jsonstr = jsonstr + ",\"feedbackname\":\"" + deadline.feedback.name + "\",\"questionset\":[" 
+		hasFilled = (user.student in deadline.feedback.stud.all())
+		jsonstr = jsonstr + ",\"hasfilled\":\"" + str(hasFilled) +  "\"" + ",\"feedbackid\":\"" + str(deadline.feedback.id) +  "\"" + ",\"feedbackname\":\"" + deadline.feedback.name + "\",\"questionset\":[" 
 		for question in deadline.feedback.question_set.all():
 			jsonstr = jsonstr + questionjson(question) + ","
 		jsonstr = jsonstr[0:len(jsonstr)-1]
@@ -524,10 +525,10 @@ def deadlinejson(deadline):
 	jsonstr = jsonstr + "}"
 	return jsonstr
 
-def coursejson(course):
+def coursejson(course,user):
 	jsonstr = "{\"course_name\":\""+course.course_name+"\",\"course_code\":\""+course.course_code+"\",\"deadlines\":["
 	for deadline in course.deadlines_set.all():
-		jsonstr = jsonstr + deadlinejson(deadline) + ","
+		jsonstr = jsonstr + deadlinejson(deadline,user) + ","
 	jsonstr = jsonstr[0:len(jsonstr)-1]
 	jsonstr = jsonstr + "]}"
 	return jsonstr
@@ -540,7 +541,7 @@ def stud_home(request):
 	user = User.objects.get(username = username1)
 	jsonfinal = "{\"courses\":["
 	for course in user.student.course_set.all():
-		jsonfinal = jsonfinal + coursejson(course) + ","
+		jsonfinal = jsonfinal + coursejson(course,user) + ","
 	jsonfinal = jsonfinal[0:len(jsonfinal)-1]
 	jsonfinal = jsonfinal + "]}"
 	# print(jsonfinal)
