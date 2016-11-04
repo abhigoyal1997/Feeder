@@ -6,12 +6,35 @@
 	<title>
 		{{feedback.course.course_code}} :{{ feedback.name }}
 	</title>
-	{% load chartit %}
-    {{ weatherchart|load_charts:"chartcontainer" }}
 </head>
 <body>
-	<div id="chartcontainer">
-	Chart appears here
+	<div class="container-fluid" align="center">
+	<table margin="20px">
+		<tr>
+			<td><b>Feedback Name</b></td>
+			<td>{{ feedback.name }}</td>
+		</tr>
+		<tr>
+			<td><b>Course</b></td>
+			<td>{{feedback.course.course_code}}, {{feedback.course.course_name}}</td>
+		</tr>
+	</table>
+	</div>
+	<div class="container-fluid" align="center">
+	<table>
+	<thead>
+		<th>Question</th>
+		<th>Plot</th>
+	</thead>
+	{% for question in feedback.question_set.all %}
+		{% if question.question_type == 'RB' or question.question_type == 'MCQ' or question.question_type == 'CB' or question.question_type == 'DD' %}
+		<tr>
+		<td>{{question.question}}</td>
+		<td><img src="/graph/{{question.qid}}" height="400px" width="400px"></td>
+		</tr>
+		{% endif %}
+	{% endfor %}
+	</table>
 	</div>
 </body>
 </html>

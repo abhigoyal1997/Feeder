@@ -34,4 +34,5 @@ urlpatterns = [
 	url(r'^updatedatabase$',views.updatedatabase,name='updatedatabase'),
 	url(r'^stud_login',views.stud_login,name="stud_login"),
 	url(r'^stud_home',views.stud_home,name="stud_home"),
+	url(r'^graph/(?P<questionid>\w{0,50})$',views.matplotlibquestion,name="matplotlibquestion"),
 ]

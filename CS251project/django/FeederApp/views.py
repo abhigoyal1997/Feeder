@@ -14,6 +14,41 @@ from chartit import DataPool, Chart
 from django.core import serializers
 import json,csv,io,re
 
+
+####
+from pylab import figure, axes, pie, title
+from matplotlib.backends.backend_agg import FigureCanvasAgg
+def matplotlibquestion(request,questionid):
+	if(request.user.is_authenticated and request.user.username[0]=='i'):
+		questionconcerned = Question.objects.get(qid=int(questionid))
+		f = figure(1, figsize=(6,6))
+		if questionconcerned.question_type == 'RB':
+			labels = '1', '2', '3', '4' , '5'
+			# fracs = [0,0,0,0,1]
+			pietoplot = [None]*5
+			if questionconcerned.response == None:
+				return HttpResponse("No responses yet")
+			responselist = json.decoder.JSONDecoder().decode(questionconcerned.response)
+			for i in responselist:
+				a[int(i)-1] = a[int(i)-1] + 1
+			pie(pietoplot, labels=labels, autopct='%1.1f%%', shadow=True)
+			title('Question:'+question.question, bbox={'facecolor':'0.8', 'pad':5})
+		elif questionconcerned.question_type =='MCQ':
+			print('hello')
+		elif questionconcerned.question_type =='CB':
+			print('hello')
+		elif questionconcerned.question_type =='DD':
+			print('hello')
+		else:
+			return HttpResponse("Graph cannot be plotted for this question")
+		canvas = FigureCanvasAgg(f)    
+		response = HttpResponse(content_type='image/png')
+		canvas.print_png(response)
+		return response
+	else:
+		return HttpResponse("Unauthorized access")
+####
+
 def login(request):
 	if request.user.is_authenticated:
 		if request.user.username[0] == 'a':
@@ -399,6 +434,7 @@ def viewresponses(request, feedbackid):
 		# 	question.save()
 		for question in feedbackconcerned.question_set.all():
 			jsonDec = json.decoder.JSONDecoder()
+			# if question.response is not None:
 			a = jsonDec.decode(question.response)
 			for i in range(len(a)):
 				a[i] = question.question + a[i]
@@ -433,35 +469,8 @@ def feedback_response(request):
 
 def viewobjective(request, feedbackid):
 	feedbackconcerned = Feedback.objects.get(id=feedbackid)
-	# ds = DataPool(
- #       series=
- #        [{'options': {
- #            'source': MonthlyWeatherByCity.objects.all()},
- #          'terms': [
- #            'month',
- #            'boston_temp']}
- #         ])
-
-	# cht = Chart(
- #        datasource = ds, 
- #        series_options = 
- #          [{'options':{
- #              'type': 'pie',
- #              'stacking': False},
- #            'terms':{
- #              'month': [
- #                'boston_temp']
- #              }}],
- #        chart_options = 
- #          {'title': {
- #               'text': 'Monthly Temperature of Boston'}},
- #        x_sortf_mapf_mts = (None, monthname, False))
-	# 	chart = Chart(
-	# 		datasource = chart,
-	# 		)
-
 	return render(request,'rendercharts.html',{
-			# 'chart' : chart
+			'feedback' : feedbackconcerned,
 		});
 
 def add_stud_to_course(request,code):
