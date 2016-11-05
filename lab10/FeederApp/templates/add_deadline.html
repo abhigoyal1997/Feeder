@@ -1,0 +1,26 @@
+<div class="form anim-form">
+<form action="createdeadline" onsubmit="return validateFeedbackForm()"  method="post">
+	{% csrf_token %}
+	<div class="form-group">
+		<label>Select Course</label>
+		<select class="form-control" name="dcourse">
+		{% for course in courses %}
+			<option value="{{course.course_code}}">{{course.course_code}} {{course.course_name}}</option>
+		{% endfor %}
+		</select>
+	</div>
+	<div class="form-group">
+		<label for="type">Select The Type Of Deadline: </label>
+		<label class="radio-inline"><input type="radio" name="type" value = "ASS" checked onclick="assignmentchecked()">Assignment</label>
+		<label class="radio-inline"><input type="radio" name="type" value="EX" onclick="examclicked()">Examination</label>
+	</div>
+	<div class="form-group" id="textfieldforassignment">
+		<input type="text" class="textinput" name = "deadlinedetails" required id="deadlinedetails" placeholder="Assignment Details">
+	</div>
+	<div class="form-group">
+		<label class="control-label">Deadline</label>
+		<input type="date" required id="deadlinedate" name="deadlinedate" class="form-control">
+	</div>
+	<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4">Add Deadline</button>
+</form>
+</div>

@@ -1,0 +1,71 @@
+<style>
+input
+{
+	width:70px;
+	height:30px;
+	border-radius: 5px;
+	background: #3F42F0;
+	color:#ffffff;
+	box-shadow: 2px 2px 2px #000000;
+	border:0px;
+    
+}
+</style>
+<script>
+$(document).ready(function()
+{
+	$("input").click(function()
+	{
+		ii = this.id
+		$.ajax({
+		type: 'POST',
+        url: '/ajax/modify/',
+        data: {
+			csrfmiddlewaretoken: '{{ csrf_token }}',
+			'id': this.id,
+			'code': '{{ code }}'
+        },
+        success: function () {
+        if($("#"+ii).val() == "Selected")
+        	$("#"+ii).val("Select")
+        else
+        	$("#"+ii).val("Selected")
+        }
+      });
+  		
+	});
+});
+</script>
+<table class="table table-condensed" style="border-bottom: 0.5px solid #ccc;">
+	<thead>
+	  <tr>
+		<th>First Name</th>
+		<th>Last Name</th>
+		<th>Roll Number</th>
+		<th>Branch</th>
+		<th>Program</th>
+		<th>Year</th>
+		<th>Status</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  {% for student in students %}
+	  <tr style="max-height: 10px">
+		<td>{{student.user.first_name}}</td>
+		<td>{{student.user.last_name}}</td>
+		<td>{{student.roll_number}}</td>
+		<td>{{student.get_student_branch_display}}</td>
+		<td>{{student.get_student_program_display}}</td>
+		<td>{{student.student_year}}</td>
+		<td>
+			{% if course in student.course_set.all %}
+			<input type="button" id = "{{student.user.id}}" value ="Selected" >
+			{% else %}
+			<input type="button" id = "{{student.user.id}}" value = "Select" >
+			{% endif %}
+		</td>
+	  </tr>
+	  {% endfor %}
+			
+	</tbody>
+</table>

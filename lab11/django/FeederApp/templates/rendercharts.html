@@ -1,0 +1,17 @@
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+	<title>
+		{{feedback.course.course_code}} :{{ feedback.name }}
+	</title>
+	{% load chartit %}
+    {{ weatherchart|load_charts:"chartcontainer" }}
+</head>
+<body>
+	<div id="chartcontainer">
+	Chart appears here
+	</div>
+</body>
+</html>

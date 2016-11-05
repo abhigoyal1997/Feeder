@@ -1,0 +1,54 @@
+<div class = "well" style="height: 500px;">
+	<form class="form-anim" method="post" action="createcourse">
+		{% csrf_token %}
+		<div class="col-sm-12">
+			<input type="text" class="input-text" name = "cname" required id="cname" placeholder="Course Name">
+		</div>
+		<div class="col-sm-12">
+			<input type="text" class="input-text" name = "ccode" required id="ccode" placeholder="Course Code">
+		</div>
+		<div class="col-sm-3 label">
+			Select Duration
+		</div>
+		<div class="col-sm-9 radio-group">
+			<label class="radio-inline"><input type="radio" name="duration" value = "1">Half Semester</label>
+			<label class="radio-inline"><input type="radio" name="duration" value="2" checked="checked">One Semester</label>	
+		</div>
+		<div class="col-sm-3 label">
+			Department
+		</div>
+		<div class="col-sm-9">
+			<select name ="branch" class="input-text">
+				<option>Select Department</option>
+				<option value="CS">Computer Science and Engineering</option>
+				<option value="EE">Electrial Engineering</option>
+				<option value="ME">Mechanical Engineering</option>
+				<option value="CL">Chemical Engineering</option>
+			</select>
+		</div>
+		<div class="col-sm-3 label">
+			Select Credit
+		</div>
+		<div class = "col-sm-9">
+			<select name="credit" class="input-text">
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="8">8</option>
+				<option value="6">6</option>
+			</select>
+		</div>
+		<div class="col-sm-3 label">
+			MidSem Date
+		</div>
+		<div class="col-sm-9">
+			<input type="date" id="midsem" name="midsem" class="input-text" required="required">
+		</div>
+		<div class="col-sm-3 label">
+			MidSem Date
+		</div>
+		<div class="col-sm-9">
+			<input type="date" id="endsem" name="endsem" class="input-text" required="required">
+		</div>
+		<button type="submit" style="background-color:#3F42F0; margin-top: 30px;" class="btn btn-info col-sm-offset-4 col-sm-4">Add Course</button>
+	</form>
+</div>

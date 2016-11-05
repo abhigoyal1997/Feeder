@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@android:color/background_light"
+        android:text="lkdnbv;knv"
+        android:gravity="center"
+        android:textSize="50dp"
+        android:id="@+id/course_code"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:background="@color/feedertheme_color"
+        android:textColor="@android:color/background_dark"
+        android:text="k;wnv;lwej"
+        android:gravity="center"
+        android:textSize="30dp"
+        android:id="@+id/date"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:background="@color/colorAccent1"
+        android:textColor="@android:color/background_light"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:text="lknbpwngbv"
+        android:id="@+id/name"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:background="@color/colorAccent"
+        android:textColor="@android:color/background_light"
+        android:text="lkfnbm"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:id="@+id/desc"/>
+
+
+
+</LinearLayout>
