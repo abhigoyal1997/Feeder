@@ -63,9 +63,9 @@ function validateFeedbackForm(){
 }
 function assignmentchecked(){
 	element = document.getElementById("textfieldforassignment");
-	element.innerHTML = "<input type='text' class='textinput' name = 'deadlinedetails' required id='deadlinedetails' placeholder='Assignment Details'>"
+	element.innerHTML = "<input type='text' class='input-text' name = 'deadlinedetails' required id='deadlinedetails' placeholder='Assignment Details'>"
 }
 function examclicked(){
 	element = document.getElementById("textfieldforassignment");
-	element.innerHTML = "<input type='text' class='textinput' name = 'deadlinedetails' required id='deadlinedetails' placeholder='Exam Details'>"
+	element.innerHTML = "<input type='text' class='input-text' name = 'deadlinedetails' required id='deadlinedetails' placeholder='Exam Details'>"
 }

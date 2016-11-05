@@ -399,6 +399,7 @@ def make_feedback(request):
 						options.append(request.POST['q'+str(i+1)+'o'+str(j+1)])
 					newquestion.options = json.dumps(options)
 					print(newquestion.options)
+					print('options printed')
 					newquestion.save()
 					newfeedback.question_set.add(newquestion)
 			newfeedback.save()
@@ -541,16 +542,19 @@ def stud_login(request):
 
 def questionjson(question):
 	question_json = "{\"question_id\":\""+str(question.qid)+"\",\"question_type\":\""+question.question_type+"\",\"question\":\"" + question.question + "\""
-	# if question.question_type =='MCQ' or question.question_type =='CB' or question.question_type =='DD':
-		# print(question.options)
-		# question_json = question_json + ",\"options\":["
-		# i=1
-		# for option in question.options:
-			# question_json = question_json + "{\"option"+str(i)+"\":" + option + "},"# add options
-			# i = i+1
-		# question_json = question_json[0:len(question_json)-1]
-		# question_json = question_json + "]"
+	if question.question_type =='MCQ' or question.question_type =='CB' or question.question_type =='DD':
+		print(question.options)
+		options = question.options
+		options = json.decoder.JSONDecoder().decode(options)
+		question_json = question_json + ",\"options\":["
+		i=1
+		for option in options:
+			question_json = question_json + "{\"option"+str(i)+"\":\"" + option + "\"},"# add options
+			i = i+1
+		question_json = question_json[0:len(question_json)-1]
+		question_json = question_json + "]"
 	question_json  = question_json + "}"
+	print(question_json)
 	return question_json
 
 def deadlinejson(deadline,user):
@@ -566,7 +570,7 @@ def deadlinejson(deadline,user):
 	return jsonstr
 
 def coursejson(course,user):
-	jsonstr = "{\"course_name\":\""+course.course_name+"\",\"course_code\":\""+course.course_code+"\",\"deadlines\":["
+	jsonstr = "{\"credits\":\""+str(course.course_credits)+"\",\"course_name\":\""+course.course_name+"\",\"course_code\":\""+course.course_code+"\",\"deadlines\":["
 	for deadline in course.deadlines_set.all():
 		jsonstr = jsonstr + deadlinejson(deadline,user) + ","
 	jsonstr = jsonstr[0:len(jsonstr)-1]
