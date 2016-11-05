@@ -18,6 +18,7 @@ import json,csv,io,re
 ####
 from pylab import figure, axes, pie, title
 from matplotlib.backends.backend_agg import FigureCanvasAgg
+import matplotlib.pyplot
 def matplotlibquestion(request,questionid):
 	if(request.user.is_authenticated and request.user.username[0]=='i'):
 		questionconcerned = Question.objects.get(qid=int(questionid))
@@ -34,10 +35,10 @@ def matplotlibquestion(request,questionid):
 			for i in responselist:
 				pietoplot[int(i)-1] = pietoplot[int(i)-1] + 1
 			pie(pietoplot, labels=labels, autopct='%1.1f%%', shadow=True)
-			title('Question:', bbox={'facecolor':'0.8', 'pad':5})
+			title('Pie Chart', bbox={'facecolor':'0.8', 'pad':5})
 		elif questionconcerned.question_type =='MCQ' or questionconcerned.question_type == 'DD':
 			optionlist = json.decoder.JSONDecoder().decode(questionconcerned.options)
-			print(optionlist)
+			# print(optionlist)
 			labels = ()
 			for option in optionlist:
 				labels = labels + (option,)
@@ -53,13 +54,14 @@ def matplotlibquestion(request,questionid):
 			for i in responselist:
 				pietoplot[int(i)-1] = pietoplot[int(i)-1] + 1
 			pie(pietoplot, labels=labels, autopct='%1.1f%%', shadow=True)
-			title('Question', bbox={'facecolor':'0.8', 'pad':5})
-			print('rendering responses')
+			title('Pie Chart', bbox={'facecolor':'0.8', 'pad':5})
+			# print('rendering responses')
 		else:
 			return HttpResponse("Graph cannot be plotted for this question")
 		canvas = FigureCanvasAgg(f)    
 		response = HttpResponse(content_type='image/png')
 		canvas.print_png(response)
+		# matplotlib.pyplot.close(f)
 		return response
 	else:
 		return HttpResponse("Unauthorized access")
@@ -414,8 +416,8 @@ def make_feedback(request):
 					for j in range(numoptions):
 						options.append(request.POST['q'+str(i+1)+'o'+str(j+1)])
 					newquestion.options = json.dumps(options)
-					print(newquestion.options)
-					print('options printed')
+					# print(newquestion.options)
+					# print('options printed')
 					newquestion.save()
 					newfeedback.question_set.add(newquestion)
 			newfeedback.save()
@@ -540,7 +542,7 @@ def stud_login(request):
 def questionjson(question):
 	question_json = "{\"question_id\":\""+str(question.qid)+"\",\"question_type\":\""+question.question_type+"\",\"question\":\"" + question.question + "\""
 	if question.question_type =='MCQ' or question.question_type =='DD':
-		print(question.options)
+		# print(question.options)
 		options = question.options
 		options = json.decoder.JSONDecoder().decode(options)
 		question_json = question_json + ",\"options\":["
@@ -549,7 +551,7 @@ def questionjson(question):
 		question_json = question_json[0:len(question_json)-1]
 		question_json = question_json + "]"
 	question_json  = question_json + "}"
-	print(question_json)
+	# print(question_json)
 	return question_json
 
 def deadlinejson(deadline,user):
@@ -583,7 +585,7 @@ def stud_home(request):
 		jsonfinal = jsonfinal + coursejson(course,user) + ","
 	jsonfinal = jsonfinal[0:len(jsonfinal)-1]
 	jsonfinal = jsonfinal + "]}"
-	print(jsonfinal)
+	# print(jsonfinal)
 	return HttpResponse(jsonfinal,content_type="application/json") 
 	
 
@@ -600,7 +602,7 @@ def feedback_response(request):
 	else:
 		for question in feedbackconcerned.question_set.all():
 			response = body['q'+str(question.qid)]
-			print(str(question.response))
+			# print(str(question.response))
 			a = question.response
 			if a is None:
 				question.response = json.dumps([response])
