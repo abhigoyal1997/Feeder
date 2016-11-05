@@ -4,12 +4,10 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/courses"
-
             android:title="Courses" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/feedbacks"
+            android:title="FeedBacks" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
