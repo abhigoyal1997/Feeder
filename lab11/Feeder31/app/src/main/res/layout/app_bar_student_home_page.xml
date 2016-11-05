@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.feeder.spartans.feederapp.StudentHomePage">
+    tools:context="com.feeder.spartans.Feeder31.StudentHomePage">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
