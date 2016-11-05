@@ -21,13 +21,38 @@
 	</table>
 	</div>
 	<div class="container" >
-	
-	{% for response in responses %}
-		<h2> Response {{ forloop.counter }} </h2> <br>
-		{% for answer in response %}
-			{{ answer }}  <br>
+	{% if responses %}
+		<div class="container-fluid" align="center">
+		<table>
+		{% for response in responses %}
+			<tr>
+			<td>
+			<h3> Response {{ forloop.counter }} </h3>
+			</td>
+			<td>
+			<div class="container-fluid" align="center">
+			<table>
+			<thead>
+				<th>Question</th>
+				<th>Response</th>
+			</thead>
+			{% for answer in response %}
+				<tr>
+				{% for info in answer %}
+				<td> {{ info }} </td>
+				{% endfor %}
+				</tr>
+			{% endfor %}
+			</table>
+			</div>
+			</td>
+			</tr>
 		{% endfor %}
-	{% endfor %}
+		</table>
+		</div>
+	{% else %}
+		<h1 align="center"> No responses yet</h1>
+	{% endif %}
 	</div>
 </body>
 </html>

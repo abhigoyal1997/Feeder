@@ -30,7 +30,7 @@
 		{% if question.question_type == 'RB' or question.question_type == 'MCQ' or question.question_type == 'CB' or question.question_type == 'DD' %}
 		<tr>
 		<td>{{question.question}}</td>
-		<td><img src="/graph/{{question.qid}}" height="400px" width="400px"></td>
+		<td><img src="/graph/{{question.qid}}" height="400px" width="400px" alt="No responses for the feedback form yet"></td>
 		</tr>
 		{% endif %}
 	{% endfor %}

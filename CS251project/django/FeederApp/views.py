@@ -25,20 +25,36 @@ def matplotlibquestion(request,questionid):
 		if questionconcerned.question_type == 'RB':
 			labels = '1', '2', '3', '4' , '5'
 			# fracs = [0,0,0,0,1]
-			pietoplot = [None]*5
-			if questionconcerned.response == None:
-				return HttpResponse("No responses yet")
-			responselist = json.decoder.JSONDecoder().decode(questionconcerned.response)
+			# ax = axes([0.1, 0.1,0.8,0.8])
+			pietoplot = [0]*5
+			responselist = []
+			if questionconcerned.response is not None:
+			# 	return HttpResponse("No responses yet")
+				responselist = json.decoder.JSONDecoder().decode(questionconcerned.response)
 			for i in responselist:
-				a[int(i)-1] = a[int(i)-1] + 1
+				pietoplot[int(i)-1] = pietoplot[int(i)-1] + 1
 			pie(pietoplot, labels=labels, autopct='%1.1f%%', shadow=True)
-			title('Question:'+question.question, bbox={'facecolor':'0.8', 'pad':5})
-		elif questionconcerned.question_type =='MCQ':
-			print('hello')
-		elif questionconcerned.question_type =='CB':
-			print('hello')
-		elif questionconcerned.question_type =='DD':
-			print('hello')
+			title('Question:', bbox={'facecolor':'0.8', 'pad':5})
+		elif questionconcerned.question_type =='MCQ' or questionconcerned.question_type == 'DD':
+			optionlist = json.decoder.JSONDecoder().decode(questionconcerned.options)
+			print(optionlist)
+			labels = ()
+			for option in optionlist:
+				labels = labels + (option,)
+			pietoplot = [None]*len(optionlist)
+			for i in range(len(optionlist)):
+				pietoplot[i] = 0
+			# ax = axes([0.1, 0.1,0.8,0.8])
+			# if questionconcerned.response == None:
+			# 	return HttpResponse("No responses yet")
+			responselist = []
+			if questionconcerned.response is not None:
+				responselist = json.decoder.JSONDecoder().decode(questionconcerned.response)
+			for i in responselist:
+				pietoplot[int(i)-1] = pietoplot[int(i)-1] + 1
+			pie(pietoplot, labels=labels, autopct='%1.1f%%', shadow=True)
+			title('Question', bbox={'facecolor':'0.8', 'pad':5})
+			print('rendering responses')
 		else:
 			return HttpResponse("Graph cannot be plotted for this question")
 		canvas = FigureCanvasAgg(f)    
@@ -391,7 +407,7 @@ def make_feedback(request):
 					newquestion = Question.objects.create(question=request.POST['q'+str(i+1)],question_type=questiontype)
 					newquestion.save()
 					newfeedback.question_set.add(newquestion)
-				elif questiontype == 'MCQ' or questiontype == 'CB' or questiontype == 'DD':
+				elif questiontype == 'MCQ' or questiontype == 'DD':
 					newquestion = Question.objects.create(question=request.POST['q'+str(i+1)],question_type=questiontype)
 					numoptions = int(request.POST['optionscount'+str(i+1)])
 					options = []
@@ -430,15 +446,16 @@ def viewresponses(request, feedbackid):
 		feedbackconcerned = Feedback.objects.get(id=feedbackid)
 		questionresponses = []
 		# for question in feedbackconcerned.question_set.all():
-		# 	a = ['11','22','33']
-		# 	question.response = json.dumps(a)
+		# 	# a = ['1','22','33']
+		# 	question.response = json.dumps([])
 		# 	question.save()
 		for question in feedbackconcerned.question_set.all():
 			jsonDec = json.decoder.JSONDecoder()
-			# if question.response is not None:
-			a = jsonDec.decode(question.response)
+			a = []
+			if question.response is not None:
+				a = jsonDec.decode(question.response)
 			for i in range(len(a)):
-				a[i] = question.question + a[i]
+				a[i] = [question.question,a[i]]
 			questionresponses.append(a)
 		questionresponses = list(map(list, zip(*questionresponses)))
 		return render(request,'renderresponses.html',{
@@ -447,26 +464,6 @@ def viewresponses(request, feedbackid):
 			})
 	else:
 		return error(request,"With all due respect, You don't have access to this url!");
-
-def feedback_response(request):
-	if request.user.is_authenticated and request.user.username[0] == 's':
-		if request.method == 'POST':
-			feedbackid = request.POST['fid']
-			feedbackconcerned = Feedback.objects.get(id = fid)
-			if request.user.username in json.decoder.JSONDecoder().decode(feedbackconcerned.students):
-				return HttpResponse("You have filled the form already")
-			else:
-				finalstulist = json.decoder.JSONDecoder().decode(feedbackconcerned.students).append(request.user.username)
-				finalstulist = json.dumps(finalstulist)
-				feedbackconcerned.students = finalstulist
-				for question in feedback.question_set.all():
-					response = request.POST['question'+str(question.qid)]
-					question.response = json.decoder.JSONDecoder().decode(question.response).append(response)
-			feedbackconcerned.save()
-		else:
-			return HttpResponse("Don't try random things")
-	else:
-		return HttpResponse("You don't have access")
 
 def viewobjective(request, feedbackid):
 	feedbackconcerned = Feedback.objects.get(id=feedbackid)
@@ -542,15 +539,13 @@ def stud_login(request):
 
 def questionjson(question):
 	question_json = "{\"question_id\":\""+str(question.qid)+"\",\"question_type\":\""+question.question_type+"\",\"question\":\"" + question.question + "\""
-	if question.question_type =='MCQ' or question.question_type =='CB' or question.question_type =='DD':
+	if question.question_type =='MCQ' or question.question_type =='DD':
 		print(question.options)
 		options = question.options
 		options = json.decoder.JSONDecoder().decode(options)
 		question_json = question_json + ",\"options\":["
-		i=1
 		for option in options:
-			question_json = question_json + "{\"option"+str(i)+"\":\"" + option + "\"},"# add options
-			i = i+1
+			question_json = question_json + "{\"option\":\"" + option + "\"},"# add options
 		question_json = question_json[0:len(question_json)-1]
 		question_json = question_json + "]"
 	question_json  = question_json + "}"
@@ -591,6 +586,34 @@ def stud_home(request):
 	print(jsonfinal)
 	return HttpResponse(jsonfinal,content_type="application/json") 
 	
+
+def feedback_response(request):
+	# if request.user.is_authenticated and request.user.username[0] == 's':
+	body_unicode = request.body.decode('utf-8')
+	body = json.loads(body_unicode)
+
+	feedbackid = body["fid"]
+	feedbackconcerned = Feedback.objects.get(id = int(feedbackid))
+	studentn=User.objects.get(username=body['username']).student
+	if studentn in feedbackconcerned.stud.all():
+		return HttpResponse("You have filled the form already")
+	else:
+		for question in feedbackconcerned.question_set.all():
+			response = body['q'+str(question.qid)]
+			print(str(question.response))
+			a = question.response
+			if a is None:
+				question.response = json.dumps([response])
+				question.save()
+			else:
+				question.response = json.dumps((json.decoder.JSONDecoder().decode(question.response)).append(str(response)))
+				question.save()
+		feedbackconcerned.save()
+		studentn.feedback_set.add(feedbackconcerned)
+	return HttpResponse("Successful")
+	# else:
+	# 	return HttpResponse("You don't have access")
+
 def error(request, error):
 	return render(request,'error.html',{
 		'error':error

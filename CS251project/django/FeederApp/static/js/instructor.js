@@ -21,13 +21,10 @@ function addquestion(){
 	}
 	else{
 		if(qselect.value=="MCQ"){
-			container.innerHTML = "<input type='hidden' name='t"+qcount.value+"' value='"+qselect.value+"'>Question "+qcount.value + "<input name='q"+qcount.value+"' type='text' class='input-text' required placeholder=" + "'Multiple Choice Question'>";
-		}
-		else if(qselect.value=="CB"){
-			container.innerHTML = "<input type='hidden' name='t"+qcount.value+"' value='"+qselect.value+"'>Question "+qcount.value + "<input name='q"+qcount.value+"' type='text' class='input-text' required placeholder=" + "'Check Box Question'>";
+			container.innerHTML = "<input type='hidden' id='t"+qcount.value+"' name='t"+qcount.value+"' value='"+qselect.value+"'>Question "+qcount.value + "<input name='q"+qcount.value+"' type='text' class='input-text' required placeholder=" + "'Multiple Choice Question'>";
 		}
 		else{
-			container.innerHTML = "<input type='hidden' name='t"+qcount.value+"' value='"+qselect.value+"'>Question "+qcount.value + "<input name='q"+qcount.value+"' type='text' class='input-text' required placeholder=" + "'Drop down list question'>";
+			container.innerHTML = "<input type='hidden' id='t"+qcount.value+"' name='t"+qcount.value+"' value='"+qselect.value+"'>Question "+qcount.value + "<input name='q"+qcount.value+"' type='text' class='input-text' required placeholder=" + "'Drop down list question'>";
 		}
 		container.innerHTML += "<div class='col-sm-12'><input type='hidden' value='0' id='optionscount"+qcount.value+"' name='optionscount"+qcount.value+"'><div id='options"+qcount.value+"'></div><button type='button' class='btn btn-info col-sm-3' style='height:30px; margin:0px; padding: 0px;' onclick='addoption("+qcount.value+")'>Add Option</button></div>";
 		//Add button and options
@@ -58,6 +55,17 @@ function validateFeedbackForm(){
 	if(parseInt(qcount.value)==0){
 		alert("Add at least one question to the feedback form");
 		return false;
+	}
+	for(i=1;i<=parseInt(qcount.value);i=i+1){
+		type = document.getElementById('t'+i).value;
+		// alert(type);
+		if(type=='MCQ'||type=='DD'){
+			// alert("Here");
+			if (parseInt(document.getElementById("optionscount"+i).value)==0){
+				alert("Add atleast one option to "+type+" question");
+				return false;
+			}
+		}
 	}
 	return true;
 }

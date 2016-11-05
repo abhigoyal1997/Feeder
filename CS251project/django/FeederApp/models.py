@@ -83,7 +83,6 @@ class Question(models.Model):
 		('RB','Radio Buttons'),
 		('TF','Text Field'),
 		('MCQ','Multiple Choice Question'),
-		('CB','Check Boxes'),
 		('DD','Drop Down List'),	
 		)
 	qid = models.AutoField(primary_key=True)
