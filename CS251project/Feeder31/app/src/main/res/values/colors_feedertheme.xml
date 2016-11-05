@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="feedertheme_color">#80CBC4</color>
-    <color name="colorPrimary">#009688</color>
-    <color name="colorPrimaryDark">#004D40</color>
-    <color name="colorAccent">#3E2723</color>
-    <color name="green">#00BFA5</color>
-    <color name="colorAccent1">#795548</color>
-</resources>
