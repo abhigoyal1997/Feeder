@@ -1,0 +1,74 @@
+<p align="center">Click on a course to view its list of deadlines</p>
+<table class="table" border="1px">
+
+	<thead>
+	  <tr>
+		<th>Course Code</th>
+		<th>Course Name</th>
+		<th>Department</th>
+		<th>Course Credits</th>
+		<th>Duration</th>
+	  </tr>
+	</thead>
+	<tbody id="accordion">
+	<tr>
+	</tr>
+	{% for course in courses %}
+	<tr class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" data-target="#acc{{ forloop.counter }}" bgcolor="#DDDDDD">
+		<td>{{course.course_code}}</td>
+		<td>{{course.course_name}}</td>
+		<td>{{course.course_branch}}</td>
+		<td>{{course.course_credits}}</td>
+		<td>{{course.course_duration}}</td>
+	</tr>
+	<tr class="hidden-row">
+		<td colspan="6">
+			<div class="accordion-body collapse" id="acc{{ forloop.counter }}">
+				<p align="center"><b>In the past</b></p>
+				<table class="table table-condensed" style="border-bottom: 0.5px solid #ccc;">
+					<thead>
+						<tr>
+							<th>Deadline Type</th>
+							<th>Deadline Description</th>
+							<th>Deadline date</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for deadline in course.deadlines_set.all %}
+						{% if deadline.is_past_due %}
+							<tr bgcolor="#EEEEEE">
+			  					<td>{{deadline.get_name_display}}</td>
+			  					<td>{{deadline.desc}}</td>
+			  					<td>{{deadline.date}}</td>
+							</tr>
+						{% endif %}
+						{% endfor %}
+					</tbody>
+				</table>
+				<p align="center"><b>In the future</b></p>
+				<table class="table table-condensed" style="border-bottom: 0.5px solid #ccc;">
+					<thead>
+						<tr>
+							<th>Deadline Type</th>
+							<th>Deadline Description</th>
+							<th>Deadline date</th>
+						</tr>
+					</thead>
+					<tbody>						{% for deadline in course.deadlines_set.all %}
+						{% if deadline.is_past_due %}
+						{% else %}
+							<tr bgcolor="#EEEEEE">
+			  					<td>{{deadline.get_name_display}}</td>
+			  					<td>{{deadline.desc}}</td>
+			  					<td>{{deadline.date}}</td>
+							</tr>
+						{% endif %}
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>	  		
+		</td>
+	</tr>
+	{% endfor %}
+	</tbody>
+  </table>

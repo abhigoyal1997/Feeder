@@ -1,0 +1,31 @@
+<div class="well" style="height: 400px;margin-top:7%" id="feedback">
+	<form class="form-anim" action="createfeedback" onsubmit="return validateFeedbackForm()"  method="post">
+	{% csrf_token %}
+	<div class = "col-sm-3 label">Select Course</div>
+		<div class = "col-sm-9">
+		<select class="input-text" name="fcourse">
+		{% for course in courses %}
+			<option value="{{course.course_code}}">{{course.course_code}} {{course.course_name}}</option>
+		{% endfor %}
+		</select>
+		</div>
+	<div class="col-sm-12">
+		<input type="text" class="input-text" name = "fname" required id="description" placeholder="Feedback Name">
+	</div>
+	<div class="col-sm-5 label">
+			Select The Type Of Deadline
+	</div>
+	<div class="col-sm-7">
+		<input type="date" required id="deadline" name="deadline" class="input-text">
+	</div>
+	<div class="col-sm-12 label">
+			Questions
+	</div>
+	<input type="hidden" id="qcount" name="qcount" value="0">
+	<button type="button" class="btn btn-info col-sm-offset-1 col-sm-4" style="background-color:#3F42F0; margin-top: 30px;" onclick="addquestion('radio','Linear Scale Question','RB')">Add Linear Scale</button>
+	<button type="button" class="btn btn-info col-sm-offset-2 col-sm-4" style="background-color:#3F42F0; margin-top: 30px;" onclick="addquestion('text','Text Question','TF')">Add Subjective Scale</button>
+	<div id="questions" class="row" style="color: #fff;">
+	</div>
+	<button type="submit" class="btn btn-info col-sm-offset-4 col-sm-4">Add Feedback</button>
+</form>
+</div>
